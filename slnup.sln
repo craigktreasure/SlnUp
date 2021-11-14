@@ -7,7 +7,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlnUp", "src\SlnUp\SlnUp.cs
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E392EF9F-8A64-4B8D-AC44-6E760ED65348}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlnUp.Tests", "src\SlnUp.Tests\SlnUp.Tests.csproj", "{55B7C584-3CCA-4E99-B2F0-DEB7B47148D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlnUp.Tests", "src\SlnUp.Tests\SlnUp.Tests.csproj", "{55B7C584-3CCA-4E99-B2F0-DEB7B47148D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{05A480CD-9D37-4CC7-8B9B-8418B6B413AA}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		global.json = global.json
+		nuget.config = nuget.config
+		Packages.props = Packages.props
+		README.md = README.md
+		version.json = version.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
