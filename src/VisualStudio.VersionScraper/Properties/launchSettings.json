@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "VisualStudioVersionScraper": {
+      "commandName": "Project"
+    },
+    "Generate": {
+      "commandName": "Project",
+      "commandLineArgs": "../../../../../../src/SlnUp/Versions.json"
+    }
+  }
+}

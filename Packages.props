@@ -11,7 +11,10 @@
 
     <!-- Project dependencies -->
     <PackageReference Update="CommandLineParser"                        Version="2.8.0" />
+    <PackageReference Update="Humanizer.Core"                           Version="2.11.10" />
+    <PackageReference Update="HtmlAgilityPack"                          Version="1.11.38" />
     <PackageReference Update="System.IO.Abstractions"                   Version="13.2.47" />
+    <PackageReference Update="System.Text.Json"                         Version="$(DotNetPackageVersion)" />
 
     <!-- Test dependencies -->
     <PackageReference Update="coverlet.collector"                       Version="3.1.0"

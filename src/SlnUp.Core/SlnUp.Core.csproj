@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SlnUp.Core\SlnUp.Core.csproj" />
+    <PackageReference Include="Humanizer.Core" />
+    <PackageReference Include="System.Text.Json" />
   </ItemGroup>
 
 </Project>

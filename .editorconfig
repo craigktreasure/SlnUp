@@ -74,7 +74,7 @@ csharp_preserve_single_line_blocks = true
 #Style - expression bodied member options
 
 #prefer block bodies for constructors
-csharp_style_expression_bodied_constructors = false:suggestion
+csharp_style_expression_bodied_constructors = when_on_single_line:suggestion
 
 #prefer expression-bodied members for properties
 csharp_style_expression_bodied_properties = true:suggestion
