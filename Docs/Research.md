@@ -1,7 +1,7 @@
-# Visual Studio solution version changer research
+# Visual Studio solution updater research
 
 The goal of this research is to determine what's required to build a tool that
-allows you to easily change the Visual Studio version information in a solution
+allows you to easily update the Visual Studio version information in a solution
 file using a Visual Studio version number.
 
 ## Why?

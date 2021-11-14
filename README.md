@@ -1,12 +1,12 @@
-# Visual Studio solution version changer
+# Visual Studio solution updater
 
 This is a [.NET tool](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools)
 that allows you to easily change the Visual Studio version information in a
 solution file using a Visual Studio version number.
 
-![CI Build](https://github.com/craigktreasure/VisualStudioSolutionChanger/workflows/VisualStudioSolutionChanger-CI/badge.svg?branch=main)
+![CI Build](https://github.com/craigktreasure/VisualStudioSolutionUpdater/workflows/VisualStudioSolutionUpdater-CI/badge.svg?branch=main)
 
-- [Visual Studio solution version changer](#visual-studio-solution-version-changer)
+- [Visual Studio solution updater](#visual-studio-solution-updater)
   - [Why?](#why)
   - [How to use it](#how-to-use-it)
     - [Install the tool](#install-the-tool)
@@ -30,7 +30,7 @@ understand the solution file header and the Visual Studio version information.
 ### Install the tool
 
 ```shell
-dotnet tool install -g VisualStudioSolutionChanger
+dotnet tool install -g VisualStudioSolutionUpdater
 ```
 
 > **Note:**
@@ -40,7 +40,7 @@ dotnet tool install -g VisualStudioSolutionChanger
 ### Update the tool
 
 ```shell
-dotnet tool update -g VisualStudioSolutionChanger
+dotnet tool update -g VisualStudioSolutionUpdater
 ```
 
 > **Note:**
@@ -52,35 +52,35 @@ dotnet tool update -g VisualStudioSolutionChanger
 To view all available options, you can run:
 
 ```shell
-vssc --help
+slnup --help
 ```
 
-The simplest form is to run the tool (`vssc`) with a version number. This will
+The simplest form is to run the tool (`slnup`) with a version number. This will
 cause the tool to discover a solution file in the current directory and update
 it with the version specified.
 
 ```shell
-vssc 2022
+slnup 2022
 ```
 
 You can also specify a specific version of Visual Studio using a two-part
 version number:
 
 ```shell
-vssc 17.0
+slnup 17.0
 ```
 
 A path to a solution file may also be specified.
 
 ```shell
-vssc ./path/to/solution.sln 2022
+slnup ./path/to/solution.sln 2022
 ```
 
 If you want to specify the exact version information to be put into the solution
 file header, you can specify the version information like so:
 
 ```shell
-vssc -VisualStudioBuildVersion 17.0.31903.59
+slnup -VisualStudioBuildVersion 17.0.31903.59
 ```
 
 ## How does it work?
@@ -114,7 +114,7 @@ Studio 2022. You could run the following to update the solution file with
 version information for Visual Studio 2022:
 
 ```shell
-vssc 2022
+slnup 2022
 ```
 
 In the case of `2022`, the tool will use the latest known version information

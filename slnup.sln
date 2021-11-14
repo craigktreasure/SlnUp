@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisualStudioSolutionChanger", "VisualStudioSolutionChanger\VisualStudioSolutionChanger.csproj", "{C819801C-2A78-4266-A7FB-317CC5BEF495}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlnUp", "src\SlnUp\SlnUp.csproj", "{C819801C-2A78-4266-A7FB-317CC5BEF495}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E392EF9F-8A64-4B8D-AC44-6E760ED65348}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualStudioSolutionChanger.Tests", "Tests\VisualStudioSolutionChanger.Tests\VisualStudioSolutionChanger.Tests.csproj", "{55B7C584-3CCA-4E99-B2F0-DEB7B47148D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlnUp.Tests", "src\SlnUp.Tests\SlnUp.Tests.csproj", "{55B7C584-3CCA-4E99-B2F0-DEB7B47148D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

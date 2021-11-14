@@ -1,4 +1,4 @@
-namespace VisualStudioSolutionChanger.Tests;
+namespace SlnUp.Tests;
 
 using Xunit;
 

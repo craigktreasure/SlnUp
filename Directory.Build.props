@@ -5,6 +5,6 @@
     <CentralBuildOutputPath>$(SourceRootPath)</CentralBuildOutputPath>
   </PropertyGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)\MSBuild\Defaults.props" />
-  <Import Project="$(MSBuildThisFileDirectory)\MSBuild\Paths.props" />
+  <Import Project="$(MSBuildThisFileDirectory)\build\Defaults.props" />
+  <Import Project="$(MSBuildThisFileDirectory)\build\Paths.props" />
 </Project>

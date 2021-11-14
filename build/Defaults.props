@@ -25,7 +25,7 @@
   <PropertyGroup>
     <Authors>Craig Treasure</Authors>
     <Owners>craigktreasure</Owners>
-    <ProjectUrl>https://github.com/craigktreasure</ProjectUrl>
-    <RepositoryUrl>https://github.com/craigktreasure/VisualStudioSolutionChanger.git</RepositoryUrl>
+    <ProjectUrl>https://github.com/craigktreasure/slnup</ProjectUrl>
+    <RepositoryUrl>https://github.com/craigktreasure/slnup.git</RepositoryUrl>
   </PropertyGroup>
 </Project>
