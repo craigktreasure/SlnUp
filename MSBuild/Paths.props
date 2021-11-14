@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(EnableCentralBuildOutput)' != 'false' ">
+    <RelativeProjectPath>$([MSBuild]::MakeRelative($(CentralBuildOutputPath), $(MSBuildProjectDirectory)))/</RelativeProjectPath>
+
+    <!-- Set output root folders. -->
+    <BasePackagesDir>$(CentralBuildOutputPath)__packages/</BasePackagesDir>
+    <BaseNuGetDir>$(BasePackagesDir)NuGet/</BaseNuGetDir>
+    <BaseOutDir>$(CentralBuildOutputPath)__output/</BaseOutDir>
+    <BaseIntDir>$(CentralBuildOutputPath)__intermediate/</BaseIntDir>
+
+    <!-- Configure NuGet output folder. -->
+    <PackageOutputPath>$(BaseNuGetDir)$(Configuration)/</PackageOutputPath>
+
+    <!-- Configure project specific intermeidate and output folders. -->
+    <ProjectOutputPath>$(BaseOutDir)$(Configuration)/$(Platform)/$(RelativeProjectPath)</ProjectOutputPath>
+
+    <!-- Configure Appx output path. -->
+    <AppxPackageDir>$(ProjectOutputPath)AppPackages</AppxPackageDir>
+
+    <BaseProjectIntermediateOutputPath>$(BaseIntDir)/$(RelativeProjectPath)</BaseProjectIntermediateOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" $(MSBuildProjectFile.EndsWith('.vcxproj')) ">
+    <ProjectIntermediateOutputPath>$(BaseProjectIntermediateOutputPath)$(Configuration)/$(Platform)/</ProjectIntermediateOutputPath>
+
+    <OutDir>$(ProjectOutputPath)</OutDir>
+    <OutDir>$(OutDir.Replace('Win32', 'x86'))</OutDir>
+    <IntDir>$(ProjectIntermediateOutputPath)</IntDir>
+    <IntDir>$(IntDir.Replace('Win32', 'x86'))</IntDir>
+    <OutDir>$(ProjectOutputPath)</OutDir>
+    <GeneratedFilesDir>$(IntDir)GeneratedFiles/</GeneratedFilesDir>
+    <OutputPath>$(OutDir)</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" $(MSBuildProjectFile.EndsWith('.csproj')) ">
+    <ProjectIntermediateOutputPath>$(BaseProjectIntermediateOutputPath)</ProjectIntermediateOutputPath>
+
+    <BaseIntermediateOutputPath>$(ProjectIntermediateOutputPath)</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(ProjectOutputPath)</BaseOutputPath>
+    <OutputPath>$(ProjectOutputPath)</OutputPath>
+  </PropertyGroup>
+</Project>

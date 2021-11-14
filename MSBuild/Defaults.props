@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)'==''">Debug</Configuration>
+    <LangVersion>10.0</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <MSBuildTreatWarningsAsErrors>false</MSBuildTreatWarningsAsErrors>
+    <MSBuildTreatWarningsAsErrors Condition="'$(AGENT_ID)' != ''">true</MSBuildTreatWarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors Condition="'$(AGENT_ID)' != ''">true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <CodeAnalysisTreatWarningsAsErrors>$(TreatWarningsAsErrors)</CodeAnalysisTreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisLevel>6.0</AnalysisLevel>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Authors>Craig Treasure</Authors>
+    <Owners>craigktreasure</Owners>
+    <ProjectUrl>https://github.com/craigktreasure</ProjectUrl>
+    <RepositoryUrl>https://github.com/craigktreasure/VisualStudioSolutionChanger.git</RepositoryUrl>
+  </PropertyGroup>
+</Project>
