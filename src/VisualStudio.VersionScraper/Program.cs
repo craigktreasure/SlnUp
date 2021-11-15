@@ -2,6 +2,7 @@ namespace VisualStudio.VersionScraper;
 
 using CommandLine;
 using SlnUp.Core;
+using System.IO.Abstractions;
 
 internal static class Program
 {
@@ -25,7 +26,8 @@ internal static class Program
         IEnumerable<VisualStudioVersionDetail> versions = docScraper.ScrapeVisualStudioVersions()
             .Where(v => v.IsPreview is false);
 
-        VisualStudioVersionDetail.SaveToJson(versions, options.OutputFilePath);
+        IFileSystem fileSystem = new FileSystem();
+        VisualStudioVersionDetail.ToJsonFile(fileSystem, versions, options.OutputFilePath);
 
         return 0;
     }

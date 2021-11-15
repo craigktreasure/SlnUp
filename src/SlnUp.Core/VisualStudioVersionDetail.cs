@@ -1,6 +1,7 @@
 namespace SlnUp.Core;
 
 using Humanizer;
+using System.IO.Abstractions;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -32,31 +33,33 @@ public record VisualStudioVersionDetail(
     [JsonIgnore]
     public string VisualStudioTitle => this.VisualStudioVersion.Humanize().Transform(To.TitleCase);
 
+    private static readonly JsonSerializerOptions serializerOptions = new()
+    {
+        WriteIndented = true,
+        Converters =
+        {
+            new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+        }
+    };
+
+    /// <summary>
+    /// Deserializes version details from json content.
+    /// </summary>
+    /// <param name="json">The json.</param>
+    /// <returns><see cref="IReadOnlyList{VisualStudioVersionDetail}"/>.</returns>
+    /// <exception cref="InvalidDataException">The file did not contain valid json.</exception>
+    public static IReadOnlyList<VisualStudioVersionDetail> FromJson(string json)
+        => JsonSerializer.Deserialize<IReadOnlyList<VisualStudioVersionDetail>>(json, serializerOptions)
+            ?? throw new InvalidDataException("The file did not contain valid json for version details.");
+
     /// <summary>
     /// Loads from json.
     /// </summary>
+    /// <param name="fileSystem">The file system.</param>
     /// <param name="filePath">The file path.</param>
-    /// <returns><see cref="IReadOnlyList{VisualStudioVersionDetail}"/>.</returns>
-    /// <exception cref="System.IO.InvalidDataException">The file did not contain valid json.</exception>
-    public static IReadOnlyList<VisualStudioVersionDetail> LoadFromJson(string filePath)
-    {
-        string json = File.ReadAllText(filePath);
-
-        return JsonSerializer.Deserialize<IReadOnlyList<VisualStudioVersionDetail>>(json)
-            ?? throw new InvalidDataException("The file did not contain valid json.");
-    }
-
-    /// <summary>
-    /// Saves to json.
-    /// </summary>
-    /// <param name="versions">The versions.</param>
-    /// <param name="filePath">The file path.</param>
-    public static void SaveToJson(IEnumerable<VisualStudioVersionDetail> versions, string filePath)
-    {
-        string json = JsonSerializer.Serialize(versions);
-
-        File.WriteAllText(filePath, json);
-    }
+    /// <returns><see cref="IReadOnlyList{VisualStudioVersionDetail}" />.</returns>
+    public static IReadOnlyList<VisualStudioVersionDetail> FromJsonFile(IFileSystem fileSystem, string filePath)
+        => FromJson(fileSystem.File.ReadAllText(filePath));
 
     /// <summary>
     /// Returns a hash code for this instance.
@@ -65,20 +68,44 @@ public record VisualStudioVersionDetail(
     public override int GetHashCode() => this.BuildVersion.GetHashCode();
 
     /// <summary>
+    /// Serializes to json content.
+    /// </summary>
+    /// <param name="versions">The versions.</param>
+    public static string ToJson(IEnumerable<VisualStudioVersionDetail> versions)
+        => JsonSerializer.Serialize(versions, serializerOptions);
+
+    /// <summary>
+    /// Saves to json.
+    /// </summary>
+    /// <param name="fileSystem">The file system.</param>
+    /// <param name="versions">The versions.</param>
+    /// <param name="filePath">The file path.</param>
+    public static void ToJsonFile(IFileSystem fileSystem, IEnumerable<VisualStudioVersionDetail> versions, string filePath)
+        => fileSystem.File.WriteAllText(filePath, ToJson(versions));
+
+    /// <summary>
     /// Returns a <see cref="string" /> that represents this instance.
     /// </summary>
     /// <returns>A <see cref="string" /> that represents this instance.</returns>
     public override string ToString()
     {
         StringBuilder sb = new(this.VisualStudioTitle);
-        sb.Append(' ')
-          .Append(this.Version.Major)
-          .Append('.')
-          .Append(this.Version.Minor);
 
-        if (!string.IsNullOrWhiteSpace(this.Channel))
+        if (this.IsPreview)
         {
-            sb.Append(' ').Append(this.Channel);
+            sb.Append(' ').Append(this.Version);
+
+            if (!string.IsNullOrWhiteSpace(this.Channel))
+            {
+                sb.Append(' ').Append(this.Channel);
+            }
+        }
+        else
+        {
+            sb.Append(' ')
+              .Append(this.Version.Major)
+              .Append('.')
+              .Append(this.Version.Minor);
         }
 
         return sb.ToString();
