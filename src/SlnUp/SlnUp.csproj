@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommandLineParser" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SlnUp.Core\SlnUp.Core.csproj" />
   </ItemGroup>
 

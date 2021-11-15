@@ -70,17 +70,18 @@ version number:
 slnup 17.0
 ```
 
-A path to a solution file may also be specified.
+A path to a solution file may also be specified using the `-p` or `--path`
+parameters.
 
 ```shell
-slnup ./path/to/solution.sln 2022
+slnup 2022 --path ./path/to/solution.sln
 ```
 
 If you want to specify the exact version information to be put into the solution
 file header, you can specify the version information like so:
 
 ```shell
-slnup -VisualStudioBuildVersion 17.0.31903.59
+slnup 17.0 --build-version 17.0.31903.59
 ```
 
 ## How does it work?
