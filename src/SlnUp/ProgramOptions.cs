@@ -85,7 +85,7 @@ internal class ProgramOptions
             if (version is null)
             {
                 using IDisposable _ = ConsoleHelpers.WithError();
-                Console.WriteLine($"The version specified could not be resolved to a valid Visual Studio product version: '{this.Version}'.");
+                Console.WriteLine($"The version specified could not be resolved to a supported Visual Studio product version: '{this.Version}'.");
                 return false;
             }
 
