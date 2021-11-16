@@ -24,8 +24,8 @@ internal class VisualStudioVersionDocScraper
     /// <summary>
     /// Scrapes the visual studio versions from the documentation.
     /// </summary>
-    /// <returns><see cref="IEnumerable{VisualStudioVersionDetail}"/>.</returns>
-    public IEnumerable<VisualStudioVersionDetail> ScrapeVisualStudioVersions()
+    /// <returns><see cref="IEnumerable{VisualStudioVersion}"/>.</returns>
+    public IEnumerable<VisualStudioVersion> ScrapeVisualStudioVersions()
     {
         HtmlDocument doc = this.LoadVisualStudioVersionDocument();
 
@@ -42,7 +42,7 @@ internal class VisualStudioVersionDocScraper
         }
     }
 
-    private static VisualStudioVersionDetail GetVersionDetailFromRow(HtmlNode row)
+    private static VisualStudioVersion GetVersionDetailFromRow(HtmlNode row)
     {
         HtmlNodeCollection tds = row.SelectNodes("td");
 
@@ -76,21 +76,21 @@ internal class VisualStudioVersionDocScraper
             throw new InvalidDataException($"Third column did not contain a valid build version value: '{tds[3].InnerText}'.");
         }
 
-        VisualStudioVersion vsVersion = GetVisualStudioVersion(version);
+        VisualStudioProduct vsVersion = GetVisualStudioVersion(version);
         bool isPreview = channel.StartsWith("Preview", StringComparison.OrdinalIgnoreCase);
 
-        return new VisualStudioVersionDetail(vsVersion, version, buildVersion, channel, isPreview);
+        return new VisualStudioVersion(vsVersion, version, buildVersion, channel, isPreview);
     }
 
-    private static VisualStudioVersion GetVisualStudioVersion(Version version)
+    private static VisualStudioProduct GetVisualStudioVersion(Version version)
         => GetVisualStudioVersion(version.Major);
 
-    private static VisualStudioVersion GetVisualStudioVersion(int majorVersion) => majorVersion switch
+    private static VisualStudioProduct GetVisualStudioVersion(int majorVersion) => majorVersion switch
     {
-        15 => VisualStudioVersion.VisualStudio2017,
-        16 => VisualStudioVersion.VisualStudio2019,
-        17 => VisualStudioVersion.VisualStudio2022,
-        _ => VisualStudioVersion.Unknown
+        15 => VisualStudioProduct.VisualStudio2017,
+        16 => VisualStudioProduct.VisualStudio2019,
+        17 => VisualStudioProduct.VisualStudio2022,
+        _ => VisualStudioProduct.Unknown
     };
 
     private HtmlDocument LoadVisualStudioVersionDocument()

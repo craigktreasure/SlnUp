@@ -1,6 +1,7 @@
 namespace SlnUp;
 
 using CommandLine;
+using System.IO.Abstractions;
 
 internal static class Program
 {
@@ -12,6 +13,19 @@ internal static class Program
     }
 
     private static int Run(ProgramOptions options)
+        => Run(new FileSystem(), options);
+
+    private static int Run(IFileSystem fileSystem, ProgramOptions programOptions)
+    {
+        if (!programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options))
+        {
+            return 1;
+        }
+
+        return Run(fileSystem, options);
+    }
+
+    private static int Run(IFileSystem fileSystem, SlnUpOptions options)
     {
         return 0;
     }

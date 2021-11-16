@@ -2,6 +2,7 @@ namespace SlnUp.Tests;
 
 using CommandLine;
 using FluentAssertions;
+using System.IO.Abstractions.TestingHelpers;
 using Xunit;
 
 public class ProgramOptionsTests
@@ -121,5 +122,214 @@ public class ProgramOptionsTests
         Error error = result.Errors.Should().ContainSingle().Subject;
         error.StopsProcessing.Should().BeTrue();
         error.Tag.Should().Be(ErrorType.VersionRequestedError);
+    }
+
+    // Minimal invocation: > app 16.8
+    [Fact]
+    public void TryGetSlnUpOptions()
+    {
+        // Arrange
+        ProgramOptions programOptions = new()
+        {
+            Version = "16.8"
+        };
+        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
+        {
+            ["C:\\MyProject.sln"] = new MockFileData(string.Empty),
+        }, "C:\\");
+
+        // Act
+        bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
+
+        // Assert
+        result.Should().BeTrue();
+        options.Should().NotBeNull();
+        options!.SolutionFilePath.Should().Be("C:\\MyProject.sln");
+        options.Version.Should().Be(Version.Parse("16.8.6"));
+        options.BuildVersion.Should().Be(Version.Parse("16.8.31019.35"));
+    }
+
+    // Build version: > app 0.0 --build-version 0.0.0.0
+    [Fact]
+    public void TryGetSlnUpOptionsWithBuildVersion()
+    {
+        // Arrange
+        ProgramOptions programOptions = new()
+        {
+            Version = "0.0",
+            BuildVersion = Version.Parse("0.0.0.0")
+        };
+        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
+        {
+            ["C:\\MyProject.sln"] = new MockFileData(string.Empty),
+        }, "C:\\");
+
+        // Act
+        bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
+
+        // Assert
+        result.Should().BeTrue();
+        options.Should().NotBeNull();
+        options!.SolutionFilePath.Should().Be("C:\\MyProject.sln");
+        options.Version.Should().Be(Version.Parse("0.0"));
+        options.BuildVersion.Should().Be(Version.Parse("0.0.0.0"));
+    }
+
+    // Invalid build version: > app 0.0 --build-version 0.0.0
+    [Fact]
+    public void TryGetSlnUpOptionsWithInvalidBuildVersion()
+    {
+        // Arrange
+        ProgramOptions programOptions = new()
+        {
+            Version = "0.0",
+            BuildVersion = Version.Parse("0.0.0")
+        };
+        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
+        {
+            ["C:\\MyProject.sln"] = new MockFileData(string.Empty),
+        }, "C:\\");
+
+        // Act
+        bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
+
+        // Assert
+        result.Should().BeFalse();
+        options.Should().BeNull();
+    }
+
+    // Minimal invocation: > app 0.0
+    [Fact]
+    public void TryGetSlnUpOptionsWithInvalidVersion()
+    {
+        // Arrange
+        ProgramOptions programOptions = new()
+        {
+            Version = "0.0"
+        };
+        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
+        {
+            ["C:\\MyProject.sln"] = new MockFileData(string.Empty),
+        }, "C:\\");
+
+        // Act
+        bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
+
+        // Assert
+        result.Should().BeFalse();
+        options.Should().BeNull();
+    }
+
+    // app 16.8 --path C:\MyProject.sln
+    [Fact]
+    public void TryGetSlnUpOptionsWithAbsoluteSolutionPath()
+    {
+        // Arrange
+        ProgramOptions programOptions = new()
+        {
+            Version = "16.8",
+            SolutionPath = "C:\\MyProject.sln"
+        };
+        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
+        {
+            ["C:\\MyProject.sln"] = new MockFileData(string.Empty),
+        }, "C:\\");
+
+        // Act
+        bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
+
+        // Assert
+        result.Should().BeTrue();
+        options.Should().NotBeNull();
+        options!.SolutionFilePath.Should().Be("C:\\MyProject.sln");
+    }
+
+    // Multiple solution files available: > app 16.8
+    [Fact]
+    public void TryGetSlnUpOptionsWithMultipleSolutions()
+    {
+        // Arrange
+        ProgramOptions programOptions = new()
+        {
+            Version = "16.8"
+        };
+        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
+        {
+            ["C:\\MyProject.sln"] = new MockFileData(string.Empty),
+            ["C:\\MyProject2.sln"] = new MockFileData(string.Empty),
+        }, "C:\\");
+
+        // Act
+        bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
+
+        // Assert
+        result.Should().BeFalse();
+        options.Should().BeNull();
+    }
+
+    // app 16.8 --path C:\Missing.sln
+    [Fact]
+    public void TryGetSlnUpOptionsWithNonExistentSolutionPath()
+    {
+        // Arrange
+        ProgramOptions programOptions = new()
+        {
+            Version = "16.8",
+            SolutionPath = "C:\\Missing.sln"
+        };
+        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
+        {
+            ["C:\\MyProject.sln"] = new MockFileData(string.Empty),
+        }, "C:\\");
+
+        // Act
+        bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
+
+        // Assert
+        result.Should().BeFalse();
+        options.Should().BeNull();
+    }
+
+    // Multiple solution files available: > app 16.8
+    [Fact]
+    public void TryGetSlnUpOptionsWithNoSolutions()
+    {
+        // Arrange
+        ProgramOptions programOptions = new()
+        {
+            Version = "16.8"
+        };
+        MockFileSystem fileSystem = new();
+
+        // Act
+        bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
+
+        // Assert
+        result.Should().BeFalse();
+        options.Should().BeNull();
+    }
+
+    // app 16.8 --path .\MyProject.sln
+    [Fact]
+    public void TryGetSlnUpOptionsWithRelativeSolutionPath()
+    {
+        // Arrange
+        ProgramOptions programOptions = new()
+        {
+            Version = "16.8",
+            SolutionPath = ".\\MyProject.sln"
+        };
+        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
+        {
+            ["C:\\MyProject.sln"] = new MockFileData(string.Empty),
+        }, "C:\\");
+
+        // Act
+        bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
+
+        // Assert
+        result.Should().BeTrue();
+        options.Should().NotBeNull();
+        options!.SolutionFilePath.Should().Be("C:\\MyProject.sln");
     }
 }

@@ -23,11 +23,11 @@ internal static class Program
 
         VisualStudioVersionDocScraper docScraper = new();
 
-        IEnumerable<VisualStudioVersionDetail> versions = docScraper.ScrapeVisualStudioVersions()
+        IEnumerable<VisualStudioVersion> versions = docScraper.ScrapeVisualStudioVersions()
             .Where(v => v.IsPreview is false);
 
         IFileSystem fileSystem = new FileSystem();
-        VisualStudioVersionDetail.ToJsonFile(fileSystem, versions, options.OutputFilePath);
+        VisualStudioVersion.ToJsonFile(fileSystem, versions, options.OutputFilePath);
 
         return 0;
     }

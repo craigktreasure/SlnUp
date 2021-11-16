@@ -6,18 +6,18 @@ using System.IO.Abstractions.TestingHelpers;
 using System.Text.Json;
 using Xunit;
 
-public class VisualStudioVersionDetailTests
+public class VisualStudioVersionTests
 {
     private const string commonVersionsJson = @"[
   {
-    ""VisualStudioVersion"": ""visualStudio2019"",
+    ""Product"": ""visualStudio2019"",
     ""Version"": ""16.11.6"",
     ""BuildVersion"": ""16.11.31829.152"",
     ""Channel"": ""Release"",
     ""IsPreview"": false
   },
   {
-    ""VisualStudioVersion"": ""visualStudio2022"",
+    ""Product"": ""visualStudio2022"",
     ""Version"": ""17.0.0"",
     ""BuildVersion"": ""17.0.31903.59"",
     ""Channel"": ""Release"",
@@ -25,15 +25,15 @@ public class VisualStudioVersionDetailTests
   }
 ]";
 
-    private static readonly IReadOnlyList<VisualStudioVersionDetail> commonVersions = new[]
+    private static readonly IReadOnlyList<VisualStudioVersion> commonVersions = new[]
     {
-        new VisualStudioVersionDetail(
-            VisualStudioVersion.VisualStudio2019,
+        new VisualStudioVersion(
+            VisualStudioProduct.VisualStudio2019,
             Version.Parse("16.11.6"),
             Version.Parse("16.11.31829.152"),
             "Release"),
-        new VisualStudioVersionDetail(
-            VisualStudioVersion.VisualStudio2022,
+        new VisualStudioVersion(
+            VisualStudioProduct.VisualStudio2022,
             Version.Parse("17.0.0"),
             Version.Parse("17.0.31903.59"),
             "Release")
@@ -50,8 +50,8 @@ public class VisualStudioVersionDetailTests
         const string expectedBuildVersion = "17.0.31903.59";
 
         // Act
-        VisualStudioVersionDetail version = new(
-            VisualStudioVersion.VisualStudio2022,
+        VisualStudioVersion version = new(
+            VisualStudioProduct.VisualStudio2022,
             Version.Parse(expectedVersion),
             Version.Parse(expectedBuildVersion),
             expectedChannel);
@@ -60,8 +60,8 @@ public class VisualStudioVersionDetailTests
         version.Channel.Should().Be(expectedChannel);
         version.Version.ToString().Should().Be(expectedVersion);
         version.BuildVersion.ToString().Should().Be(expectedBuildVersion);
-        version.VisualStudioTitle.Should().Be(expectedVersionTitle);
-        version.VisualStudioFullTitle.Should().Be(expectedFullVersionTitle);
+        version.ProductTitle.Should().Be(expectedVersionTitle);
+        version.FullProductTitle.Should().Be(expectedFullVersionTitle);
     }
 
     [Fact]
@@ -75,8 +75,8 @@ public class VisualStudioVersionDetailTests
         const string expectedBuildVersion = "17.1.31903.286";
 
         // Act
-        VisualStudioVersionDetail version = new(
-            VisualStudioVersion.VisualStudio2022,
+        VisualStudioVersion version = new(
+            VisualStudioProduct.VisualStudio2022,
             Version.Parse(expectedVersion),
             Version.Parse(expectedBuildVersion),
             expectedChannel,
@@ -86,15 +86,15 @@ public class VisualStudioVersionDetailTests
         version.Channel.Should().Be(expectedChannel);
         version.Version.ToString().Should().Be(expectedVersion);
         version.BuildVersion.ToString().Should().Be(expectedBuildVersion);
-        version.VisualStudioTitle.Should().Be(expectedVersionTitle);
-        version.VisualStudioFullTitle.Should().Be(expectedFullVersionTitle);
+        version.ProductTitle.Should().Be(expectedVersionTitle);
+        version.FullProductTitle.Should().Be(expectedFullVersionTitle);
     }
 
     [Fact]
     public void FromJson()
     {
         // Act
-        IReadOnlyList<VisualStudioVersionDetail> versions = VisualStudioVersionDetail.FromJson(commonVersionsJson);
+        IReadOnlyList<VisualStudioVersion> versions = VisualStudioVersion.FromJson(commonVersionsJson);
 
         // Assert
         versions.Should().BeEquivalentTo(commonVersions);
@@ -104,7 +104,7 @@ public class VisualStudioVersionDetailTests
     public void FromJsonEmpty()
     {
         // Act
-        IReadOnlyList<VisualStudioVersionDetail> versions = VisualStudioVersionDetail.FromJson("[]");
+        IReadOnlyList<VisualStudioVersion> versions = VisualStudioVersion.FromJson("[]");
 
         // Assert
         versions.Should().BeEmpty();
@@ -114,7 +114,7 @@ public class VisualStudioVersionDetailTests
     public void FromJsonEmptyString()
     {
         // Act
-        Assert.Throws<JsonException>(() => VisualStudioVersionDetail.FromJson(string.Empty));
+        Assert.Throws<JsonException>(() => VisualStudioVersion.FromJson(string.Empty));
     }
 
     [Fact]
@@ -128,7 +128,7 @@ public class VisualStudioVersionDetailTests
         });
 
         // Act
-        IReadOnlyList<VisualStudioVersionDetail> versions = VisualStudioVersionDetail.FromJsonFile(fileSystem, filePath);
+        IReadOnlyList<VisualStudioVersion> versions = VisualStudioVersion.FromJsonFile(fileSystem, filePath);
 
         // Assert
         versions.Should().BeEquivalentTo(commonVersions);
@@ -138,14 +138,14 @@ public class VisualStudioVersionDetailTests
     public void FromJsonNull()
     {
         // Act
-        Assert.Throws<InvalidDataException>(() => VisualStudioVersionDetail.FromJson("null"));
+        Assert.Throws<InvalidDataException>(() => VisualStudioVersion.FromJson("null"));
     }
 
     [Fact]
     public void ToJson()
     {
         // Act
-        string json = VisualStudioVersionDetail.ToJson(commonVersions);
+        string json = VisualStudioVersion.ToJson(commonVersions);
 
         // Assert
         json.Should().Be(commonVersionsJson);
@@ -158,7 +158,7 @@ public class VisualStudioVersionDetailTests
         const string expectedJson = "[]";
 
         // Act
-        string json = VisualStudioVersionDetail.ToJson(Enumerable.Empty<VisualStudioVersionDetail>());
+        string json = VisualStudioVersion.ToJson(Enumerable.Empty<VisualStudioVersion>());
 
         // Assert
         json.Should().Be(expectedJson);
@@ -172,7 +172,7 @@ public class VisualStudioVersionDetailTests
         const string filePath = "C:/foo.json";
 
         // Act
-        VisualStudioVersionDetail.ToJsonFile(fileSystem, commonVersions, filePath);
+        VisualStudioVersion.ToJsonFile(fileSystem, commonVersions, filePath);
 
         // Assert
         fileSystem.FileExists(filePath).Should().BeTrue();
@@ -186,7 +186,7 @@ public class VisualStudioVersionDetailTests
         const string expectedJson = "null";
 
         // Act
-        string json = VisualStudioVersionDetail.ToJson(null!);
+        string json = VisualStudioVersion.ToJson(null!);
 
         // Assert
         json.Should().Be(expectedJson);
