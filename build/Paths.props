@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project InitialTargets="_ValidatePathProperties">
   <PropertyGroup Condition=" '$(EnableCentralBuildOutput)' != 'false' ">
     <RelativeProjectPath>$([MSBuild]::MakeRelative($(CentralBuildOutputPath), $(MSBuildProjectDirectory)))/</RelativeProjectPath>
 
@@ -8,6 +8,8 @@
     <BaseNuGetDir>$(BasePackagesDir)NuGet/</BaseNuGetDir>
     <BaseOutDir>$(CentralBuildOutputPath)__output/</BaseOutDir>
     <BaseIntDir>$(CentralBuildOutputPath)__intermediate/</BaseIntDir>
+    <BasePublishDir>$(CentralBuildOutputPath)__publish/</BasePublishDir>
+    <BaseTestResultsDir>$(CentralBuildOutputPath)__test-results/</BaseTestResultsDir>
 
     <!-- Configure NuGet output folder. -->
     <PackageOutputPath>$(BaseNuGetDir)$(Configuration)/</PackageOutputPath>
@@ -19,25 +21,23 @@
     <AppxPackageDir>$(ProjectOutputPath)AppPackages</AppxPackageDir>
 
     <BaseProjectIntermediateOutputPath>$(BaseIntDir)/$(RelativeProjectPath)</BaseProjectIntermediateOutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" $(MSBuildProjectFile.EndsWith('.vcxproj')) ">
-    <ProjectIntermediateOutputPath>$(BaseProjectIntermediateOutputPath)$(Configuration)/$(Platform)/</ProjectIntermediateOutputPath>
-
-    <OutDir>$(ProjectOutputPath)</OutDir>
-    <OutDir>$(OutDir.Replace('Win32', 'x86'))</OutDir>
-    <IntDir>$(ProjectIntermediateOutputPath)</IntDir>
-    <IntDir>$(IntDir.Replace('Win32', 'x86'))</IntDir>
-    <OutDir>$(ProjectOutputPath)</OutDir>
-    <GeneratedFilesDir>$(IntDir)GeneratedFiles/</GeneratedFilesDir>
-    <OutputPath>$(OutDir)</OutputPath>
+    <BaseProjectPublishOutputPath>$(BasePublishDir)/$(Configuration)/$(Platform)/$(RelativeProjectPath)</BaseProjectPublishOutputPath>
+    <BaseProjectTestResultsOutputPath>$(BaseTestResultsDir)/$(RelativeProjectPath)</BaseProjectTestResultsOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition=" $(MSBuildProjectFile.EndsWith('.csproj')) ">
     <ProjectIntermediateOutputPath>$(BaseProjectIntermediateOutputPath)</ProjectIntermediateOutputPath>
 
     <BaseIntermediateOutputPath>$(ProjectIntermediateOutputPath)</BaseIntermediateOutputPath>
+    <MSBuildProjectExtensionPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionPath>
     <BaseOutputPath>$(ProjectOutputPath)</BaseOutputPath>
     <OutputPath>$(ProjectOutputPath)</OutputPath>
+    <PublishDir>$(BaseProjectPublishOutputPath)</PublishDir>
+    <VSTestResultsDirectory>$(BaseProjectTestResultsOutputPath)</VSTestResultsDirectory>
+    <CoverletOutput>$(BaseProjectTestResultsOutputPath)</CoverletOutput>
   </PropertyGroup>
+
+  <Target Name="_ValidatePathProperties" Condition=" '$(EnableCentralBuildOutput)' != 'false' ">
+    <Error Text="CentralBuildOutputPath must be set before importing $(MSBuildThisFile)" Condition=" '$(CentralBuildOutputPath)' == '' " />
+  </Target>
 </Project>
