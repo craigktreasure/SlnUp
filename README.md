@@ -4,7 +4,7 @@ This is a [.NET tool](https://docs.microsoft.com/en-us/dotnet/core/tools/global-
 that allows you to easily change the Visual Studio version information in a
 solution file using a Visual Studio version number.
 
-![CI Build](https://github.com/craigktreasure/VisualStudioSolutionUpdater/workflows/VisualStudioSolutionUpdater-CI/badge.svg?branch=main)
+![CI Build](https://github.com/craigktreasure/SlnUp/workflows/SlnUp-CI/badge.svg?branch=main)
 
 - [Visual Studio solution updater](#visual-studio-solution-updater)
   - [Why?](#why)
@@ -30,7 +30,7 @@ understand the solution file header and the Visual Studio version information.
 ### Install the tool
 
 ```shell
-dotnet tool install -g VisualStudioSolutionUpdater
+dotnet tool install -g SlnUp
 ```
 
 > **Note:**
@@ -40,7 +40,7 @@ dotnet tool install -g VisualStudioSolutionUpdater
 ### Update the tool
 
 ```shell
-dotnet tool update -g VisualStudioSolutionUpdater
+dotnet tool update -g SlnUp
 ```
 
 > **Note:**
