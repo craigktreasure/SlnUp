@@ -39,7 +39,7 @@ internal class ProgramOptions
     /// </summary>
     /// <param name="fileSystem">The file system.</param>
     /// <param name="options">The options.</param>
-    /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+    /// <returns><c>true</c> if the options were retrieved, <c>false</c> otherwise.</returns>
     public bool TryGetSlnUpOptions(IFileSystem fileSystem, [NotNullWhen(true)] out SlnUpOptions? options)
     {
         options = null;
