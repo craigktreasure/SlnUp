@@ -3,6 +3,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
+
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>slnup</ToolCommandName>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>A tool for updating Visual Studio version information in solution files.</Description>
   </PropertyGroup>
 
   <ItemGroup>
