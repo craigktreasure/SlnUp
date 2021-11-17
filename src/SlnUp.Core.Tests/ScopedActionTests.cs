@@ -9,14 +9,15 @@ public class ScopedActionTests
     public void ScopedActionInvoked()
     {
         // Arrange
-        bool actionCalled = false;
-        ScopedAction action = new(() => actionCalled = true);
+        int actionCalled = 0;
+        ScopedAction action = new(() => ++actionCalled);
 
         // Act
         action.Dispose();
+        action.Dispose();
 
         // Assert
-        actionCalled.Should().BeTrue();
+        actionCalled.Should().Be(1);
     }
 
     [Fact]
