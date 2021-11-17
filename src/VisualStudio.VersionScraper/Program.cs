@@ -21,7 +21,7 @@ internal static class Program
             return 1;
         }
 
-        VisualStudioVersionDocScraper docScraper = new();
+        VisualStudioVersionDocScraper docScraper = new(useCache: options.NoCache is false);
 
         IEnumerable<VisualStudioVersion> versions = docScraper.ScrapeVisualStudioVersions()
             .Where(v => v.IsPreview is false);

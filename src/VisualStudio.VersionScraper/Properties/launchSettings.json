@@ -6,6 +6,10 @@
     "Generate": {
       "commandName": "Project",
       "commandLineArgs": "../../../../../../src/SlnUp/Versions.json"
+    },
+    "Generate (no-cache)": {
+      "commandName": "Project",
+      "commandLineArgs": "../../../../../../src/SlnUp/Versions.json --no-cache"
     }
   }
 }
