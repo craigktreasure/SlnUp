@@ -3,33 +3,69 @@
   <PropertyGroup>
     <Configuration Condition="'$(Configuration)'==''">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+
+    <!-- Determine if this is a CI build. -->
+    <IsCIBuild>false</IsCIBuild>
+    <IsCIBuild Condition="'$(FORCE_CI)' == 'true'"></IsCIBuild>
+    <IsCIBuild Condition="'$(TF_BUILD)' == 'true'">true</IsCIBuild>
+    <IsCIBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</IsCIBuild>
+
+    <!-- Sets the C# language version:
+      https://docs.microsoft.com/dotnet/csharp/language-reference/configure-language-version#c-language-version-reference
+    -->
     <LangVersion>10.0</LangVersion>
+
+    <!-- Enable implicit usings:
+      https://docs.microsoft.com/dotnet/core/compatibility/sdk/6.0/implicit-namespaces-rc1
+    -->
     <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- Enable nullable reference types: https://docs.microsoft.com/dotnet/csharp/nullable-references -->
     <Nullable>enable</Nullable>
+
+    <!-- Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element). -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+    <!-- Embed source files that are not tracked by the source control manager in the PDB. -->
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+
+    <!-- Embed symbols containing Source Link in the main file (exe/dll). -->
     <DebugType>embedded</DebugType>
+
+    <!-- Generate XML documentation for not test projects. -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GenerateDocumentationFile Condition="$(MSBuildProjectName.EndsWith('.Tests'))">false</GenerateDocumentationFile>
+
+    <!-- Normalize file paths on CI builds. -->
+    <ContinuousIntegrationBuild>$(IsCIBuild)</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <PropertyGroup>
-    <MSBuildTreatWarningsAsErrors>false</MSBuildTreatWarningsAsErrors>
-    <MSBuildTreatWarningsAsErrors Condition="'$(AGENT_ID)' != ''">true</MSBuildTreatWarningsAsErrors>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <TreatWarningsAsErrors Condition="'$(AGENT_ID)' != ''">true</TreatWarningsAsErrors>
+    <MSBuildTreatWarningsAsErrors>$(IsCIBuild)</MSBuildTreatWarningsAsErrors>
+    <TreatWarningsAsErrors>$(IsCIBuild)</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <PropertyGroup>
+    <!-- Configure .NET source code analysis:
+      https://docs.microsoft.com/dotnet/fundamentals/code-analysis/overview
+    -->
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-    <CodeAnalysisTreatWarningsAsErrors>$(TreatWarningsAsErrors)</CodeAnalysisTreatWarningsAsErrors>
+    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <AnalysisLevel>6.0</AnalysisLevel>
+
+    <NoWarn>$(NoWarn);CA1014</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>
+    <!-- Package properties:
+      https://docs.microsoft.com/dotnet/standard/library-guidance/nuget
+      https://docs.microsoft.com/nuget/reference/msbuild-targets#pack-target-inputs
+    -->
     <Authors>Craig Treasure</Authors>
     <Owners>craigktreasure</Owners>
-    <ProjectUrl>https://github.com/craigktreasure/slnup</ProjectUrl>
-    <RepositoryUrl>https://github.com/craigktreasure/slnup.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/craigktreasure/SlnUp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/craigktreasure/SlnUp.git</RepositoryUrl>
   </PropertyGroup>
 </Project>
