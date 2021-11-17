@@ -5,6 +5,8 @@ that allows you to easily change the Visual Studio version information in a
 solution file using a Visual Studio version number.
 
 ![CI Build](https://github.com/craigktreasure/SlnUp/workflows/SlnUp-CI/badge.svg?branch=main)
+![NuGet](https://img.shields.io/nuget/v/SlnUp)
+![NuGet](https://img.shields.io/nuget/dt/SlnUp)
 
 - [Visual Studio solution updater](#visual-studio-solution-updater)
   - [Why?](#why)
