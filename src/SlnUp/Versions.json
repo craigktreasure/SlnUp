@@ -1,8 +1,36 @@
 [
   {
     "Product": "visualStudio2022",
+    "Version": "17.0.1",
+    "BuildVersion": "17.0.31912.275",
+    "Channel": "Release",
+    "IsPreview": false
+  },
+  {
+    "Product": "visualStudio2022",
     "Version": "17.0.0",
     "BuildVersion": "17.0.31903.59",
+    "Channel": "Release",
+    "IsPreview": false
+  },
+  {
+    "Product": "visualStudio2019",
+    "Version": "16.11.7",
+    "BuildVersion": "16.11.31911.196",
+    "Channel": "Release",
+    "IsPreview": false
+  },
+  {
+    "Product": "visualStudio2019",
+    "Version": "16.9.14",
+    "BuildVersion": "16.9.31910.168",
+    "Channel": "Release",
+    "IsPreview": false
+  },
+  {
+    "Product": "visualStudio2019",
+    "Version": "16.7.22",
+    "BuildVersion": "16.7.31910.167",
     "Channel": "Release",
     "IsPreview": false
   },
