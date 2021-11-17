@@ -29,7 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisualStudio.VersionScraper
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlnUp.Core", "src\SlnUp.Core\SlnUp.Core.csproj", "{2D0B8972-41BD-4530-9495-9DF5E60FB1CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlnUp.Core.Tests", "src\SlnUp.Core.Tests\SlnUp.Core.Tests.csproj", "{F39C69B9-BAE2-499C-B9C4-864F4E5341ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlnUp.Core.Tests", "src\SlnUp.Core.Tests\SlnUp.Core.Tests.csproj", "{F39C69B9-BAE2-499C-B9C4-864F4E5341ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlnUp.TestLibrary", "src\SlnUp.TestLibrary\SlnUp.TestLibrary.csproj", "{CB0DCF5C-167B-42AC-BF07-97FDAA739B27}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{F39C69B9-BAE2-499C-B9C4-864F4E5341ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F39C69B9-BAE2-499C-B9C4-864F4E5341ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F39C69B9-BAE2-499C-B9C4-864F4E5341ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB0DCF5C-167B-42AC-BF07-97FDAA739B27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB0DCF5C-167B-42AC-BF07-97FDAA739B27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB0DCF5C-167B-42AC-BF07-97FDAA739B27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB0DCF5C-167B-42AC-BF07-97FDAA739B27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +71,7 @@ Global
 		{55B7C584-3CCA-4E99-B2F0-DEB7B47148D6} = {E392EF9F-8A64-4B8D-AC44-6E760ED65348}
 		{7C64E9F4-5558-4C6E-95D8-8756185D0017} = {13BEBBDD-8976-428C-96C9-6CA1BDD70AC4}
 		{F39C69B9-BAE2-499C-B9C4-864F4E5341ED} = {E392EF9F-8A64-4B8D-AC44-6E760ED65348}
+		{CB0DCF5C-167B-42AC-BF07-97FDAA739B27} = {E392EF9F-8A64-4B8D-AC44-6E760ED65348}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {077C9799-D020-472A-A37B-BCDDD2AF3641}

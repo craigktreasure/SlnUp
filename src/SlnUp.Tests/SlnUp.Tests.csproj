@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SlnUp.TestLibrary\SlnUp.TestLibrary.csproj" />
     <ProjectReference Include="..\SlnUp\SlnUp.csproj" />
   </ItemGroup>
 
