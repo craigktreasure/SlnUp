@@ -2,6 +2,7 @@ namespace SlnUp.Tests;
 
 using CommandLine;
 using FluentAssertions;
+using SlnUp.TestLibrary;
 using System.IO.Abstractions.TestingHelpers;
 using Xunit;
 
@@ -94,10 +95,10 @@ public class ProgramOptionsTests
     {
         // Arrange
         const string expectedVersion = "2022";
-        const string expectedFilePath = "C:/solution.sln";
+        string expectedFilePath = "C:/solution.sln".ToCrossPlatformPath();
 
         // Act
-        ParserResult<ProgramOptions> parseResult = ProgramOptions.ParseOptions(args);
+        ParserResult<ProgramOptions> parseResult = ProgramOptions.ParseOptions(args.ToCrossPlatformPath().ToArray());
 
         // Assert
         Parsed<ProgramOptions> result = parseResult.Should().BeAssignableTo<Parsed<ProgramOptions>>().Subject;
@@ -129,14 +130,15 @@ public class ProgramOptionsTests
     public void TryGetSlnUpOptions()
     {
         // Arrange
+        string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
         ProgramOptions programOptions = new()
         {
             Version = "16.8"
         };
         MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
         {
-            ["C:\\MyProject.sln"] = new MockFileData(string.Empty),
-        }, "C:\\");
+            [expectedSolutionFilePath] = new MockFileData(string.Empty),
+        }, "C:\\".ToCrossPlatformPath());
 
         // Act
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
@@ -144,7 +146,7 @@ public class ProgramOptionsTests
         // Assert
         result.Should().BeTrue();
         options.Should().NotBeNull();
-        options!.SolutionFilePath.Should().Be("C:\\MyProject.sln");
+        options!.SolutionFilePath.Should().Be(expectedSolutionFilePath);
         options.Version.Should().Be(Version.Parse("16.8.6"));
         options.BuildVersion.Should().Be(Version.Parse("16.8.31019.35"));
     }
@@ -154,6 +156,7 @@ public class ProgramOptionsTests
     public void TryGetSlnUpOptionsWithBuildVersion()
     {
         // Arrange
+        string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
         ProgramOptions programOptions = new()
         {
             Version = "0.0",
@@ -161,8 +164,8 @@ public class ProgramOptionsTests
         };
         MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
         {
-            ["C:\\MyProject.sln"] = new MockFileData(string.Empty),
-        }, "C:\\");
+            [expectedSolutionFilePath] = new MockFileData(string.Empty),
+        }, "C:\\".ToCrossPlatformPath());
 
         // Act
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
@@ -170,7 +173,7 @@ public class ProgramOptionsTests
         // Assert
         result.Should().BeTrue();
         options.Should().NotBeNull();
-        options!.SolutionFilePath.Should().Be("C:\\MyProject.sln");
+        options!.SolutionFilePath.Should().Be(expectedSolutionFilePath);
         options.Version.Should().Be(Version.Parse("0.0"));
         options.BuildVersion.Should().Be(Version.Parse("0.0.0.0"));
     }
@@ -180,6 +183,7 @@ public class ProgramOptionsTests
     public void TryGetSlnUpOptionsWithInvalidBuildVersion()
     {
         // Arrange
+        string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
         ProgramOptions programOptions = new()
         {
             Version = "0.0",
@@ -187,8 +191,8 @@ public class ProgramOptionsTests
         };
         MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
         {
-            ["C:\\MyProject.sln"] = new MockFileData(string.Empty),
-        }, "C:\\");
+            [expectedSolutionFilePath] = new MockFileData(string.Empty),
+        }, "C:\\".ToCrossPlatformPath());
 
         // Act
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
@@ -203,14 +207,15 @@ public class ProgramOptionsTests
     public void TryGetSlnUpOptionsWithInvalidVersion()
     {
         // Arrange
+        string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
         ProgramOptions programOptions = new()
         {
             Version = "0.0"
         };
         MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
         {
-            ["C:\\MyProject.sln"] = new MockFileData(string.Empty),
-        }, "C:\\");
+            [expectedSolutionFilePath] = new MockFileData(string.Empty),
+        }, "C:\\".ToCrossPlatformPath());
 
         // Act
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
@@ -225,15 +230,16 @@ public class ProgramOptionsTests
     public void TryGetSlnUpOptionsWithAbsoluteSolutionPath()
     {
         // Arrange
+        string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
         ProgramOptions programOptions = new()
         {
             Version = "16.8",
-            SolutionPath = "C:\\MyProject.sln"
+            SolutionPath = expectedSolutionFilePath
         };
         MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
         {
-            ["C:\\MyProject.sln"] = new MockFileData(string.Empty),
-        }, "C:\\");
+            [expectedSolutionFilePath] = new MockFileData(string.Empty),
+        }, "C:\\".ToCrossPlatformPath());
 
         // Act
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
@@ -241,7 +247,7 @@ public class ProgramOptionsTests
         // Assert
         result.Should().BeTrue();
         options.Should().NotBeNull();
-        options!.SolutionFilePath.Should().Be("C:\\MyProject.sln");
+        options!.SolutionFilePath.Should().Be(expectedSolutionFilePath);
     }
 
     // Multiple solution files available: > app 16.8
@@ -255,9 +261,9 @@ public class ProgramOptionsTests
         };
         MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
         {
-            ["C:\\MyProject.sln"] = new MockFileData(string.Empty),
-            ["C:\\MyProject2.sln"] = new MockFileData(string.Empty),
-        }, "C:\\");
+            ["C:\\MyProject.sln".ToCrossPlatformPath()] = new MockFileData(string.Empty),
+            ["C:\\MyProject2.sln".ToCrossPlatformPath()] = new MockFileData(string.Empty),
+        }, "C:\\".ToCrossPlatformPath());
 
         // Act
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
@@ -275,12 +281,12 @@ public class ProgramOptionsTests
         ProgramOptions programOptions = new()
         {
             Version = "16.8",
-            SolutionPath = "C:\\Missing.sln"
+            SolutionPath = "C:\\Missing.sln".ToCrossPlatformPath(),
         };
         MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
         {
-            ["C:\\MyProject.sln"] = new MockFileData(string.Empty),
-        }, "C:\\");
+            ["C:\\MyProject.sln".ToCrossPlatformPath()] = new MockFileData(string.Empty),
+        }, "C:\\".ToCrossPlatformPath());
 
         // Act
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
@@ -314,15 +320,16 @@ public class ProgramOptionsTests
     public void TryGetSlnUpOptionsWithRelativeSolutionPath()
     {
         // Arrange
+        string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
         ProgramOptions programOptions = new()
         {
             Version = "16.8",
-            SolutionPath = ".\\MyProject.sln"
+            SolutionPath = ".\\MyProject.sln".ToCrossPlatformPath(),
         };
         MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
         {
-            ["C:\\MyProject.sln"] = new MockFileData(string.Empty),
-        }, "C:\\");
+            [expectedSolutionFilePath] = new MockFileData(string.Empty),
+        }, "C:\\".ToCrossPlatformPath());
 
         // Act
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
@@ -330,6 +337,6 @@ public class ProgramOptionsTests
         // Assert
         result.Should().BeTrue();
         options.Should().NotBeNull();
-        options!.SolutionFilePath.Should().Be("C:\\MyProject.sln");
+        options!.SolutionFilePath.Should().Be(expectedSolutionFilePath);
     }
 }

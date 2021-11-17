@@ -1,6 +1,7 @@
 namespace SlnUp.Core.Tests;
 
 using FluentAssertions;
+using SlnUp.TestLibrary;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.Text.Json;
@@ -121,7 +122,7 @@ public class VisualStudioVersionTests
     public void FromJsonFile()
     {
         // Arrange
-        const string filePath = "C:/foo.json";
+        string filePath = "C:/foo.json".ToCrossPlatformPath();
         IFileSystem fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
         {
             [filePath] = new MockFileData(commonVersionsJson),
@@ -169,7 +170,7 @@ public class VisualStudioVersionTests
     {
         // Arrange
         MockFileSystem fileSystem = new();
-        const string filePath = "C:/foo.json";
+        string filePath = "C:/foo.json".ToCrossPlatformPath();
 
         // Act
         VisualStudioVersion.ToJsonFile(fileSystem, commonVersions, filePath);

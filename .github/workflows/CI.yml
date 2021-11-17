@@ -83,4 +83,7 @@ jobs:
         run: nuget sources add -name github -source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json -username ${{ github.repository_owner }} -password ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push to GitHub package registry
-        run: nuget push __packages\NuGet\Release\*.nupkg -ApiKey ${{ secrets.GITHUB_TOKEN }} -Source github
+        run: nuget push __packages/NuGet/Release/SlnUp.*.nupkg -ApiKey ${{ secrets.GITHUB_TOKEN }} -Source github
+
+      - name: Push to NuGet.org
+        run: nuget push __packages/NuGet/Release/SlnUp.*.nupkg -ApiKey ${{ secrets.NUGET_API_KEY }} -Source https://api.nuget.org/v3/index.json
