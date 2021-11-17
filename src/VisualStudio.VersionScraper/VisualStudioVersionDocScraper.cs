@@ -2,6 +2,7 @@ namespace VisualStudio.VersionScraper;
 
 using HtmlAgilityPack;
 using SlnUp.Core;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 internal class VisualStudioVersionDocScraper
@@ -100,10 +101,16 @@ internal class VisualStudioVersionDocScraper
         {
             CachePath = cachePath,
             UsingCache = this.useCache,
-            UsingCacheIfExists = this.useCache,
         };
 
-        HtmlDocument doc = web.Load(vsVersionsDocUrl);
+        UriBuilder uriBuilder = new(vsVersionsDocUrl);
+        if (this.useCache)
+        {
+            // Add a cache query parameter.
+            uriBuilder.Query = $"?cache={DateTime.Now.Date.ToString("MM-dd-yyyy", CultureInfo.CurrentCulture)}";
+        }
+
+        HtmlDocument doc = web.Load(uriBuilder.Uri);
 
         return doc;
     }
