@@ -1,0 +1,36 @@
+name: 'SlnUp-PR'
+
+on: pull_request
+
+env:
+  # Stop wasting time caching packages
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+
+jobs:
+  build:
+    name: 'Build SlnUp'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.x
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Test
+        run: dotnet test --configuration Release --no-build --verbosity normal
+      - name: Upload output artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: __output
+          path: __output
+      - name: Upload packages artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: __packages
+          path: __packages

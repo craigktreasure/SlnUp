@@ -1,0 +1,86 @@
+name: 'SlnUp-CI'
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  # Stop wasting time caching packages
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  # GitHub Packages Feed settings
+  GH_FEED: https://nuget.pkg.github.com/craigktreasure/SlnUp/
+  GH_USER: craigktreasure
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+jobs:
+  build:
+    name: 'Build SlnUp'
+    runs-on: ubuntu-latest
+
+    outputs:
+      package_version: ${{steps.version.outputs.package_version}}
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.x
+
+      - name: Set version
+        id: version
+        shell: pwsh
+        run: |
+          dotnet tool restore
+          $packageVersion = dotnet nbgv get-version --variable NuGetPackageVersion
+          Write-Host "::set-output name=package_version::$packageVersion"
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test --configuration Release --no-build --verbosity normal
+
+      - name: Upload output artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: __output
+          path: __output
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: __packages
+          path: __packages
+
+  release:
+    name: 'Release SlnUp'
+    runs-on: ubuntu-latest
+    needs: build
+
+    env:
+      PACKAGE_VERSION: ${{ needs.build.outputs.package_version }}
+
+    steps:
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1
+        with:
+          nuget-version: latest
+
+      - name: Download __packages
+        uses: actions/download-artifact@v2
+        with:
+          name: __packages
+          path: __packages
+
+      - name: Configure GitHub NuGet registry
+        run: nuget sources add -name github -source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json -username ${{ github.repository_owner }} -password ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push to GitHub package registry
+        run: nuget push __packages\NuGet\Release\*.nupkg -ApiKey ${{ secrets.GITHUB_TOKEN }} -Source github
