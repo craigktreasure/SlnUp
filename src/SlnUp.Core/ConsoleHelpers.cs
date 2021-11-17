@@ -2,6 +2,9 @@ namespace SlnUp.Core;
 
 using System;
 
+/// <summary>
+/// Class ConsoleHelpers.
+/// </summary>
 public static class ConsoleHelpers
 {
     /// <summary>

@@ -2,6 +2,9 @@ namespace SlnUp.Core;
 
 using System;
 
+/// <summary>
+/// Class VersionExtensions.
+/// </summary>
 public static class VersionExtensions
 {
     /// <summary>
