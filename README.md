@@ -36,19 +36,11 @@ understand the solution file header and the Visual Studio version information.
 dotnet tool install -g SlnUp
 ```
 
-> **Note:**
->
-> This won't work until the tool is published to NuGet.org.
-
 ### Update the tool
 
 ```shell
 dotnet tool update -g SlnUp
 ```
-
-> **Note:**
->
-> This won't work until the tool is published to NuGet.org.
 
 ### Run the tool
 
