@@ -54,8 +54,6 @@
     <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <AnalysisLevel>6.0</AnalysisLevel>
-
-    <NoWarn>$(NoWarn);CA1014</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>
