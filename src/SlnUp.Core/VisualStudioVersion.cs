@@ -59,7 +59,7 @@ public record VisualStudioVersion(
     /// <param name="filePath">The file path.</param>
     /// <returns><see cref="IReadOnlyList{VisualStudioVersion}" />.</returns>
     public static IReadOnlyList<VisualStudioVersion> FromJsonFile(IFileSystem fileSystem, string filePath)
-        => FromJson(fileSystem.File.ReadAllText(filePath));
+        => FromJson(Argument.NotNull(fileSystem).File.ReadAllText(filePath));
 
     /// <summary>
     /// Returns a hash code for this instance.
@@ -81,7 +81,7 @@ public record VisualStudioVersion(
     /// <param name="versions">The versions.</param>
     /// <param name="filePath">The file path.</param>
     public static void ToJsonFile(IFileSystem fileSystem, IEnumerable<VisualStudioVersion> versions, string filePath)
-        => fileSystem.File.WriteAllText(filePath, ToJson(versions));
+        => Argument.NotNull(fileSystem).File.WriteAllText(filePath, ToJson(versions));
 
     /// <summary>
     /// Returns a <see cref="string" /> that represents this instance.
