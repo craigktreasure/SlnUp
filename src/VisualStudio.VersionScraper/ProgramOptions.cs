@@ -1,7 +1,9 @@
 namespace VisualStudio.VersionScraper;
 
 using CommandLine;
+using System.Diagnostics.CodeAnalysis;
 
+[SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes", Justification = "Created at runtime.")]
 internal class ProgramOptions
 {
     [Option("no-cache", HelpText = "Skip the cache when making requests.")]

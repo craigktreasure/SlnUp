@@ -92,7 +92,7 @@ internal class ProgramOptions
             options = new SlnUpOptions(solutionFilePath, version.Version, version.BuildVersion);
         }
 
-        return options is not null;
+        return true;
     }
 
     private static bool TryResolveSolutionFilePath(IFileSystem fileSystem, string? input, [NotNullWhen(true)] out string? solutionFilePath)

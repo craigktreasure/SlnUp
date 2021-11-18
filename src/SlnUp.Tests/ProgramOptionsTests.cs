@@ -32,8 +32,8 @@ public class ProgramOptionsTests
     {
         // Arrange
         string[] args = Array.Empty<string>();
-        StringWriter helpWriter = new();
-        Parser parser = new(config => config.HelpWriter = helpWriter);
+        using StringWriter helpWriter = new();
+        using Parser parser = new(config => config.HelpWriter = helpWriter);
 
         // Act
         ParserResult<ProgramOptions> parseResult = ProgramOptions.ParseOptions(args, parser);
@@ -72,8 +72,8 @@ public class ProgramOptionsTests
     {
         // Arrange
         string[] args = new[] { "--help" };
-        StringWriter helpWriter = new();
-        Parser parser = new(config => config.HelpWriter = helpWriter);
+        using StringWriter helpWriter = new();
+        using Parser parser = new(config => config.HelpWriter = helpWriter);
 
         // Act
         ParserResult<ProgramOptions> parseResult = ProgramOptions.ParseOptions(args, parser);

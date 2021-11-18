@@ -17,6 +17,8 @@ public static class RegexExtensions
     /// <returns><c>true</c> if the match was successful, <c>false</c> otherwise.</returns>
     public static bool TryMatch(this Regex regex, string input, [NotNullWhen(true)] out Match? match)
     {
+        ArgumentNullException.ThrowIfNull(regex);
+
         match = null;
         Match myMatch = regex.Match(input);
 

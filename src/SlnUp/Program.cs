@@ -2,6 +2,7 @@ namespace SlnUp;
 
 using CommandLine;
 using SlnUp.Core;
+using System.Diagnostics.CodeAnalysis;
 using System.IO.Abstractions;
 
 internal static class Program
@@ -26,6 +27,7 @@ internal static class Program
         return Run(fileSystem, options);
     }
 
+    [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "By design.")]
     internal static int Run(IFileSystem fileSystem, SlnUpOptions options)
     {
         try
