@@ -9,13 +9,15 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>A tool for updating Visual Studio version information in solution files.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="$(SourceRootPath)README.md" Pack="true" PackagePath="\" />
     <EmbeddedResource Include="Versions.json">
       <LogicalName>%(Identity)</LogicalName>
     </EmbeddedResource>
-    <None Include="$(SourceRootPath)README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
   <ItemGroup>
