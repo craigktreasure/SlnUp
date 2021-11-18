@@ -143,6 +143,20 @@ public class VisualStudioVersionTests
     }
 
     [Fact]
+    public void GetHashCodeMethod()
+    {
+        // Arrange
+        VisualStudioVersion version = commonVersions[0];
+        int expectedHashCode = version.BuildVersion.GetHashCode();
+
+        // Act
+        int hashCode = version.GetHashCode();
+
+        // Assert
+        hashCode.Should().Be(expectedHashCode);
+    }
+
+    [Fact]
     public void ToJson()
     {
         // Act

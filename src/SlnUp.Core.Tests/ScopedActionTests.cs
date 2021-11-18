@@ -34,4 +34,14 @@ public class ScopedActionTests
         // Assert
         actionCalled.Should().BeTrue();
     }
+
+    [Fact]
+    public void ScopedActionNull()
+    {
+        // Arrange
+        ScopedAction action = new(null!);
+
+        // Act and assert
+        action.Dispose();
+    }
 }
