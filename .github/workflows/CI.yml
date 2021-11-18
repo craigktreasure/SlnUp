@@ -117,6 +117,8 @@ jobs:
     env:
       PACKAGE_VERSION: ${{ needs.build.outputs.package_version }}
 
+    if: ${{ !contains(env.PACKAGE_VERSION, '-') }}
+
     steps:
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v1
