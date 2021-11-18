@@ -58,6 +58,14 @@ jobs:
       - name: Test
         run: dotnet test --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage"
 
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          name: codecov
+          directory: __test-results
+          fail_ci_if_error: true
+          verbose: true
+
       - name: Upload output artifact
         uses: actions/upload-artifact@v2
         with:
