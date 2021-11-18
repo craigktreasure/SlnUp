@@ -8,12 +8,14 @@
     <ToolCommandName>slnup</ToolCommandName>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>A tool for updating Visual Studio version information in solution files.</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Versions.json">
       <LogicalName>%(Identity)</LogicalName>
     </EmbeddedResource>
+    <None Include="$(SourceRootPath)README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
   <ItemGroup>
