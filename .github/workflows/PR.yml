@@ -1,13 +1,6 @@
 name: 'SlnUp-PR'
 
-on:
-  pull_request:
-    paths-ignore:
-      - '.config/**'
-      - '.github/dependabot.yml'
-      - '.vscode/**'
-      - 'docs/**'
-      - 'README.md'
+on: pull_request
 
 env:
   # Stop wasting time caching packages
