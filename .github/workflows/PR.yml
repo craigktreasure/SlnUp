@@ -9,7 +9,13 @@ env:
 jobs:
   build:
     name: 'Build SlnUp'
-    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 3
+      fail-fast: false
+      matrix:
+        platform: [ windows, ubuntu, macos ]
+    runs-on: ${{ matrix.platform }}-latest
+
     steps:
       - uses: actions/checkout@v2
         with:
@@ -35,7 +41,7 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
-          name: codecov
+          name: codecov-${{ matrix.platform }}
           directory: __test-results
           fail_ci_if_error: true
           verbose: true
@@ -43,11 +49,11 @@ jobs:
       - name: Upload output artifact
         uses: actions/upload-artifact@v2
         with:
-          name: __output
+          name: __output_${{ matrix.platform }}
           path: __output
 
       - name: Upload packages artifact
         uses: actions/upload-artifact@v2
         with:
-          name: __packages
+          name: __packages_${{ matrix.platform }}
           path: __packages
