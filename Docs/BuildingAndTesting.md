@@ -65,3 +65,13 @@ To uninstall the tool, run the following command:
 ``` shell
 dotnet tool uninstall -g SlnUp
 ```
+
+## Updating Visual Studio versions
+
+The VisualStudio.VersionScraper tool is used to retrieve and update the Visual Studio versions bundled with SlnUp.
+
+Simply run the following from the root of the repository:
+
+```powershell
+dotnet run --project .\src\VisualStudio.VersionScraper\ -- .\src\SlnUp\Versions.json
+```
