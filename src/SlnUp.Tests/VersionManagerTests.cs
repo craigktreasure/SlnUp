@@ -37,7 +37,7 @@ public class VersionManagerTests
             throw new ArgumentNullException(nameof(expectedBuildVersion), "We expect a value to be found but an expected build version wasn't provided.");
         }
 
-        VersionManager versionManager = VersionManager.LoadFromEmbeddedResource();
+        VersionManager versionManager = VersionManager.LoadFromEmbeddedResource(typeof(VersionManagerTests).Assembly, "TestVersions.json");
 
         // Act
         VisualStudioVersion? version = versionManager.FromVersionParameter(input);
@@ -58,7 +58,9 @@ public class VersionManagerTests
     public void LoadFromEmbeddedResource()
     {
         // Arrange, act, and assert
-        VersionManager.LoadFromEmbeddedResource();
+        VersionManager versionManager = VersionManager.LoadFromDefaultEmbeddedResource();
+        VisualStudioVersion? version = versionManager.FromVersionParameter("2022");
+        version.Should().NotBeNull();
     }
 
     [Theory]

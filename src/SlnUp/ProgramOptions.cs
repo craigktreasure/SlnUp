@@ -78,7 +78,7 @@ internal class ProgramOptions
         else
         {
             // Try to lookup the version specified.
-            VersionManager versionManager = VersionManager.LoadFromEmbeddedResource();
+            VersionManager versionManager = VersionManager.LoadFromDefaultEmbeddedResource();
 
             VisualStudioVersion? version = versionManager.FromVersionParameter(this.Version);
 

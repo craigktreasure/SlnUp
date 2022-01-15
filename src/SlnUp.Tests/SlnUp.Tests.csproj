@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="TestVersions.json">
+      <LogicalName>%(Identity)</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="coverlet.collector" />
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />

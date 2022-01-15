@@ -3,6 +3,7 @@ namespace SlnUp;
 using SlnUp.Core;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 internal class VersionManager
 {
@@ -16,12 +17,21 @@ internal class VersionManager
         => this.versions = versions;
 
     /// <summary>
-    /// Loads a <see cref="VersionManager"/> from an embedded file resource.
+    /// Loads a <see cref="VersionManager"/> from the default embedded file resource.
     /// </summary>
     /// <returns><see cref="VersionManager"/>.</returns>
-    public static VersionManager LoadFromEmbeddedResource()
+    public static VersionManager LoadFromDefaultEmbeddedResource()
+        => LoadFromEmbeddedResource(typeof(VersionManager).Assembly, "Versions.json");
+
+    /// <summary>
+    /// Loads a <see cref="VersionManager" /> from an embedded file resource.
+    /// </summary>
+    /// <param name="assembly">The assembly.</param>
+    /// <param name="filePath">The file path.</param>
+    /// <returns><see cref="VersionManager" />.</returns>
+    public static VersionManager LoadFromEmbeddedResource(Assembly assembly, string filePath)
     {
-        string jsonContent = typeof(VersionManager).Assembly.GetEmbeddedFileResourceContent("Versions.json");
+        string jsonContent = assembly.GetEmbeddedFileResourceContent(filePath);
 
         IReadOnlyList<VisualStudioVersion> versions = VisualStudioVersion.FromJson(jsonContent);
 
