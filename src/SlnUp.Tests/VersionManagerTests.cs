@@ -18,17 +18,17 @@ public class VersionManagerTests
     [InlineData("15.2.5", true, "15.0.26430.15")]
     [InlineData("15.99", false, null)]
     [InlineData("15.2.99", false, null)]
-    [InlineData("2017", true, "15.9.28307.1745")]
-    [InlineData("16.9", true, "16.9.31910.168")]
+    [InlineData("2017", true, "15.9.28307.1778")]
+    [InlineData("16.9", true, "16.9.32106.192")]
     [InlineData("16.7.21", true, "16.7.31828.227")]
     [InlineData("16.99", false, null)]
     [InlineData("16.7.99", false, null)]
-    [InlineData("2019", true, "16.11.31911.196")]
-    [InlineData("17.0", true, "17.0.31912.275")]
+    [InlineData("2019", true, "16.11.32106.194")]
+    [InlineData("17.0", true, "17.0.32112.339")]
     [InlineData("17.0.0", true, "17.0.31903.59")]
     [InlineData("17.99", false, null)]
     [InlineData("17.0.99", false, null)]
-    [InlineData("2022", true, "17.0.31912.275")]
+    [InlineData("2022", true, "17.0.32112.339")]
     public void FromVersionParameter(string? input, bool expectFound, string? expectedBuildVersion)
     {
         // Arrange
