@@ -2,7 +2,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <DotNetPackageVersion>6.0.1</DotNetPackageVersion>
-    <SystemIOAbstractionsVersion>16.1.4</SystemIOAbstractionsVersion>
+    <SystemIOAbstractionsVersion>16.1.10</SystemIOAbstractionsVersion>
   </PropertyGroup>
   <ItemGroup>
     <!-- Globa dependencies -->
