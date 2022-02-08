@@ -15,7 +15,7 @@
     <!-- Project dependencies -->
     <PackageReference Update="CommandLineParser"                        Version="2.8.0" />
     <PackageReference Update="Humanizer.Core"                           Version="2.14.1" />
-    <PackageReference Update="HtmlAgilityPack"                          Version="1.11.40" />
+    <PackageReference Update="HtmlAgilityPack"                          Version="1.11.42" />
     <PackageReference Update="System.IO.Abstractions"                   Version="$(SystemIOAbstractionsVersion)" />
     <PackageReference Update="System.Text.Json"                         Version="$(DotNetPackageVersion)" />
 
