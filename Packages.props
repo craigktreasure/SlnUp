@@ -20,7 +20,7 @@
     <PackageReference Update="System.Text.Json"                         Version="$(DotNetPackageVersion)" />
 
     <!-- Test dependencies -->
-    <PackageReference Update="coverlet.collector"                       Version="3.1.1"
+    <PackageReference Update="coverlet.collector"                       Version="3.1.2"
                       IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"
                       PrivateAssets="all" />
     <PackageReference Update="Divergic.Logging.Xunit"                   Version="4.0.0" />
