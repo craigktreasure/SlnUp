@@ -14,10 +14,7 @@ on:
 env:
   # Stop wasting time caching packages
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-  # GitHub Packages Feed settings
-  GH_FEED: https://nuget.pkg.github.com/craigktreasure/SlnUp/
-  GH_USER: craigktreasure
-  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   build:
     name: 'Build SlnUp'
