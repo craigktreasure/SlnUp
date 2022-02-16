@@ -5,6 +5,7 @@ on: pull_request
 env:
   # Stop wasting time caching packages
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  SETUP_DOTNET_VERSION: 6.0.102
 
 jobs:
   build:
@@ -24,7 +25,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 6.x
+          dotnet-version: ${{ env.SETUP_DOTNET_VERSION }}
 
       - name: Install dependencies
         run: dotnet restore
