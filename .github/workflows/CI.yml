@@ -14,10 +14,8 @@ on:
 env:
   # Stop wasting time caching packages
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-  # GitHub Packages Feed settings
-  GH_FEED: https://nuget.pkg.github.com/craigktreasure/SlnUp/
-  GH_USER: craigktreasure
-  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  SETUP_DOTNET_VERSION: 6.0.102
+
 jobs:
   build:
     name: 'Build SlnUp'
@@ -36,7 +34,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 6.x
+          dotnet-version: ${{ env.SETUP_DOTNET_VERSION }}
 
       - name: Set version
         id: version
