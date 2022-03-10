@@ -33,7 +33,7 @@ internal static class Program
         try
         {
             SolutionFile solutionFile = new(fileSystem, options.SolutionFilePath);
-            solutionFile.UpdateFileHeader(new SolutionFileHeader(options.BuildVersion));
+            solutionFile.UpdateFileHeader(options.BuildVersion);
         }
         catch (Exception ex)
         {

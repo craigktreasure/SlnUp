@@ -14,15 +14,6 @@ internal record SolutionFileHeader
 
     public Version? MinimumVisualStudioVersion { get; init; }
 
-    public SolutionFileHeader(Version lastVisualStudioVersion)
-        : this(
-              SupportedFileFormatVersion,
-              lastVisualStudioVersion.Major,
-              lastVisualStudioVersion,
-              Version.Parse(DefaultMinimumVisualStudioVersion))
-    {
-    }
-
     public SolutionFileHeader(
         string fileFormatVersion,
         int? lastVisualStudioMajorVersion = null,
@@ -39,4 +30,10 @@ internal record SolutionFileHeader
         this.LastVisualStudioVersion = lastVisualStudioVersion;
         this.MinimumVisualStudioVersion = minimumVisualStudioVersion;
     }
+
+    public SolutionFileHeader DuplicateAndUpdate(Version newVisualStudioVersion) => this with
+    {
+        LastVisualStudioMajorVersion = newVisualStudioVersion.Major,
+        LastVisualStudioVersion = newVisualStudioVersion,
+    };
 }
