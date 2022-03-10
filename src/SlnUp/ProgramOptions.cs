@@ -14,7 +14,7 @@ internal class ProgramOptions
     public string? SolutionPath { get; set; }
 
     [Value(0, Required = true, MetaName = "version", HelpText = "The Visual Studio version to update the solution file"
-        + "with. Should be either a 2 or 3-part version number or a product year.")]
+        + "with. Should be either a 2 or 3-part version number (ex. 16.9 or 17.0.1) or a product year (ex. 2017, 2019, or 2022).")]
     public string? Version { get; set; }
 
     /// <summary>
