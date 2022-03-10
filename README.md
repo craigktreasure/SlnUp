@@ -50,16 +50,17 @@ To view all available options, you can run:
 slnup --help
 ```
 
-The simplest form is to run the tool (`slnup`) with a version number. This will
-cause the tool to discover a solution file in the current directory and update
-it with the version specified.
+The simplest form is to run the tool (`slnup`) with a Visual Studio product year
+(2017, 2019, or 2022). This will cause the tool to discover a solution file in
+the current directory and update it with the latest version for the specified
+product year.
 
 ```shell
 slnup 2022
 ```
 
 You can also specify a specific version of Visual Studio using a two-part
-version number:
+(ex. 17.0) or three-part (17.1.0) version number:
 
 ```shell
 slnup 17.0
@@ -102,7 +103,7 @@ Visual Studio 2019) with build number `16.0.28701.123`.
 
 When you double click on a solution file like this, the Visual Studio Version
 Selector tool will attempt to locate an installed version of Visual Studio that
-most closely matches the version information. If Visual Studio 2019 is intalled,
+most closely matches the version information. If Visual Studio 2019 is installed,
 that will likely be used to open the solution file.
 
 Now, let's say you want to update the solution file to be opened with Visual
