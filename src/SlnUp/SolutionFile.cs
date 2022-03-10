@@ -44,7 +44,13 @@ internal class SolutionFile
         this.FileHeader = this.LoadFileHeader();
     }
 
-    public void UpdateFileHeader(SolutionFileHeader fileHeader)
+    public void UpdateFileHeader(Version newVisualStudioVersion)
+    {
+        SolutionFileHeader newHeader = this.FileHeader.DuplicateAndUpdate(newVisualStudioVersion);
+        this.UpdateFileHeader(newHeader);
+    }
+
+    private void UpdateFileHeader(SolutionFileHeader fileHeader)
     {
         if (fileHeader.LastVisualStudioMajorVersion is null)
         {

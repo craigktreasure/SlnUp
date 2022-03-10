@@ -15,7 +15,7 @@ public class SolutionFileTests
         const string filePath = "C:\\MyProject.sln";
         MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
         {
-            [filePath] = new MockFileData(String.Empty)
+            [filePath] = new MockFileData(string.Empty)
         });
 
         // Act
@@ -179,11 +179,7 @@ EndGlobal
         Version expectedVersion = Version.Parse("17.0.31903.59");
 
         // Act
-        solutionFile.UpdateFileHeader(solutionFile.FileHeader with
-        {
-            LastVisualStudioMajorVersion = expectedVersion.Major,
-            LastVisualStudioVersion = expectedVersion,
-        });
+        solutionFile.UpdateFileHeader(expectedVersion);
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
@@ -223,11 +219,7 @@ EndGlobal
         Version expectedVersion = Version.Parse("15.0.27000.0");
 
         // Act
-        solutionFile.UpdateFileHeader(solutionFile.FileHeader with
-        {
-            LastVisualStudioMajorVersion = expectedVersion.Major,
-            LastVisualStudioVersion = expectedVersion,
-        });
+        solutionFile.UpdateFileHeader(expectedVersion);
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
@@ -278,11 +270,7 @@ EndGlobal
         SolutionFile solutionFile = new(fileSystem, filePath);
 
         // Act
-        solutionFile.UpdateFileHeader(solutionFile.FileHeader with
-        {
-            LastVisualStudioMajorVersion = expectedVersion.Major,
-            LastVisualStudioVersion = expectedVersion,
-        });
+        solutionFile.UpdateFileHeader(expectedVersion);
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
@@ -335,11 +323,7 @@ EndGlobal
         SolutionFile solutionFile = new(fileSystem, filePath);
 
         // Act
-        solutionFile.UpdateFileHeader(solutionFile.FileHeader with
-        {
-            LastVisualStudioMajorVersion = expectedVersion.Major,
-            LastVisualStudioVersion = expectedVersion,
-        });
+        solutionFile.UpdateFileHeader(expectedVersion);
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
@@ -392,11 +376,7 @@ EndGlobal
         SolutionFile solutionFile = new(fileSystem, filePath);
 
         // Act
-        solutionFile.UpdateFileHeader(solutionFile.FileHeader with
-        {
-            LastVisualStudioMajorVersion = expectedVersion.Major,
-            LastVisualStudioVersion = expectedVersion,
-        });
+        solutionFile.UpdateFileHeader(expectedVersion);
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
@@ -449,11 +429,7 @@ EndGlobal
         SolutionFile solutionFile = new(fileSystem, filePath);
 
         // Act
-        solutionFile.UpdateFileHeader(solutionFile.FileHeader with
-        {
-            LastVisualStudioMajorVersion = expectedVersion.Major,
-            LastVisualStudioVersion = expectedVersion,
-        });
+        solutionFile.UpdateFileHeader(expectedVersion);
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
