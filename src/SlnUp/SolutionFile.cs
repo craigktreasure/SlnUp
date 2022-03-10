@@ -16,7 +16,7 @@ internal class SolutionFile
         RegexOptions.Compiled);
 
     private static readonly Regex lastVisualStudioMajorVersionRegex = new(
-        @"^# Visual Studio Version (\d+)$",
+        @"^# Visual Studio(?: Version)? (\d+)$",
         RegexOptions.Compiled);
 
     private static readonly Regex lastVisualStudioVersionRegex = new(
@@ -85,7 +85,11 @@ internal class SolutionFile
         string fileFormatVersionLine = $"Microsoft Visual Studio Solution File, Format Version {fileHeader.FileFormatVersion}";
         lines[this.fileFormatLineNumber] = fileFormatVersionLine;
 
-        string lastVisualStudioMajorVersionLine = $"# Visual Studio Version {fileHeader.LastVisualStudioMajorVersion}";
+        string lastVisualStudioMajorVersionLine = fileHeader.LastVisualStudioMajorVersion switch
+        {
+            >= 16 => $"# Visual Studio Version {fileHeader.LastVisualStudioMajorVersion}",
+            <= 15 => $"# Visual Studio {fileHeader.LastVisualStudioMajorVersion}",
+        };
         lines[this.fileFormatLineNumber + 1] = lastVisualStudioMajorVersionLine;
 
         string lastVisualStudioVersionLine = $"VisualStudioVersion = {fileHeader.LastVisualStudioVersion}";

@@ -25,8 +25,8 @@ that we can update solution files with them appropriately.
 
 ## The Visual Studio solution file header
 
-According to the [documentation](https://docs.microsoft.com/visualstudio/extensibility/internals/solution-dot-sln-file?view=vs-2022#file-header), the file header usually looks
-like this:
+According to the [documentation](https://docs.microsoft.com/visualstudio/extensibility/internals/solution-dot-sln-file?view=vs-2022#file-header),
+the file header usually looks like this:
 
 ```
 Microsoft Visual Studio Solution File, Format Version 12.00
@@ -49,6 +49,23 @@ same major version, this value is not updated so as to lessen churn in the file.
 
 The minimum (oldest) version of Visual Studio that can open this solution file.
 > `MinimumVisualStudioVersion = 10.0.40219.1`
+
+This is accurate for Visual Studio 2019 and 2022.
+
+### Visual Studio 2017
+
+Visual Studio 2017 has a slight variation of the file header, which is documented
+[here](https://docs.microsoft.com/visualstudio/extensibility/internals/solution-dot-sln-file?view=vs-2017#file-header).
+
+```
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
+MinimumVisualStudioVersion = 10.0.40219.1
+```
+
+Note the difference in the major version most recently saved: `# Visual Studio 15`
+vs `# Visual Studio Version 16` for Visual Studio 2019 and above.
 
 ## Common solution sources
 
