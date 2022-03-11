@@ -7,6 +7,12 @@
       "commands": [
         "nbgv"
       ]
+    },
+    "dotnet-format": {
+      "version": "6.3.315103",
+      "commands": [
+        "dotnet-format"
+      ]
     }
   }
 }
