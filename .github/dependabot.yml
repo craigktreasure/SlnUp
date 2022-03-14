@@ -1,12 +1,14 @@
 version: 2
 updates:
-- package-ecosystem: nuget
+- package-ecosystem:
+    - nuget
+    - github-actions
   directory: "/"
   schedule:
     interval: weekly
     time: '13:00'
   open-pull-requests-limit: 10
   reviewers:
-  - craigktreasure
+    - craigktreasure
   assignees:
-  - craigktreasure
+    - craigktreasure
