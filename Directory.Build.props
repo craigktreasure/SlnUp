@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <SourceRootPath>$(MSBuildThisFileDirectory)</SourceRootPath>
-    <CentralBuildOutputPath>$(SourceRootPath)</CentralBuildOutputPath>
+    <RepoRootPath>$(MSBuildThisFileDirectory)</RepoRootPath>
+    <SourceRootPath>$(RepoRootPath)src</SourceRootPath>
+    <CentralBuildOutputPath>$(RepoRootPath)</CentralBuildOutputPath>
+    <CentralBuildOutputRelativeToPath>$(SourceRootPath)</CentralBuildOutputRelativeToPath>
   </PropertyGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)\build\Defaults.props" />
-  <Import Project="$(MSBuildThisFileDirectory)\build\Paths.props" />
+
+  <!-- Import the CentralBuildOutput SDK. -->
+  <Sdk Name="Treasure.Build.CentralBuildOutput" />
 </Project>
