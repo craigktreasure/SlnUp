@@ -210,6 +210,32 @@ public class ProgramOptionsTests
     }
 
     /// <summary>
+    /// Build version with invalid version: > app 0 --build-version 0.0.0
+    /// </summary>
+    [Fact]
+    public void TryGetSlnUpOptionsWithBuildVersionAndInvalidVersion()
+    {
+        // Arrange
+        string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
+        ProgramOptions programOptions = new()
+        {
+            Version = "0",
+            BuildVersion = Version.Parse("0.0.0.0")
+        };
+        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
+        {
+            [expectedSolutionFilePath] = new MockFileData(string.Empty),
+        }, "C:\\".ToCrossPlatformPath());
+
+        // Act
+        bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
+
+        // Assert
+        result.Should().BeFalse();
+        options.Should().BeNull();
+    }
+
+    /// <summary>
     /// Invalid build version: > app 0.0 --build-version 0.0.0
     /// </summary>
     [Fact]
