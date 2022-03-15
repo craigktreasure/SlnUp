@@ -1,11 +1,9 @@
 namespace SlnUp.Tests;
 
 using FluentAssertions;
-using System.Diagnostics.CodeAnalysis;
 using System.IO.Abstractions.TestingHelpers;
 using Xunit;
 
-[SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "Not necessary in this case.")]
 public class SolutionFileTests
 {
     [Fact]
@@ -18,7 +16,7 @@ public class SolutionFileTests
             [filePath] = new MockFileData(string.Empty)
         });
 
-        // Act
+        // Act and assert
         Assert.Throws<InvalidDataException>(() => new SolutionFile(fileSystem, filePath));
     }
 
@@ -26,126 +24,80 @@ public class SolutionFileTests
     public void ConstructWithFullHeader()
     {
         // Arrange
-        const string filePath = "C:\\MyProject.sln";
-        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
-        {
-            [filePath] = new MockFileData(@"
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
-MinimumVisualStudioVersion = 10.0.40219.1
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
-")
-        });
+        Version expectedVersion = Version.Parse("16.0.30114.105");
+        MockFileSystem fileSystem = new SolutionFileBuilder(expectedVersion)
+            .BuildToFileSystem(out string filePath);
 
         // Act
         SolutionFile solutionFile = new(fileSystem, filePath);
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        fileHeader.FileFormatVersion.Should().Be("12.00");
+        fileHeader.FileFormatVersion.Should().Be(SolutionFileHeader.SupportedFileFormatVersion);
         fileHeader.LastVisualStudioMajorVersion.Should().Be(16);
-        fileHeader.LastVisualStudioVersion.Should().Be(Version.Parse("16.0.30114.105"));
-        fileHeader.MinimumVisualStudioVersion.Should().Be(Version.Parse("10.0.40219.1"));
+        fileHeader.LastVisualStudioVersion.Should().Be(expectedVersion);
+        fileHeader.MinimumVisualStudioVersion.Should().Be(SolutionFileBuilder.DefaultVisualStudioMinimumVersion);
     }
 
     [Fact]
     public void ConstructWithFullV15Header()
     {
         // Arrange
-        const string filePath = "C:\\MyProject.sln";
-        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
-        {
-            [filePath] = new MockFileData(@"
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
-MinimumVisualStudioVersion = 15.0.26124.0
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
-")
-        });
+        Version expectedVersion = Version.Parse("15.0.26124.0");
+        MockFileSystem fileSystem = new SolutionFileBuilder(expectedVersion, visualStudioMinimumVersion: expectedVersion)
+            .BuildToFileSystem(out string filePath);
 
         // Act
         SolutionFile solutionFile = new(fileSystem, filePath);
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        fileHeader.FileFormatVersion.Should().Be("12.00");
+        fileHeader.FileFormatVersion.Should().Be(SolutionFileHeader.SupportedFileFormatVersion);
         fileHeader.LastVisualStudioMajorVersion.Should().Be(15);
-        fileHeader.LastVisualStudioVersion.Should().Be(Version.Parse("15.0.26124.0"));
-        fileHeader.MinimumVisualStudioVersion.Should().Be(Version.Parse("15.0.26124.0"));
+        fileHeader.LastVisualStudioVersion.Should().Be(expectedVersion);
+        fileHeader.MinimumVisualStudioVersion.Should().Be(expectedVersion);
     }
 
     [Fact]
     public void ConstructWithMinimalHeader()
     {
         // Arrange
-        const string filePath = "C:\\MyProject.sln";
-        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
-        {
-            [filePath] = new MockFileData(@"
-Microsoft Visual Studio Solution File, Format Version 12.00
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
-")
-        });
+        MockFileSystem fileSystem = new SolutionFileBuilder()
+            .ConfigureMinimumHeader()
+            .BuildToFileSystem(out string filePath);
 
         // Act
         SolutionFile solutionFile = new(fileSystem, filePath);
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        fileHeader.FileFormatVersion.Should().Be("12.00");
+        fileHeader.FileFormatVersion.Should().Be(SolutionFileHeader.SupportedFileFormatVersion);
         fileHeader.LastVisualStudioMajorVersion.Should().BeNull();
         fileHeader.LastVisualStudioVersion.Should().BeNull();
         fileHeader.MinimumVisualStudioVersion.Should().BeNull();
     }
 
     [Fact]
+    public void ConstructWithMissingFile()
+    {
+        // Arrange
+        const string filePath = "C:\\Missing.sln";
+        MockFileSystem fileSystem = new();
+
+        // Act and assert
+        FileNotFoundException exception = Assert.Throws<FileNotFoundException>(() => new SolutionFile(fileSystem, filePath));
+
+        // Assert
+        exception.FileName.Should().Be(filePath);
+    }
+
+    [Fact]
     public void ConstructWithMissingFileFormatVersion()
     {
         // Arrange
-        const string filePath = "C:\\MyProject.sln";
-        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
-        {
-            [filePath] = new MockFileData(@"
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
-MinimumVisualStudioVersion = 10.0.40219.1
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
-")
-        });
+        MockFileSystem fileSystem = new SolutionFileBuilder()
+            .ExcludeFileFormatVersion()
+            .BuildToFileSystem(out string filePath);
 
         // Act
         Assert.Throws<InvalidDataException>(() => new SolutionFile(fileSystem, filePath));
@@ -155,119 +107,53 @@ EndGlobal
     public void UpdateFileHeaderWithFullHeader()
     {
         // Arrange
-        const string filePath = "C:\\MyProject.sln";
-        const string fileFormat = @"
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version {0}
-VisualStudioVersion = {1}
-MinimumVisualStudioVersion = 10.0.40219.1
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
-";
-        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
-        {
-            [filePath] = new MockFileData(string.Format(fileFormat, 16, "16.0.30114.105"))
-        });
-        SolutionFile solutionFile = new(fileSystem, filePath);
+        SolutionFile solutionFile = new SolutionFileBuilder(Version.Parse("16.0.30114.105"))
+            .BuildToSolutionFile();
         Version expectedVersion = Version.Parse("17.0.31903.59");
+        string expectedContent = new SolutionFileBuilder(expectedVersion).Build();
 
         // Act
         solutionFile.UpdateFileHeader(expectedVersion);
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        fileHeader.FileFormatVersion.Should().Be("12.00");
+        fileHeader.FileFormatVersion.Should().Be(SolutionFileHeader.SupportedFileFormatVersion);
         fileHeader.LastVisualStudioMajorVersion.Should().Be(expectedVersion.Major);
         fileHeader.LastVisualStudioVersion.Should().Be(expectedVersion);
-        fileHeader.MinimumVisualStudioVersion.Should().Be(Version.Parse("10.0.40219.1"));
-        string fileContent = fileSystem.File.ReadAllText(filePath);
-        fileContent.Should().Be(string.Format(fileFormat, expectedVersion.Major, expectedVersion));
+        fileHeader.MinimumVisualStudioVersion.Should().Be(SolutionFileBuilder.DefaultVisualStudioMinimumVersion);
+        solutionFile.ReadContent().Should().Be(expectedContent);
     }
 
     [Fact]
     public void UpdateFileHeaderWithFullV15Header()
     {
         // Arrange
-        const string filePath = "C:\\MyProject.sln";
-        const string fileFormat = @"
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio {0}
-VisualStudioVersion = {1}
-MinimumVisualStudioVersion = 10.0.40219.1
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
-";
-        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
-        {
-            [filePath] = new MockFileData(string.Format(fileFormat, 15, "15.0.26124.0"))
-        });
-        SolutionFile solutionFile = new(fileSystem, filePath);
+        SolutionFile solutionFile = new SolutionFileBuilder(Version.Parse("15.0.26124.0"))
+            .BuildToSolutionFile();
         Version expectedVersion = Version.Parse("15.0.27000.0");
+        string expectedContent = new SolutionFileBuilder(expectedVersion).Build();
 
         // Act
         solutionFile.UpdateFileHeader(expectedVersion);
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        fileHeader.FileFormatVersion.Should().Be("12.00");
+        fileHeader.FileFormatVersion.Should().Be(SolutionFileHeader.SupportedFileFormatVersion);
         fileHeader.LastVisualStudioMajorVersion.Should().Be(expectedVersion.Major);
         fileHeader.LastVisualStudioVersion.Should().Be(expectedVersion);
-        fileHeader.MinimumVisualStudioVersion.Should().Be(Version.Parse("10.0.40219.1"));
-        string fileContent = fileSystem.File.ReadAllText(filePath);
-        fileContent.Should().Be(string.Format(fileFormat, expectedVersion.Major, expectedVersion));
+        fileHeader.MinimumVisualStudioVersion.Should().Be(SolutionFileBuilder.DefaultVisualStudioMinimumVersion);
+        solutionFile.ReadContent().Should().Be(expectedContent);
     }
 
     [Fact]
     public void UpdateFileHeaderWithMinimalHeader()
     {
         // Arrange
-        const string filePath = "C:\\MyProject.sln";
         Version expectedVersion = Version.Parse("17.0.31903.59");
-        string expectedFileContent = $@"
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version {expectedVersion.Major}
-VisualStudioVersion = {expectedVersion}
-MinimumVisualStudioVersion = 10.0.40219.1
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
-";
-        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
-        {
-            [filePath] = new MockFileData(@"
-Microsoft Visual Studio Solution File, Format Version 12.00
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
-")
-        });
-        SolutionFile solutionFile = new(fileSystem, filePath);
+        string expectedFileContent = new SolutionFileBuilder(expectedVersion).Build();
+        SolutionFile solutionFile = new SolutionFileBuilder()
+            .ConfigureMinimumHeader()
+            .BuildToSolutionFile();
 
         // Act
         solutionFile.UpdateFileHeader(expectedVersion);
@@ -278,49 +164,18 @@ EndGlobal
         fileHeader.LastVisualStudioMajorVersion.Should().Be(expectedVersion.Major);
         fileHeader.LastVisualStudioVersion.Should().Be(expectedVersion);
         fileHeader.MinimumVisualStudioVersion.Should().Be(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion));
-        string fileContent = fileSystem.File.ReadAllText(filePath);
-        fileContent.Should().Be(expectedFileContent);
+        solutionFile.ReadContent().Should().Be(expectedFileContent);
     }
 
     [Fact]
     public void UpdateFileHeaderWithMissingMajorVersion()
     {
         // Arrange
-        const string filePath = "C:\\MyProject.sln";
         Version expectedVersion = Version.Parse("17.0.31903.59");
-        string expectedFileContent = $@"
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version {expectedVersion.Major}
-VisualStudioVersion = {expectedVersion}
-MinimumVisualStudioVersion = 10.0.40219.1
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
-";
-        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
-        {
-            [filePath] = new MockFileData($@"
-Microsoft Visual Studio Solution File, Format Version 12.00
-VisualStudioVersion = {expectedVersion}
-MinimumVisualStudioVersion = 10.0.40219.1
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
-")
-        });
-        SolutionFile solutionFile = new(fileSystem, filePath);
+        string expectedFileContent = new SolutionFileBuilder(expectedVersion).Build();
+        SolutionFile solutionFile = new SolutionFileBuilder(expectedVersion)
+                .ExcludeSolutionIconVersion()
+                .BuildToSolutionFile();
 
         // Act
         solutionFile.UpdateFileHeader(expectedVersion);
@@ -331,49 +186,18 @@ EndGlobal
         fileHeader.LastVisualStudioMajorVersion.Should().Be(expectedVersion.Major);
         fileHeader.LastVisualStudioVersion.Should().Be(expectedVersion);
         fileHeader.MinimumVisualStudioVersion.Should().Be(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion));
-        string fileContent = fileSystem.File.ReadAllText(filePath);
-        fileContent.Should().Be(expectedFileContent);
+        solutionFile.ReadContent().Should().Be(expectedFileContent);
     }
 
     [Fact]
     public void UpdateFileHeaderWithMissingMinimumVersion()
     {
         // Arrange
-        const string filePath = "C:\\MyProject.sln";
         Version expectedVersion = Version.Parse("17.0.31903.59");
-        string expectedFileContent = $@"
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version {expectedVersion.Major}
-VisualStudioVersion = {expectedVersion}
-MinimumVisualStudioVersion = 10.0.40219.1
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
-";
-        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
-        {
-            [filePath] = new MockFileData($@"
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version {expectedVersion.Major}
-VisualStudioVersion = {expectedVersion}
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
-")
-        });
-        SolutionFile solutionFile = new(fileSystem, filePath);
+        string expectedFileContent = new SolutionFileBuilder(expectedVersion).Build();
+        SolutionFile solutionFile = new SolutionFileBuilder(expectedVersion)
+            .ExcludeVisualStudioMinimumVersion()
+            .BuildToSolutionFile();
 
         // Act
         solutionFile.UpdateFileHeader(expectedVersion);
@@ -384,49 +208,18 @@ EndGlobal
         fileHeader.LastVisualStudioMajorVersion.Should().Be(expectedVersion.Major);
         fileHeader.LastVisualStudioVersion.Should().Be(expectedVersion);
         fileHeader.MinimumVisualStudioVersion.Should().Be(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion));
-        string fileContent = fileSystem.File.ReadAllText(filePath);
-        fileContent.Should().Be(expectedFileContent);
+        solutionFile.ReadContent().Should().Be(expectedFileContent);
     }
 
     [Fact]
     public void UpdateFileHeaderWithMissingVersion()
     {
         // Arrange
-        const string filePath = "C:\\MyProject.sln";
         Version expectedVersion = Version.Parse("17.0.31903.59");
-        string expectedFileContent = $@"
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version {expectedVersion.Major}
-VisualStudioVersion = {expectedVersion}
-MinimumVisualStudioVersion = 10.0.40219.1
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
-";
-        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
-        {
-            [filePath] = new MockFileData($@"
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version {expectedVersion.Major}
-MinimumVisualStudioVersion = 10.0.40219.1
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
-")
-        });
-        SolutionFile solutionFile = new(fileSystem, filePath);
+        string expectedFileContent = new SolutionFileBuilder(expectedVersion).Build();
+        SolutionFile solutionFile = new SolutionFileBuilder(expectedVersion)
+            .ExcludeVisualStudioFullVersion()
+            .BuildToSolutionFile();
 
         // Act
         solutionFile.UpdateFileHeader(expectedVersion);
@@ -437,7 +230,38 @@ EndGlobal
         fileHeader.LastVisualStudioMajorVersion.Should().Be(expectedVersion.Major);
         fileHeader.LastVisualStudioVersion.Should().Be(expectedVersion);
         fileHeader.MinimumVisualStudioVersion.Should().Be(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion));
-        string fileContent = fileSystem.File.ReadAllText(filePath);
-        fileContent.Should().Be(expectedFileContent);
+        solutionFile.ReadContent().Should().Be(expectedFileContent);
+    }
+
+    [Fact]
+    public void UpdateFileHeaderWithNullLastVisualStudioMajorVersion()
+    {
+        // Arrange
+        Version expectedVersion = Version.Parse("17.0.31903.59");
+        SolutionFile solutionFile = new SolutionFileBuilder(expectedVersion).BuildToSolutionFile();
+        SolutionFileHeader fileHeader = new(
+            fileFormatVersion: SolutionFileHeader.SupportedFileFormatVersion,
+            lastVisualStudioMajorVersion: null,
+            lastVisualStudioVersion: expectedVersion,
+            minimumVisualStudioVersion: expectedVersion);
+
+        // Act and assert
+        Assert.Throws<InvalidDataException>(() => solutionFile.UpdateFileHeader(fileHeader));
+    }
+
+    [Fact]
+    public void UpdateFileHeaderWithNullLastVisualStudioVersion()
+    {
+        // Arrange
+        Version expectedVersion = Version.Parse("17.0.31903.59");
+        SolutionFile solutionFile = new SolutionFileBuilder(expectedVersion).BuildToSolutionFile();
+        SolutionFileHeader fileHeader = new(
+            fileFormatVersion: SolutionFileHeader.SupportedFileFormatVersion,
+            lastVisualStudioMajorVersion: expectedVersion.Major,
+            lastVisualStudioVersion: null,
+            minimumVisualStudioVersion: expectedVersion);
+
+        // Act and assert
+        Assert.Throws<InvalidDataException>(() => solutionFile.UpdateFileHeader(fileHeader));
     }
 }
