@@ -125,7 +125,9 @@ public class ProgramOptionsTests
         error.Tag.Should().Be(ErrorType.VersionRequestedError);
     }
 
-    // Minimal invocation: > app 16.8
+    /// <summary>
+    /// Minimal invocation: > app 16.8
+    /// </summary>
     [Fact]
     public void TryGetSlnUpOptions()
     {
@@ -151,7 +153,36 @@ public class ProgramOptionsTests
         options.BuildVersion.Should().Be(Version.Parse("16.8.31019.35"));
     }
 
-    // Build version: > app 0.0 --build-version 0.0.0.0
+    /// <summary>
+    /// app 16.8 --path C:\MyProject.sln
+    /// </summary>
+    [Fact]
+    public void TryGetSlnUpOptionsWithAbsoluteSolutionPath()
+    {
+        // Arrange
+        string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
+        ProgramOptions programOptions = new()
+        {
+            Version = "16.8",
+            SolutionPath = expectedSolutionFilePath
+        };
+        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
+        {
+            [expectedSolutionFilePath] = new MockFileData(string.Empty),
+        }, "C:\\".ToCrossPlatformPath());
+
+        // Act
+        bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
+
+        // Assert
+        result.Should().BeTrue();
+        options.Should().NotBeNull();
+        options!.SolutionFilePath.Should().Be(expectedSolutionFilePath);
+    }
+
+    /// <summary>
+    /// Build version: > app 0.0 --build-version 0.0.0.0
+    /// </summary>
     [Fact]
     public void TryGetSlnUpOptionsWithBuildVersion()
     {
@@ -178,7 +209,35 @@ public class ProgramOptionsTests
         options.BuildVersion.Should().Be(Version.Parse("0.0.0.0"));
     }
 
-    // Invalid build version: > app 0.0 --build-version 0.0.0
+    /// <summary>
+    /// Build version with invalid version: > app 0 --build-version 0.0.0
+    /// </summary>
+    [Fact]
+    public void TryGetSlnUpOptionsWithBuildVersionAndInvalidVersion()
+    {
+        // Arrange
+        string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
+        ProgramOptions programOptions = new()
+        {
+            Version = "0",
+            BuildVersion = Version.Parse("0.0.0.0")
+        };
+        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
+        {
+            [expectedSolutionFilePath] = new MockFileData(string.Empty),
+        }, "C:\\".ToCrossPlatformPath());
+
+        // Act
+        bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
+
+        // Assert
+        result.Should().BeFalse();
+        options.Should().BeNull();
+    }
+
+    /// <summary>
+    /// Invalid build version: > app 0.0 --build-version 0.0.0
+    /// </summary>
     [Fact]
     public void TryGetSlnUpOptionsWithInvalidBuildVersion()
     {
@@ -202,7 +261,9 @@ public class ProgramOptionsTests
         options.Should().BeNull();
     }
 
-    // Minimal invocation: > app 0.0
+    /// <summary>
+    /// Minimal invocation: > app 0.0
+    /// </summary>
     [Fact]
     public void TryGetSlnUpOptionsWithInvalidVersion()
     {
@@ -225,32 +286,9 @@ public class ProgramOptionsTests
         options.Should().BeNull();
     }
 
-    // app 16.8 --path C:\MyProject.sln
-    [Fact]
-    public void TryGetSlnUpOptionsWithAbsoluteSolutionPath()
-    {
-        // Arrange
-        string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
-        ProgramOptions programOptions = new()
-        {
-            Version = "16.8",
-            SolutionPath = expectedSolutionFilePath
-        };
-        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
-        {
-            [expectedSolutionFilePath] = new MockFileData(string.Empty),
-        }, "C:\\".ToCrossPlatformPath());
-
-        // Act
-        bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
-
-        // Assert
-        result.Should().BeTrue();
-        options.Should().NotBeNull();
-        options!.SolutionFilePath.Should().Be(expectedSolutionFilePath);
-    }
-
-    // Multiple solution files available: > app 16.8
+    /// <summary>
+    /// Multiple solution files available: > app 16.8
+    /// </summary>
     [Fact]
     public void TryGetSlnUpOptionsWithMultipleSolutions()
     {
@@ -273,7 +311,9 @@ public class ProgramOptionsTests
         options.Should().BeNull();
     }
 
-    // app 16.8 --path C:\Missing.sln
+    /// <summary>
+    /// app 16.8 --path C:\Missing.sln
+    /// </summary>
     [Fact]
     public void TryGetSlnUpOptionsWithNonExistentSolutionPath()
     {
@@ -296,7 +336,9 @@ public class ProgramOptionsTests
         options.Should().BeNull();
     }
 
-    // Multiple solution files available: > app 16.8
+    /// <summary>
+    /// Multiple solution files available: > app 16.8
+    /// </summary>
     [Fact]
     public void TryGetSlnUpOptionsWithNoSolutions()
     {
@@ -315,7 +357,9 @@ public class ProgramOptionsTests
         options.Should().BeNull();
     }
 
-    // app 16.8 --path .\MyProject.sln
+    /// <summary>
+    /// app 16.8 --path .\MyProject.sln
+    /// </summary>
     [Fact]
     public void TryGetSlnUpOptionsWithRelativeSolutionPath()
     {

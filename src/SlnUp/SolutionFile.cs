@@ -29,13 +29,22 @@ internal class SolutionFile
 
     private int fileFormatLineNumber = -1;
 
+    /// <summary>
+    /// Gets the file header.
+    /// </summary>
     public SolutionFileHeader FileHeader { get; private set; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SolutionFile"/> class.
+    /// </summary>
+    /// <param name="fileSystem">The file system.</param>
+    /// <param name="filePath">The file path.</param>
+    /// <exception cref="FileNotFoundException">The solution file could not be found.</exception>
     public SolutionFile(IFileSystem fileSystem, string filePath)
     {
         if (!fileSystem.File.Exists(filePath))
         {
-            throw new FileNotFoundException(filePath);
+            throw new FileNotFoundException("The solution file could not be found.", filePath);
         }
 
         this.fileSystem = fileSystem;
@@ -44,13 +53,23 @@ internal class SolutionFile
         this.FileHeader = this.LoadFileHeader();
     }
 
+    /// <summary>
+    /// Reads the file content.
+    /// </summary>
+    /// <returns><see cref="string"/>.</returns>
+    public string ReadContent() => this.fileSystem.File.ReadAllText(this.filePath);
+
+    /// <summary>
+    /// Updates the file header.
+    /// </summary>
+    /// <param name="newVisualStudioVersion">The new Visual Studio version.</param>
     public void UpdateFileHeader(Version newVisualStudioVersion)
     {
         SolutionFileHeader newHeader = this.FileHeader.DuplicateAndUpdate(newVisualStudioVersion);
         this.UpdateFileHeader(newHeader);
     }
 
-    private void UpdateFileHeader(SolutionFileHeader fileHeader)
+    internal void UpdateFileHeader(SolutionFileHeader fileHeader)
     {
         if (fileHeader.LastVisualStudioMajorVersion is null)
         {
