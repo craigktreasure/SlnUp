@@ -75,3 +75,9 @@ Simply run the following from the root of the repository:
 ```powershell
 dotnet run --project .\src\VisualStudio.VersionScraper\ -- .\src\SlnUp\Versions.json
 ```
+
+Or, you can run the following PowerShell script:
+
+```powershell
+./scripts/UpdateVSVersions.ps1
+```
