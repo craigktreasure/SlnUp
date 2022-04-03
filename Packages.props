@@ -2,7 +2,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <DotNetPackageVersion>6.0.2</DotNetPackageVersion>
-    <SystemIOAbstractionsVersion>16.1.16</SystemIOAbstractionsVersion>
+    <SystemIOAbstractionsVersion>16.1.25</SystemIOAbstractionsVersion>
   </PropertyGroup>
   <ItemGroup>
     <!-- Globa dependencies -->
@@ -24,7 +24,7 @@
                       IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"
                       PrivateAssets="all" />
     <PackageReference Update="Divergic.Logging.Xunit"                   Version="4.0.0" />
-    <PackageReference Update="FluentAssertions"                         Version="6.5.1" />
+    <PackageReference Update="FluentAssertions"                         Version="6.6.0" />
     <PackageReference Update="Microsoft.NET.Test.Sdk"                   Version="17.1.0" />
     <PackageReference Update="System.IO.Abstractions.TestingHelpers"    Version="$(SystemIOAbstractionsVersion)" />
     <PackageReference Update="xunit"                                    Version="2.4.1" />
