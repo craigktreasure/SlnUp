@@ -29,11 +29,8 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
 
-      - name: Install .NET tools
-        run: dotnet tool restore
-
       - name: DotNet Format
-        run: dotnet dotnet-format --no-restore --verify-no-changes
+        run: dotnet format --no-restore --verify-no-changes
 
       - name: Build
         run: dotnet build --configuration Release --no-restore
