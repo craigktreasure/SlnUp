@@ -16,7 +16,7 @@
     <PackageReference Update="Humanizer.Core"                           Version="2.14.1" />
     <PackageReference Update="HtmlAgilityPack"                          Version="1.11.42" />
     <PackageReference Update="System.IO.Abstractions"                   Version="$(SystemIOAbstractionsVersion)" />
-    <PackageReference Update="System.Text.Json"                         Version="6.0.3" />
+    <PackageReference Update="System.Text.Json"                         Version="6.0.4" />
 
     <!-- Test dependencies -->
     <PackageReference Update="coverlet.collector"                       Version="3.1.2"
