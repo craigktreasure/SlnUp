@@ -23,7 +23,7 @@
                       IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"
                       PrivateAssets="all" />
     <PackageReference Update="Divergic.Logging.Xunit"                   Version="4.0.0" />
-    <PackageReference Update="FluentAssertions"                         Version="6.6.0" />
+    <PackageReference Update="FluentAssertions"                         Version="6.7.0" />
     <PackageReference Update="Microsoft.NET.Test.Sdk"                   Version="17.2.0" />
     <PackageReference Update="System.IO.Abstractions.TestingHelpers"    Version="$(SystemIOAbstractionsVersion)" />
     <PackageReference Update="xunit"                                    Version="2.4.1" />
