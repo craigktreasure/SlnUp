@@ -7,7 +7,9 @@ using System.Text.RegularExpressions;
 
 internal class VisualStudioVersionDocScraper
 {
-    private const string vsVersionsDocUrl = "https://docs.microsoft.com/en-us/visualstudio/install/visual-studio-build-numbers-and-release-dates";
+    private const string vs2017VersionsDocUrl = "https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2017/install/visual-studio-build-numbers-and-release-dates";
+
+    private const string vsCurrentVersionsDocUrl = "https://docs.microsoft.com/en-us/visualstudio/install/visual-studio-build-numbers-and-release-dates";
 
     private static readonly Regex vs15PreviewVersionMatcher = new(
         @"(?<version>\d+\.\d+\.?\d*) (?<channel>Preview \d\.?\d*)",
@@ -28,19 +30,9 @@ internal class VisualStudioVersionDocScraper
     /// <returns><see cref="IEnumerable{VisualStudioVersion}"/>.</returns>
     public IEnumerable<VisualStudioVersion> ScrapeVisualStudioVersions()
     {
-        HtmlDocument doc = this.LoadVisualStudioVersionDocument();
-
-        HtmlNodeCollection rows = doc.DocumentNode.SelectNodes("//table/tbody/tr");
-
-        if (rows is null || rows.Count is 0)
-        {
-            throw new InvalidDataException("No rows were found.");
-        }
-
-        foreach (HtmlNode row in rows)
-        {
-            yield return GetVersionDetailFromRow(row);
-        }
+        IEnumerable<VisualStudioVersion> currentVersions = this.ScrapeVisualStudioVersions(vsCurrentVersionsDocUrl, "VSCurrentVersionCache");
+        IEnumerable<VisualStudioVersion> previousVersions = this.ScrapeVisualStudioVersions(vs2017VersionsDocUrl, "VS2017VersionCache");
+        return currentVersions.Concat(previousVersions);
     }
 
     private static VisualStudioVersion GetVersionDetailFromRow(HtmlNode row)
@@ -94,16 +86,16 @@ internal class VisualStudioVersionDocScraper
         _ => VisualStudioProduct.Unknown
     };
 
-    private HtmlDocument LoadVisualStudioVersionDocument()
+    private HtmlDocument LoadVisualStudioVersionDocument(string url, string cacheFolderName)
     {
-        string cachePath = Path.Join(Path.GetTempPath(), "VSVersionCache");
+        string cachePath = Path.Join(Path.GetTempPath(), cacheFolderName);
         HtmlWeb web = new()
         {
             CachePath = cachePath,
             UsingCache = this.useCache,
         };
 
-        UriBuilder uriBuilder = new(vsVersionsDocUrl);
+        UriBuilder uriBuilder = new(url);
         if (this.useCache)
         {
             // Add a cache query parameter.
@@ -113,5 +105,22 @@ internal class VisualStudioVersionDocScraper
         HtmlDocument doc = web.Load(uriBuilder.Uri);
 
         return doc;
+    }
+
+    private IEnumerable<VisualStudioVersion> ScrapeVisualStudioVersions(string url, string cacheFolderName)
+    {
+        HtmlDocument doc = this.LoadVisualStudioVersionDocument(url, cacheFolderName);
+
+        HtmlNodeCollection rows = doc.DocumentNode.SelectNodes("//table/tbody/tr");
+
+        if (rows is null || rows.Count is 0)
+        {
+            throw new InvalidDataException("No rows were found.");
+        }
+
+        foreach (HtmlNode row in rows)
+        {
+            yield return GetVersionDetailFromRow(row);
+        }
     }
 }
