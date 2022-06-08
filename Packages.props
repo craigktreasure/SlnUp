@@ -17,6 +17,7 @@
     <PackageReference Update="HtmlAgilityPack"                          Version="1.11.43" />
     <PackageReference Update="System.IO.Abstractions"                   Version="$(SystemIOAbstractionsVersion)" />
     <PackageReference Update="System.Text.Json"                         Version="6.0.4" />
+    <PackageReference Update="Treasure.Utils.Argument"                  Version="0.2.3" />
 
     <!-- Test dependencies -->
     <PackageReference Update="coverlet.collector"                       Version="3.1.2"
