@@ -1,6 +1,27 @@
 [
   {
     "Product": "visualStudio2022",
+    "Version": "17.2.5",
+    "BuildVersion": "17.2.32616.157",
+    "Channel": "Release",
+    "IsPreview": false
+  },
+  {
+    "Product": "visualStudio2022",
+    "Version": "17.2.4",
+    "BuildVersion": "17.2.32602.215",
+    "Channel": "Release",
+    "IsPreview": false
+  },
+  {
+    "Product": "visualStudio2022",
+    "Version": "17.0.11",
+    "BuildVersion": "17.0.32602.201",
+    "Channel": "Release",
+    "IsPreview": false
+  },
+  {
+    "Product": "visualStudio2022",
     "Version": "17.2.3",
     "BuildVersion": "17.2.32526.322",
     "Channel": "Release",
@@ -150,6 +171,20 @@
     "Product": "visualStudio2022",
     "Version": "17.0.0",
     "BuildVersion": "17.0.31903.59",
+    "Channel": "Release",
+    "IsPreview": false
+  },
+  {
+    "Product": "visualStudio2019",
+    "Version": "16.11.16",
+    "BuildVersion": "16.11.32602.291",
+    "Channel": "Release",
+    "IsPreview": false
+  },
+  {
+    "Product": "visualStudio2019",
+    "Version": "16.9.22",
+    "BuildVersion": "16.9.32602.290",
     "Channel": "Release",
     "IsPreview": false
   },
@@ -1355,6 +1390,20 @@
     "Version": "16.0.0",
     "BuildVersion": "16.0.28625.133",
     "Channel": "Release Candidate (RC)",
+    "IsPreview": false
+  },
+  {
+    "Product": "visualStudio2017",
+    "Version": "15.9.49",
+    "BuildVersion": "15.9.28307.2019",
+    "Channel": "Release",
+    "IsPreview": false
+  },
+  {
+    "Product": "visualStudio2017",
+    "Version": "15.9.48",
+    "BuildVersion": "15.9.28307.1974",
+    "Channel": "Release",
     "IsPreview": false
   },
   {
