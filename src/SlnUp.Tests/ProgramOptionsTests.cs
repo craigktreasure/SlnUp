@@ -1,66 +1,69 @@
 namespace SlnUp.Tests;
 
-using CommandLine;
 using FluentAssertions;
 using SlnUp.TestLibrary;
+using SlnUp.Tests.Utilities;
+using System.CommandLine;
+using System.CommandLine.IO;
 using System.IO.Abstractions.TestingHelpers;
 using Xunit;
 
 public class ProgramOptionsTests
 {
+    private readonly TestConsole testConsole = new();
+
     [Theory]
     [InlineData("2022")]
     [InlineData("17.0")]
-    public void ParseOptions(string version)
+    public void Configure(string version)
     {
         // Arrange
         string[] args = new[] { version };
 
         // Act
-        ParserResult<ProgramOptions> parseResult = ProgramOptions.ParseOptions(args);
+        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
-        Parsed<ProgramOptions> result = parseResult.Should().BeAssignableTo<Parsed<ProgramOptions>>().Subject;
-        result.Value.Should().BeEquivalentTo(new ProgramOptions
+        Assert.Equal(0, exitCode);
+        Assert.NotNull(result);
+        result.Should().BeEquivalentTo(new ProgramOptions
         {
             Version = version
         });
     }
 
     [Fact]
-    public void ParseOptionsNoParameters()
+    public void ConfigureNoParameters()
     {
         // Arrange
         string[] args = Array.Empty<string>();
-        using StringWriter helpWriter = new();
-        using Parser parser = new(config => config.HelpWriter = helpWriter);
 
         // Act
-        ParserResult<ProgramOptions> parseResult = ProgramOptions.ParseOptions(args, parser);
-        string helpContent = helpWriter.ToString();
+        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
-        NotParsed<ProgramOptions> result = parseResult.Should().BeAssignableTo<NotParsed<ProgramOptions>>().Subject;
-        Error error = result.Errors.Should().ContainSingle().Subject;
-        error.Tag.Should().Be(ErrorType.MissingRequiredOptionError);
-        helpContent.Should().NotBeNullOrEmpty();
+        Assert.Equal(1, exitCode);
+        Assert.Null(result);
+        this.testConsole.Should().HaveOutputWritten();
+        this.testConsole.GetErrorOutput().Should().StartWith("Required argument missing for command");
     }
 
     [Theory]
     [InlineData("2022", "--build-version", "17.0.31903.59")]
     [InlineData("--build-version", "17.0.31903.59", "2022")]
-    public void ParseOptionsWithBuildVersion(params string[] args)
+    public void ConfigureWithBuildVersion(params string[] args)
     {
         // Arrange
         const string expectedVersion = "2022";
         const string expectedBuildVersion = "17.0.31903.59";
 
         // Act
-        ParserResult<ProgramOptions> parseResult = ProgramOptions.ParseOptions(args);
+        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
-        Parsed<ProgramOptions> result = parseResult.Should().BeAssignableTo<Parsed<ProgramOptions>>().Subject;
-        result.Value.Should().BeEquivalentTo(new ProgramOptions
+        Assert.Equal(0, exitCode);
+        Assert.NotNull(result);
+        result.Should().BeEquivalentTo(new ProgramOptions
         {
             Version = expectedVersion,
             BuildVersion = Version.Parse(expectedBuildVersion),
@@ -68,41 +71,60 @@ public class ProgramOptionsTests
     }
 
     [Fact]
-    public void ParseOptionsWithHelp()
+    public void ConfigureWithInvalidBuildVersion()
     {
         // Arrange
-        string[] args = new[] { "--help" };
-        using StringWriter helpWriter = new();
-        using Parser parser = new(config => config.HelpWriter = helpWriter);
+        string[] args = new[]
+        {
+            "2022",
+            "--build-version",
+            "invalid-version"
+        };
 
         // Act
-        ParserResult<ProgramOptions> parseResult = ProgramOptions.ParseOptions(args, parser);
-        string helpContent = helpWriter.ToString();
+        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
-        NotParsed<ProgramOptions> result = parseResult.Should().BeAssignableTo<NotParsed<ProgramOptions>>().Subject;
-        Error error = result.Errors.Should().ContainSingle().Subject;
-        error.StopsProcessing.Should().BeTrue();
-        error.Tag.Should().Be(ErrorType.HelpRequestedError);
-        helpContent.Should().NotBeNullOrEmpty();
+        Assert.Equal(1, exitCode);
+        Assert.Null(result);
+        this.testConsole.Should().HaveOutputWritten();
+        this.testConsole.Should().HaveErrorWritten();
+        this.testConsole.GetErrorOutput().TrimEnd().Should().Be("Cannot parse argument 'invalid-version' for option 'build-version' as expected type 'System.Version'.");
+    }
+
+    [Theory]
+    [InlineData("--help")]
+    [InlineData("-h")]
+    [InlineData("-?")]
+    public void ConfigureWithHelp(params string[] args)
+    {
+        // Act
+        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
+
+        // Assert
+        Assert.Equal(0, exitCode);
+        Assert.Null(result);
+        this.testConsole.GetOutput().Should().StartWith("Description:");
+        this.testConsole.Should().NotHaveErrorWritten();
     }
 
     [Theory]
     [InlineData("2022", "--path", "C:/solution.sln")]
     [InlineData("2022", "-p", "C:/solution.sln")]
     [InlineData("-p", "C:/solution.sln", "2022")]
-    public void ParseOptionsWithPath(params string[] args)
+    public void ConfigureWithPath(params string[] args)
     {
         // Arrange
         const string expectedVersion = "2022";
         string expectedFilePath = "C:/solution.sln".ToCrossPlatformPath();
 
         // Act
-        ParserResult<ProgramOptions> parseResult = ProgramOptions.ParseOptions(args.ToCrossPlatformPath().ToArray());
+        ProgramOptions? result = this.ConfigureAndInvoke(args.ToCrossPlatformPath().ToArray(), out int exitCode);
 
         // Assert
-        Parsed<ProgramOptions> result = parseResult.Should().BeAssignableTo<Parsed<ProgramOptions>>().Subject;
-        result.Value.Should().BeEquivalentTo(new ProgramOptions
+        Assert.Equal(0, exitCode);
+        Assert.NotNull(result);
+        result.Should().BeEquivalentTo(new ProgramOptions
         {
             Version = expectedVersion,
             SolutionPath = expectedFilePath,
@@ -110,19 +132,18 @@ public class ProgramOptionsTests
     }
 
     [Fact]
-    public void ParseOptionsWithVersion()
+    public void ConfigureWithVersion()
     {
         // Arrange
         string[] args = new[] { "--version" };
 
         // Act
-        ParserResult<ProgramOptions> parseResult = ProgramOptions.ParseOptions(args);
+        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
-        NotParsed<ProgramOptions> result = parseResult.Should().BeAssignableTo<NotParsed<ProgramOptions>>().Subject;
-        Error error = result.Errors.Should().ContainSingle().Subject;
-        error.StopsProcessing.Should().BeTrue();
-        error.Tag.Should().Be(ErrorType.VersionRequestedError);
+        Assert.Equal(0, exitCode);
+        Assert.Null(result);
+        this.testConsole.Should().HaveOutputWritten();
     }
 
     /// <summary>
@@ -382,5 +403,18 @@ public class ProgramOptionsTests
         result.Should().BeTrue();
         options.Should().NotBeNull();
         options!.SolutionFilePath.Should().Be(expectedSolutionFilePath);
+    }
+
+    private ProgramOptions? ConfigureAndInvoke(string[] args, out int exitCode)
+    {
+        ProgramOptions? options = null;
+
+        exitCode = ProgramOptions.Configure(opts =>
+        {
+            options = opts;
+            return 0;
+        }).Invoke(args, this.testConsole);
+
+        return options;
     }
 }

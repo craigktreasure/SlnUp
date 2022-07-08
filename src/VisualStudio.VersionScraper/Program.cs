@@ -1,7 +1,7 @@
 namespace VisualStudio.VersionScraper;
 
-using CommandLine;
 using SlnUp.Core;
+using System.CommandLine;
 using System.IO.Abstractions;
 
 internal static class Program
@@ -10,7 +10,7 @@ internal static class Program
     {
         Console.Title = "Visual Studio Version Scraper";
 
-        return ProgramOptions.ParseOptions(args).MapResult(Run, _ => 1);
+        return ProgramOptions.Configure(Run).Invoke(args);
     }
 
     private static int Run(ProgramOptions options)
