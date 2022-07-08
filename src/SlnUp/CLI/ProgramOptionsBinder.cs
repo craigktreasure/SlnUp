@@ -1,6 +1,5 @@
-namespace SlnUp;
+namespace SlnUp.CLI;
 
-using System;
 using System.CommandLine;
 using System.CommandLine.Binding;
 
@@ -17,6 +16,10 @@ internal class ProgramOptionsBinder : BinderBase<ProgramOptions>
         Argument<string?> versionArgument,
         Option<Version?> buildVersionOption)
     {
+        ArgumentNullException.ThrowIfNull(pathOption);
+        ArgumentNullException.ThrowIfNull(versionArgument);
+        ArgumentNullException.ThrowIfNull(buildVersionOption);
+
         this.pathOption = pathOption;
         this.versionArgument = versionArgument;
         this.buildVersionOption = buildVersionOption;

@@ -1,5 +1,6 @@
-namespace SlnUp.Tests;
+namespace SlnUp.Tests.CLI;
 
+using SlnUp.CLI;
 using SlnUp.TestLibrary;
 using SlnUp.Tests.Utilities;
 using System.CommandLine;

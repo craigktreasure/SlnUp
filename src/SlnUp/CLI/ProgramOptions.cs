@@ -1,4 +1,6 @@
-namespace SlnUp;
+namespace SlnUp.CLI;
+
+using SlnUp;
 
 using SlnUp.Core;
 using System.CommandLine;
@@ -27,19 +29,7 @@ internal class ProgramOptions
         Option<Version?> buildVersionOption = new(
             name: "--build-version",
             description: "Uses version information as specified with this build version number.",
-            parseArgument: result =>
-            {
-                string tokenValue = result.Tokens.Single().Value;
-                if (System.Version.TryParse(tokenValue, out Version? version))
-                {
-                    return version;
-                }
-                else
-                {
-                    result.ErrorMessage = $"Cannot parse argument '{tokenValue}' for option '{result.Argument.Name}' as expected type '{result.Argument.ValueType}'.";
-                    return null;
-                }
-            });
+            parseArgument: ArgumentParser.ParseVersion);
 
         const string version = ThisAssembly.IsPrerelease
             ? ThisAssembly.AssemblyInformationalVersion

@@ -1,5 +1,6 @@
 namespace SlnUp;
 
+using SlnUp.CLI;
 using SlnUp.Core;
 using System.CommandLine;
 using System.Diagnostics.CodeAnalysis;
