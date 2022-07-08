@@ -1,8 +1,6 @@
 namespace SlnUp.Tests;
 
-using FluentAssertions;
 using SlnUp.Core;
-using Xunit;
 
 public class VersionManagerTests
 {

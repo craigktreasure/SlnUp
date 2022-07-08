@@ -1,12 +1,10 @@
 namespace SlnUp.Tests;
 
-using FluentAssertions;
 using SlnUp.TestLibrary;
 using SlnUp.Tests.Utilities;
 using System.CommandLine;
 using System.CommandLine.IO;
 using System.IO.Abstractions.TestingHelpers;
-using Xunit;
 
 public class ProgramOptionsTests
 {

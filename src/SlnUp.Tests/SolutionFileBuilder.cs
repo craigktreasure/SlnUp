@@ -1,6 +1,5 @@
 namespace SlnUp.Tests;
 
-using System;
 using System.IO.Abstractions.TestingHelpers;
 using System.Text;
 

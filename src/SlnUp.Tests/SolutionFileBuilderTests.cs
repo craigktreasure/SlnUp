@@ -1,8 +1,5 @@
 namespace SlnUp.Tests;
 
-using FluentAssertions;
-using Xunit;
-
 public class SolutionFileBuilderTests
 {
     [Fact]

@@ -1,8 +1,6 @@
 namespace SlnUp.Tests;
 
-using FluentAssertions;
 using System.IO.Abstractions.TestingHelpers;
-using Xunit;
 
 public class SolutionFileTests
 {

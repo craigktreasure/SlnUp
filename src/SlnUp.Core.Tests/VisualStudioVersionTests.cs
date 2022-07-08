@@ -1,11 +1,9 @@
 namespace SlnUp.Core.Tests;
 
-using FluentAssertions;
 using SlnUp.TestLibrary;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.Text.Json;
-using Xunit;
 
 public class VisualStudioVersionTests
 {

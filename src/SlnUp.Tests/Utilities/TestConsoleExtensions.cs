@@ -1,6 +1,5 @@
 namespace SlnUp.Tests.Utilities;
 
-using FluentAssertions;
 using System.CommandLine;
 using System.CommandLine.IO;
 
