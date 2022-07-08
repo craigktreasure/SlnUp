@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlnUp", "src\SlnUp\SlnUp.cs
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E392EF9F-8A64-4B8D-AC44-6E760ED65348}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlnUp.Tests", "src\SlnUp.Tests\SlnUp.Tests.csproj", "{55B7C584-3CCA-4E99-B2F0-DEB7B47148D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlnUp.Tests", "tests\SlnUp.Tests\SlnUp.Tests.csproj", "{55B7C584-3CCA-4E99-B2F0-DEB7B47148D6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{05A480CD-9D37-4CC7-8B9B-8418B6B413AA}"
 	ProjectSection(SolutionItems) = preProject
@@ -29,9 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisualStudio.VersionScraper
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlnUp.Core", "src\SlnUp.Core\SlnUp.Core.csproj", "{2D0B8972-41BD-4530-9495-9DF5E60FB1CF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlnUp.Core.Tests", "src\SlnUp.Core.Tests\SlnUp.Core.Tests.csproj", "{F39C69B9-BAE2-499C-B9C4-864F4E5341ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlnUp.Core.Tests", "tests\SlnUp.Core.Tests\SlnUp.Core.Tests.csproj", "{F39C69B9-BAE2-499C-B9C4-864F4E5341ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlnUp.TestLibrary", "src\SlnUp.TestLibrary\SlnUp.TestLibrary.csproj", "{CB0DCF5C-167B-42AC-BF07-97FDAA739B27}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlnUp.TestLibrary", "tests\SlnUp.TestLibrary\SlnUp.TestLibrary.csproj", "{CB0DCF5C-167B-42AC-BF07-97FDAA739B27}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

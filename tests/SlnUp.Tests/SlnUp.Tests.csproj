@@ -14,6 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="TestVersions.json">
+      <LogicalName>%(Identity)</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="coverlet.collector" />
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
@@ -23,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SlnUp.Core\SlnUp.Core.csproj" />
+    <ProjectReference Include="..\..\src\SlnUp\SlnUp.csproj" />
     <ProjectReference Include="..\SlnUp.TestLibrary\SlnUp.TestLibrary.csproj" />
   </ItemGroup>
 

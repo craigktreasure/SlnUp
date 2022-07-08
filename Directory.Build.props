@@ -2,9 +2,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <RepoRootPath>$(MSBuildThisFileDirectory)</RepoRootPath>
-    <SourceRootPath>$(RepoRootPath)src</SourceRootPath>
     <CentralBuildOutputPath>$(RepoRootPath)</CentralBuildOutputPath>
-    <CentralBuildOutputRelativeToPath>$(SourceRootPath)</CentralBuildOutputRelativeToPath>
   </PropertyGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)\build\Defaults.props" />
