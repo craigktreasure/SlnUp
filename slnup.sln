@@ -31,7 +31,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlnUp.Core", "src\SlnUp.Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlnUp.Core.Tests", "tests\SlnUp.Core.Tests\SlnUp.Core.Tests.csproj", "{F39C69B9-BAE2-499C-B9C4-864F4E5341ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlnUp.TestLibrary", "tests\SlnUp.TestLibrary\SlnUp.TestLibrary.csproj", "{CB0DCF5C-167B-42AC-BF07-97FDAA739B27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlnUp.TestLibrary", "tests\SlnUp.TestLibrary\SlnUp.TestLibrary.csproj", "{CB0DCF5C-167B-42AC-BF07-97FDAA739B27}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{55C166C6-AA31-4FC2-AE0B-1A2C08803AEC}"
+	ProjectSection(SolutionItems) = preProject
+		tests\.editorconfig = tests\.editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,6 +77,7 @@ Global
 		{7C64E9F4-5558-4C6E-95D8-8756185D0017} = {13BEBBDD-8976-428C-96C9-6CA1BDD70AC4}
 		{F39C69B9-BAE2-499C-B9C4-864F4E5341ED} = {E392EF9F-8A64-4B8D-AC44-6E760ED65348}
 		{CB0DCF5C-167B-42AC-BF07-97FDAA739B27} = {E392EF9F-8A64-4B8D-AC44-6E760ED65348}
+		{55C166C6-AA31-4FC2-AE0B-1A2C08803AEC} = {05A480CD-9D37-4CC7-8B9B-8418B6B413AA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {077C9799-D020-472A-A37B-BCDDD2AF3641}

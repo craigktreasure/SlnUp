@@ -31,7 +31,7 @@ EndGlobal
     }
 
     [Fact]
-    public void BuildForVS15()
+    public void Build_ForVS15()
     {
         // Arrange
         SolutionFileBuilder fileBuilder = new(Version.Parse("15.0.28701.123"));
@@ -59,7 +59,7 @@ EndGlobal
     }
 
     [Fact]
-    public void BuildWithMinimumHeader()
+    public void Build_WithMinimumHeader()
     {
         // Arrange
         SolutionFileBuilder fileBuilder = new SolutionFileBuilder()
@@ -85,7 +85,7 @@ EndGlobal
     }
 
     [Fact]
-    public void BuildWithoutBody()
+    public void Build_WithoutBody()
     {
         // Arrange
         SolutionFileBuilder fileBuilder = new SolutionFileBuilder()
@@ -105,7 +105,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
     }
 
     [Fact]
-    public void BuildWithoutFileFormatVersion()
+    public void Build_WithoutFileFormatVersion()
     {
         // Arrange
         SolutionFileBuilder fileBuilder = new SolutionFileBuilder()
@@ -133,7 +133,7 @@ EndGlobal
     }
 
     [Fact]
-    public void BuildWithoutSolutionIconVersion()
+    public void Build_WithoutSolutionIconVersion()
     {
         // Arrange
         SolutionFileBuilder fileBuilder = new SolutionFileBuilder()
@@ -161,7 +161,7 @@ EndGlobal
     }
 
     [Fact]
-    public void BuildWithoutVisualStudioFullVersion()
+    public void Build_WithoutVisualStudioFullVersion()
     {
         // Arrange
         SolutionFileBuilder fileBuilder = new SolutionFileBuilder()
@@ -189,7 +189,7 @@ EndGlobal
     }
 
     [Fact]
-    public void BuildWithoutVisualStudioMinimumVersion()
+    public void Build_WithoutVisualStudioMinimumVersion()
     {
         // Arrange
         SolutionFileBuilder fileBuilder = new SolutionFileBuilder()

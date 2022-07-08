@@ -32,7 +32,7 @@ public class ArgumentParserTests
     }
 
     [Fact]
-    public void ParseVersionInvalid()
+    public void ParseVersion_Invalid()
     {
         // Arrange
         Option<Version?> versionOption = new("--version", ArgumentParser.ParseVersion);
