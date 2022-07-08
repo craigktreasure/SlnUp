@@ -1,38 +1,68 @@
 namespace SlnUp;
 
-using CommandLine;
 using SlnUp.Core;
+using System.CommandLine;
 using System.Diagnostics.CodeAnalysis;
 using System.IO.Abstractions;
 
 internal class ProgramOptions
 {
-    [Option("build-version", HelpText = "Uses version information as specified with this build version number.")]
     public Version? BuildVersion { get; set; }
 
-    [Option('p', "path", HelpText = "The path to the solution path.")]
     public string? SolutionPath { get; set; }
 
-    [Value(0, Required = true, MetaName = "version", HelpText = "The Visual Studio version to update the solution file"
-        + "with. Should be either a 2 or 3-part version number (ex. 16.9 or 17.0.1) or a product year (ex. 2017, 2019, or 2022).")]
     public string? Version { get; set; }
 
-    /// <summary>
-    /// Parses the options.
-    /// </summary>
-    /// <param name="args">The arguments.</param>
-    /// <returns><see cref="ParserResult{ProgramOptions}"/>.</returns>
-    public static ParserResult<ProgramOptions> ParseOptions(string[] args)
-        => ParseOptions(args, Parser.Default);
+    public static RootCommand Configure(Func<ProgramOptions, int> invokeAction)
+    {
+        Option<string?> pathOption = new(
+            name: "--path",
+            description: "The path to the solution file.");
+        pathOption.AddAlias("-p");
 
-    /// <summary>
-    /// Parses the options.
-    /// </summary>
-    /// <param name="args">The arguments.</param>
-    /// <param name="parser">The parser.</param>
-    /// <returns><see cref="ParserResult{ProgramOptions}"/>.</returns>
-    public static ParserResult<ProgramOptions> ParseOptions(string[] args, Parser parser)
-        => parser.ParseArguments<ProgramOptions>(args);
+        Argument<string?> versionArgument = new(
+            name: "version",
+            description: "The Visual Studio version to update the solution file with. Should be either a 2 or 3-part version number (ex. 16.9 or 17.0.1) or a product year (ex. 2017, 2019, or 2022).");
+
+        Option<Version?> buildVersionOption = new(
+            name: "--build-version",
+            description: "Uses version information as specified with this build version number.",
+            parseArgument: result =>
+            {
+                if (System.Version.TryParse(result.Tokens.Single().Value, out Version? version))
+                {
+                    return version;
+                }
+                else
+                {
+                    result.ErrorMessage = $"The argument format is not valid: '{result.Argument.Name}'.";
+                    return null;
+                }
+            });
+
+        const string version = ThisAssembly.IsPrerelease
+            ? ThisAssembly.AssemblyInformationalVersion
+            : ThisAssembly.AssemblyFileVersion;
+        RootCommand rootCommand = new($"SlnUp {version}")
+        {
+            pathOption,
+            buildVersionOption,
+            versionArgument
+        };
+
+        rootCommand.SetHandler((string? version, string? path, Version? buildVersion) =>
+        {
+            ProgramOptions options = new()
+            {
+                BuildVersion = buildVersion,
+                SolutionPath = path,
+                Version = version,
+            };
+            invokeAction(options);
+        }, versionArgument, pathOption, buildVersionOption);
+
+        return rootCommand;
+    }
 
     /// <summary>
     /// Tries to get <see cref="SlnUpOptions"/>.

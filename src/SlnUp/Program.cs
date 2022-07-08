@@ -1,7 +1,7 @@
 namespace SlnUp;
 
-using CommandLine;
 using SlnUp.Core;
+using System.CommandLine;
 using System.Diagnostics.CodeAnalysis;
 using System.IO.Abstractions;
 
@@ -11,7 +11,7 @@ internal static class Program
     {
         Console.Title = "Visual Studio Solution Updater";
 
-        return ProgramOptions.ParseOptions(args).MapResult(Run, _ => 1);
+        return ProgramOptions.Configure(Run).Invoke(args);
     }
 
     private static int Run(ProgramOptions options)
