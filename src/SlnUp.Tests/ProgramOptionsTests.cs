@@ -21,9 +21,10 @@ public class ProgramOptionsTests
         string[] args = new[] { version };
 
         // Act
-        ProgramOptions? result = this.ConfigureAndInvoke(args);
+        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
+        Assert.Equal(0, exitCode);
         Assert.NotNull(result);
         result.Should().BeEquivalentTo(new ProgramOptions
         {
@@ -38,9 +39,10 @@ public class ProgramOptionsTests
         string[] args = Array.Empty<string>();
 
         // Act
-        ProgramOptions? result = this.ConfigureAndInvoke(args);
+        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
+        Assert.Equal(1, exitCode);
         Assert.Null(result);
         this.testConsole.Should().HaveOutputWritten();
         this.testConsole.GetErrorOutput().Should().StartWith("Required argument missing for command");
@@ -56,15 +58,38 @@ public class ProgramOptionsTests
         const string expectedBuildVersion = "17.0.31903.59";
 
         // Act
-        ProgramOptions? result = this.ConfigureAndInvoke(args);
+        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
+        Assert.Equal(0, exitCode);
         Assert.NotNull(result);
         result.Should().BeEquivalentTo(new ProgramOptions
         {
             Version = expectedVersion,
             BuildVersion = Version.Parse(expectedBuildVersion),
         });
+    }
+
+    [Fact]
+    public void ConfigureWithInvalidBuildVersion()
+    {
+        // Arrange
+        string[] args = new[]
+        {
+            "2022",
+            "--build-version",
+            "invalid-version"
+        };
+
+        // Act
+        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
+
+        // Assert
+        Assert.Equal(1, exitCode);
+        Assert.Null(result);
+        this.testConsole.Should().HaveOutputWritten();
+        this.testConsole.Should().HaveErrorWritten();
+        this.testConsole.GetErrorOutput().TrimEnd().Should().Be("Cannot parse argument 'invalid-version' for option 'build-version' as expected type 'System.Version'.");
     }
 
     [Theory]
@@ -74,9 +99,10 @@ public class ProgramOptionsTests
     public void ConfigureWithHelp(params string[] args)
     {
         // Act
-        ProgramOptions? result = this.ConfigureAndInvoke(args);
+        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
+        Assert.Equal(0, exitCode);
         Assert.Null(result);
         this.testConsole.GetOutput().Should().StartWith("Description:");
         this.testConsole.Should().NotHaveErrorWritten();
@@ -93,9 +119,10 @@ public class ProgramOptionsTests
         string expectedFilePath = "C:/solution.sln".ToCrossPlatformPath();
 
         // Act
-        ProgramOptions? result = this.ConfigureAndInvoke(args.ToCrossPlatformPath().ToArray());
+        ProgramOptions? result = this.ConfigureAndInvoke(args.ToCrossPlatformPath().ToArray(), out int exitCode);
 
         // Assert
+        Assert.Equal(0, exitCode);
         Assert.NotNull(result);
         result.Should().BeEquivalentTo(new ProgramOptions
         {
@@ -111,9 +138,10 @@ public class ProgramOptionsTests
         string[] args = new[] { "--version" };
 
         // Act
-        ProgramOptions? result = this.ConfigureAndInvoke(args);
+        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
+        Assert.Equal(0, exitCode);
         Assert.Null(result);
         this.testConsole.Should().HaveOutputWritten();
     }
@@ -376,9 +404,6 @@ public class ProgramOptionsTests
         options.Should().NotBeNull();
         options!.SolutionFilePath.Should().Be(expectedSolutionFilePath);
     }
-
-    private ProgramOptions? ConfigureAndInvoke(string[] args)
-        => this.ConfigureAndInvoke(args, out _);
 
     private ProgramOptions? ConfigureAndInvoke(string[] args, out int exitCode)
     {

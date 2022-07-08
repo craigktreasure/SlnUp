@@ -26,15 +26,10 @@ internal class ProgramOptions
             noCacheOption
         };
 
-        rootCommand.SetHandler((string? jsonOutput, bool noCache) =>
+        rootCommand.SetHandler(options =>
         {
-            ProgramOptions options = new()
-            {
-                NoCache = noCache,
-                OutputFilePath = jsonOutput,
-            };
-            invokeAction(options);
-        }, outputArgument, noCacheOption);
+            return Task.FromResult(invokeAction(options));
+        }, new ProgramOptionsBinder(outputArgument, noCacheOption));
 
         return rootCommand;
     }

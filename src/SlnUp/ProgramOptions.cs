@@ -29,13 +29,14 @@ internal class ProgramOptions
             description: "Uses version information as specified with this build version number.",
             parseArgument: result =>
             {
-                if (System.Version.TryParse(result.Tokens.Single().Value, out Version? version))
+                string tokenValue = result.Tokens.Single().Value;
+                if (System.Version.TryParse(tokenValue, out Version? version))
                 {
                     return version;
                 }
                 else
                 {
-                    result.ErrorMessage = $"The argument format is not valid: '{result.Argument.Name}'.";
+                    result.ErrorMessage = $"Cannot parse argument '{tokenValue}' for option '{result.Argument.Name}' as expected type '{result.Argument.ValueType}'.";
                     return null;
                 }
             });
@@ -50,16 +51,10 @@ internal class ProgramOptions
             versionArgument
         };
 
-        rootCommand.SetHandler((string? version, string? path, Version? buildVersion) =>
+        rootCommand.SetHandler(options =>
         {
-            ProgramOptions options = new()
-            {
-                BuildVersion = buildVersion,
-                SolutionPath = path,
-                Version = version,
-            };
-            invokeAction(options);
-        }, versionArgument, pathOption, buildVersionOption);
+            return Task.FromResult(invokeAction(options));
+        }, new ProgramOptionsBinder(pathOption, versionArgument, buildVersionOption));
 
         return rootCommand;
     }
