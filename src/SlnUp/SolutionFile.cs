@@ -60,6 +60,12 @@ internal class SolutionFile
     public string ReadContent() => this.fileSystem.File.ReadAllText(this.filePath);
 
     /// <summary>
+    /// Reload.
+    /// </summary>
+    public void Reload()
+        => this.FileHeader = this.LoadFileHeader();
+
+    /// <summary>
     /// Updates the file header.
     /// </summary>
     /// <param name="newVisualStudioVersion">The new Visual Studio version.</param>

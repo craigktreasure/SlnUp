@@ -1,5 +1,6 @@
 namespace SlnUp.Tests;
 
+using SlnUp.TestLibrary;
 using System.IO.Abstractions.TestingHelpers;
 
 public class SolutionFileTests
@@ -24,7 +25,7 @@ public class SolutionFileTests
         // Arrange
         Version expectedVersion = Version.Parse("16.0.30114.105");
         MockFileSystem fileSystem = new SolutionFileBuilder(expectedVersion)
-            .BuildToFileSystem(out string filePath);
+            .BuildToMockFileSystem(out string filePath);
 
         // Act
         SolutionFile solutionFile = new(fileSystem, filePath);
@@ -43,7 +44,7 @@ public class SolutionFileTests
         // Arrange
         Version expectedVersion = Version.Parse("15.0.26124.0");
         MockFileSystem fileSystem = new SolutionFileBuilder(expectedVersion, visualStudioMinimumVersion: expectedVersion)
-            .BuildToFileSystem(out string filePath);
+            .BuildToMockFileSystem(out string filePath);
 
         // Act
         SolutionFile solutionFile = new(fileSystem, filePath);
@@ -62,7 +63,7 @@ public class SolutionFileTests
         // Arrange
         MockFileSystem fileSystem = new SolutionFileBuilder()
             .ConfigureMinimumHeader()
-            .BuildToFileSystem(out string filePath);
+            .BuildToMockFileSystem(out string filePath);
 
         // Act
         SolutionFile solutionFile = new(fileSystem, filePath);
@@ -79,8 +80,8 @@ public class SolutionFileTests
     public void Construct_WithMissingFile()
     {
         // Arrange
-        const string filePath = "C:\\Missing.sln";
         MockFileSystem fileSystem = new();
+        string filePath = TemporaryFile.GetRandomFilePathWithExtension(fileSystem, "sln");
 
         // Act and assert
         FileNotFoundException exception = Assert.Throws<FileNotFoundException>(() => new SolutionFile(fileSystem, filePath));
@@ -95,7 +96,7 @@ public class SolutionFileTests
         // Arrange
         MockFileSystem fileSystem = new SolutionFileBuilder()
             .ExcludeFileFormatVersion()
-            .BuildToFileSystem(out string filePath);
+            .BuildToMockFileSystem(out string filePath);
 
         // Act
         Assert.Throws<InvalidDataException>(() => new SolutionFile(fileSystem, filePath));
@@ -106,7 +107,7 @@ public class SolutionFileTests
     {
         // Arrange
         SolutionFile solutionFile = new SolutionFileBuilder(Version.Parse("16.0.30114.105"))
-            .BuildToSolutionFile();
+            .BuildToMockSolutionFile();
         Version expectedVersion = Version.Parse("17.0.31903.59");
         string expectedContent = new SolutionFileBuilder(expectedVersion).Build();
 
@@ -127,7 +128,7 @@ public class SolutionFileTests
     {
         // Arrange
         SolutionFile solutionFile = new SolutionFileBuilder(Version.Parse("15.0.26124.0"))
-            .BuildToSolutionFile();
+            .BuildToMockSolutionFile();
         Version expectedVersion = Version.Parse("15.0.27000.0");
         string expectedContent = new SolutionFileBuilder(expectedVersion).Build();
 
@@ -151,7 +152,7 @@ public class SolutionFileTests
         string expectedFileContent = new SolutionFileBuilder(expectedVersion).Build();
         SolutionFile solutionFile = new SolutionFileBuilder()
             .ConfigureMinimumHeader()
-            .BuildToSolutionFile();
+            .BuildToMockSolutionFile();
 
         // Act
         solutionFile.UpdateFileHeader(expectedVersion);
@@ -173,7 +174,7 @@ public class SolutionFileTests
         string expectedFileContent = new SolutionFileBuilder(expectedVersion).Build();
         SolutionFile solutionFile = new SolutionFileBuilder(expectedVersion)
                 .ExcludeSolutionIconVersion()
-                .BuildToSolutionFile();
+                .BuildToMockSolutionFile();
 
         // Act
         solutionFile.UpdateFileHeader(expectedVersion);
@@ -195,7 +196,7 @@ public class SolutionFileTests
         string expectedFileContent = new SolutionFileBuilder(expectedVersion).Build();
         SolutionFile solutionFile = new SolutionFileBuilder(expectedVersion)
             .ExcludeVisualStudioMinimumVersion()
-            .BuildToSolutionFile();
+            .BuildToMockSolutionFile();
 
         // Act
         solutionFile.UpdateFileHeader(expectedVersion);
@@ -217,7 +218,7 @@ public class SolutionFileTests
         string expectedFileContent = new SolutionFileBuilder(expectedVersion).Build();
         SolutionFile solutionFile = new SolutionFileBuilder(expectedVersion)
             .ExcludeVisualStudioFullVersion()
-            .BuildToSolutionFile();
+            .BuildToMockSolutionFile();
 
         // Act
         solutionFile.UpdateFileHeader(expectedVersion);
@@ -236,7 +237,7 @@ public class SolutionFileTests
     {
         // Arrange
         Version expectedVersion = Version.Parse("17.0.31903.59");
-        SolutionFile solutionFile = new SolutionFileBuilder(expectedVersion).BuildToSolutionFile();
+        SolutionFile solutionFile = new SolutionFileBuilder(expectedVersion).BuildToMockSolutionFile();
         SolutionFileHeader fileHeader = new(
             fileFormatVersion: SolutionFileHeader.SupportedFileFormatVersion,
             lastVisualStudioMajorVersion: null,
@@ -252,7 +253,7 @@ public class SolutionFileTests
     {
         // Arrange
         Version expectedVersion = Version.Parse("17.0.31903.59");
-        SolutionFile solutionFile = new SolutionFileBuilder(expectedVersion).BuildToSolutionFile();
+        SolutionFile solutionFile = new SolutionFileBuilder(expectedVersion).BuildToMockSolutionFile();
         SolutionFileHeader fileHeader = new(
             fileFormatVersion: SolutionFileHeader.SupportedFileFormatVersion,
             lastVisualStudioMajorVersion: expectedVersion.Major,
