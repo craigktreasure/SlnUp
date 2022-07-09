@@ -9,7 +9,7 @@ using System.IO.Abstractions;
 
 internal class ProgramOptions
 {
-    public const string DefaultVersionArgument = "2022";
+    public static string DefaultVersionArgument => VersionManager.LatestProductValue;
 
     public Version? BuildVersion { get; set; }
 
@@ -96,7 +96,7 @@ internal class ProgramOptions
         else
         {
             // Try to lookup the version specified.
-            VersionManager versionManager = VersionManager.LoadFromDefaultEmbeddedResource();
+            VersionManager versionManager = new();
 
             VisualStudioVersion? version = versionManager.FromVersionParameter(this.Version);
 

@@ -21,9 +21,6 @@
 
   <ItemGroup>
     <None Include="$(RepoRootPath)README.md" Pack="true" PackagePath="\" />
-    <EmbeddedResource Include="Versions.json">
-      <LogicalName>%(Identity)</LogicalName>
-    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

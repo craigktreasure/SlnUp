@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SlnUp.Core\SlnUp.Core.csproj" />
+    <ProjectReference Include="..\SlnUp.Json\SlnUp.Json.csproj" />
   </ItemGroup>
 
 </Project>

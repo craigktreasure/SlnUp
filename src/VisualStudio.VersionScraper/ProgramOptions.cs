@@ -6,6 +6,8 @@ using System.Diagnostics.CodeAnalysis;
 [SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes", Justification = "Created at runtime.")]
 internal class ProgramOptions
 {
+    public OutputFormat Format { get; set; }
+
     public bool NoCache { get; set; }
 
     public string? OutputFilePath { get; set; }
@@ -14,7 +16,12 @@ internal class ProgramOptions
     {
         Argument<string?> outputArgument = new(
             name: "output",
-            description: "Json file output path.");
+            description: "The output file path.");
+
+        Option<OutputFormat> formatOption = new(
+            name: "--format",
+            description: "The output file format.");
+        formatOption.AddAlias("-f");
 
         Option<bool> noCacheOption = new(
             name: "--no-cache",
@@ -23,13 +30,14 @@ internal class ProgramOptions
         RootCommand rootCommand = new("Visual Studio Version Scraper")
         {
             outputArgument,
-            noCacheOption
+            formatOption,
+            noCacheOption,
         };
 
         rootCommand.SetHandler(options =>
         {
             return Task.FromResult(invokeAction(options));
-        }, new ProgramOptionsBinder(outputArgument, noCacheOption));
+        }, new ProgramOptionsBinder(outputArgument, formatOption, noCacheOption));
 
         return rootCommand;
     }
