@@ -50,10 +50,16 @@ To view all available options, you can run:
 slnup --help
 ```
 
-The simplest form is to run the tool (`slnup`) with a Visual Studio product year
-(2017, 2019, or 2022). This will cause the tool to discover a solution file in
-the current directory and update it with the latest version for the specified
-product year.
+The simplest form is to run the tool (`slnup`) from a directory containing a
+single solution (`.sln`) file. This will cause the tool to discover a solution
+file in the current directory and update it with the latest version.
+
+```shell
+slnup
+```
+
+You can also pass a Visual Studio product year (2017, 2019, or 2022) to update
+to the latest version for the specified product year.
 
 ```shell
 slnup 2022
@@ -67,7 +73,8 @@ slnup 17.0
 ```
 
 A path to a solution file may also be specified using the `-p` or `--path`
-parameters.
+parameters. This will be necessary if there is more than one solution file
+in the current directory.
 
 ```shell
 slnup 2022 --path ./path/to/solution.sln

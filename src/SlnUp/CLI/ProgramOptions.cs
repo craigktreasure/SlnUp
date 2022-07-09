@@ -9,6 +9,8 @@ using System.IO.Abstractions;
 
 internal class ProgramOptions
 {
+    public const string DefaultVersionArgument = "2022";
+
     public Version? BuildVersion { get; set; }
 
     public string? SolutionPath { get; set; }
@@ -24,7 +26,8 @@ internal class ProgramOptions
 
         Argument<string?> versionArgument = new(
             name: "version",
-            description: "The Visual Studio version to update the solution file with. Should be either a 2 or 3-part version number (ex. 16.9 or 17.0.1) or a product year (ex. 2017, 2019, or 2022).");
+            getDefaultValue: () => DefaultVersionArgument,
+            description: "The Visual Studio version to update the solution file with. Can be either a product year (ex. 2017, 2019, or 2022) or a 2 or 3-part version number (ex. 16.9 or 17.0.1).");
 
         Option<Version?> buildVersionOption = new(
             name: "--build-version",

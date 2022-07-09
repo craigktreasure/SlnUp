@@ -41,10 +41,12 @@ public class ProgramOptionsTests
         ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
-        Assert.Equal(1, exitCode);
-        Assert.Null(result);
-        this.testConsole.Should().HaveOutputWritten();
-        this.testConsole.GetErrorOutput().Should().StartWith("Required argument missing for command");
+        Assert.Equal(0, exitCode);
+        Assert.NotNull(result);
+        result.Should().BeEquivalentTo(new ProgramOptions
+        {
+            Version = ProgramOptions.DefaultVersionArgument,
+        });
     }
 
     [Theory]
