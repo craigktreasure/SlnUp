@@ -5,9 +5,17 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-internal class VersionManager
+internal partial class VersionManager
 {
     private readonly IReadOnlyList<VisualStudioVersion> versions;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="VersionManager"/> class.
+    /// </summary>
+    public VersionManager()
+        : this(GetDefaultVersions())
+    {
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VersionManager"/> class.
@@ -15,13 +23,6 @@ internal class VersionManager
     /// <param name="versions">The versions.</param>
     public VersionManager(IReadOnlyList<VisualStudioVersion> versions)
         => this.versions = versions;
-
-    /// <summary>
-    /// Loads a <see cref="VersionManager"/> from the default embedded file resource.
-    /// </summary>
-    /// <returns><see cref="VersionManager"/>.</returns>
-    public static VersionManager LoadFromDefaultEmbeddedResource()
-        => LoadFromEmbeddedResource(typeof(VersionManager).Assembly, "Versions.json");
 
     /// <summary>
     /// Loads a <see cref="VersionManager" /> from an embedded file resource.

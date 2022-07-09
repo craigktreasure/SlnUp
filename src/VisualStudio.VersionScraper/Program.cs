@@ -3,6 +3,7 @@ namespace VisualStudio.VersionScraper;
 using SlnUp.Core;
 using System.CommandLine;
 using System.IO.Abstractions;
+using VisualStudio.VersionScraper.Writers.CSharp;
 
 internal static class Program
 {
@@ -27,7 +28,26 @@ internal static class Program
             .Where(v => v.IsPreview is false);
 
         IFileSystem fileSystem = new FileSystem();
-        VisualStudioVersion.ToJsonFile(fileSystem, versions, options.OutputFilePath);
+
+        switch (options.Format)
+        {
+            case OutputFormat.Json:
+                VisualStudioVersion.ToJsonFile(fileSystem, versions, options.OutputFilePath);
+                break;
+
+            case OutputFormat.CSharp:
+                CSharpVersionWriter csharpWriter = new(fileSystem);
+                csharpWriter.WriteClassToFile(versions, options.OutputFilePath);
+                break;
+
+            default:
+                throw new NotSupportedException($"The format is not supported: '{options.Format}'.");
+        }
+
+        using (ConsoleHelpers.WithForegroundColor(ConsoleColor.Green))
+        {
+            Console.WriteLine($"Done writing {options.Format} to '{options.OutputFilePath}'.");
+        }
 
         return 0;
     }

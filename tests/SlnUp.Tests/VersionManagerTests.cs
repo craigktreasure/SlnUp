@@ -1,9 +1,48 @@
 namespace SlnUp.Tests;
 
 using SlnUp.Core;
+using System.Diagnostics.CodeAnalysis;
 
 public class VersionManagerTests
 {
+    [Fact]
+    [SuppressMessage("Globalization", "CA1305:Specify IFormatProvider")]
+    public void Construct()
+    {
+        // Act
+        VersionManager versionManager = new();
+
+        // Assert
+        foreach (VisualStudioProduct product in Enum.GetValues<VisualStudioProduct>())
+        {
+            if (product is VisualStudioProduct.Unknown)
+            {
+                continue;
+            }
+
+            VisualStudioVersion? version = versionManager.FromVersionParameter(((int)product).ToString());
+            Assert.NotNull(version);
+        }
+    }
+
+    [Fact]
+    [SuppressMessage("Globalization", "CA1305:Specify IFormatProvider")]
+    public void Construct_Versions()
+    {
+        // Arrange
+        IReadOnlyList<VisualStudioVersion> versions = new[]
+        {
+            new VisualStudioVersion(VisualStudioProduct.VisualStudio2022, Version.Parse("17.2.5"), Version.Parse("17.2.32616.157"), "Release", false),
+        };
+
+        // Act
+        VersionManager versionManager = new(versions);
+
+        // Assert
+        Assert.NotNull(versionManager.FromVersionParameter(((int)VisualStudioProduct.VisualStudio2022).ToString()));
+        Assert.Null(versionManager.FromVersionParameter(((int)VisualStudioProduct.VisualStudio2017).ToString()));
+    }
+
     [Theory]
     [InlineData(null, false, null)]
     [InlineData("", false, null)]
@@ -50,15 +89,6 @@ public class VersionManagerTests
             version.Should().NotBeNull();
             version!.BuildVersion.Should().Be(Version.Parse(expectedBuildVersion!));
         }
-    }
-
-    [Fact]
-    public void LoadFromEmbeddedResource()
-    {
-        // Arrange, act, and assert
-        VersionManager versionManager = VersionManager.LoadFromDefaultEmbeddedResource();
-        VisualStudioVersion? version = versionManager.FromVersionParameter("2022");
-        version.Should().NotBeNull();
     }
 
     [Theory]
