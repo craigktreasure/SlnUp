@@ -10,7 +10,7 @@ internal static class Program
 {
     public static int Main(string[] args)
     {
-        Console.Title = "Visual Studio Solution Updater";
+        Console.Title = ThisAssembly.AssemblyTitle;
 
         return ProgramOptions.Configure(Run).Invoke(args);
     }
@@ -18,7 +18,7 @@ internal static class Program
     private static int Run(ProgramOptions options)
         => Run(new FileSystem(), options);
 
-    internal static int Run(IFileSystem fileSystem, ProgramOptions programOptions)
+    private static int Run(IFileSystem fileSystem, ProgramOptions programOptions)
     {
         if (!programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options))
         {
@@ -29,7 +29,7 @@ internal static class Program
     }
 
     [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "By design.")]
-    internal static int Run(IFileSystem fileSystem, SlnUpOptions options)
+    private static int Run(IFileSystem fileSystem, SlnUpOptions options)
     {
         try
         {
