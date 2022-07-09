@@ -7,23 +7,6 @@ using System.Text.Json;
 
 public class VisualStudioVersionTests
 {
-    private const string commonVersionsJson = @"[
-  {
-    ""Product"": ""visualStudio2019"",
-    ""Version"": ""16.11.6"",
-    ""BuildVersion"": ""16.11.31829.152"",
-    ""Channel"": ""Release"",
-    ""IsPreview"": false
-  },
-  {
-    ""Product"": ""visualStudio2022"",
-    ""Version"": ""17.0.0"",
-    ""BuildVersion"": ""17.0.31903.59"",
-    ""Channel"": ""Release"",
-    ""IsPreview"": false
-  }
-]";
-
     private static readonly IReadOnlyList<VisualStudioVersion> commonVersions = new[]
     {
         new VisualStudioVersion(
@@ -90,57 +73,6 @@ public class VisualStudioVersionTests
     }
 
     [Fact]
-    public void FromJson()
-    {
-        // Act
-        IReadOnlyList<VisualStudioVersion> versions = VisualStudioVersion.FromJson(commonVersionsJson);
-
-        // Assert
-        versions.Should().BeEquivalentTo(commonVersions);
-    }
-
-    [Fact]
-    public void FromJson_Empty()
-    {
-        // Act
-        IReadOnlyList<VisualStudioVersion> versions = VisualStudioVersion.FromJson("[]");
-
-        // Assert
-        versions.Should().BeEmpty();
-    }
-
-    [Fact]
-    public void FromJson_EmptyString()
-    {
-        // Act
-        Assert.Throws<JsonException>(() => VisualStudioVersion.FromJson(string.Empty));
-    }
-
-    [Fact]
-    public void FromJsonFile()
-    {
-        // Arrange
-        string filePath = "C:/foo.json".ToCrossPlatformPath();
-        IFileSystem fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
-        {
-            [filePath] = new MockFileData(commonVersionsJson),
-        });
-
-        // Act
-        IReadOnlyList<VisualStudioVersion> versions = VisualStudioVersion.FromJsonFile(fileSystem, filePath);
-
-        // Assert
-        versions.Should().BeEquivalentTo(commonVersions);
-    }
-
-    [Fact]
-    public void FromJson_Null()
-    {
-        // Act
-        Assert.Throws<InvalidDataException>(() => VisualStudioVersion.FromJson("null"));
-    }
-
-    [Fact]
     public void GetHashCodeMethod()
     {
         // Arrange
@@ -152,56 +84,5 @@ public class VisualStudioVersionTests
 
         // Assert
         hashCode.Should().Be(expectedHashCode);
-    }
-
-    [Fact]
-    public void ToJson()
-    {
-        // Act
-        string json = VisualStudioVersion.ToJson(commonVersions);
-
-        // Assert
-        json.Should().Be(commonVersionsJson);
-    }
-
-    [Fact]
-    public void ToJson_Empty()
-    {
-        // Arrange
-        const string expectedJson = "[]";
-
-        // Act
-        string json = VisualStudioVersion.ToJson(Enumerable.Empty<VisualStudioVersion>());
-
-        // Assert
-        json.Should().Be(expectedJson);
-    }
-
-    [Fact]
-    public void ToJsonFile()
-    {
-        // Arrange
-        MockFileSystem fileSystem = new();
-        string filePath = "C:/foo.json".ToCrossPlatformPath();
-
-        // Act
-        VisualStudioVersion.ToJsonFile(fileSystem, commonVersions, filePath);
-
-        // Assert
-        fileSystem.FileExists(filePath).Should().BeTrue();
-        fileSystem.GetFile(filePath).TextContents.Should().Be(commonVersionsJson);
-    }
-
-    [Fact]
-    public void ToJson_Null()
-    {
-        // Arrange
-        const string expectedJson = "null";
-
-        // Act
-        string json = VisualStudioVersion.ToJson(null!);
-
-        // Assert
-        json.Should().Be(expectedJson);
     }
 }

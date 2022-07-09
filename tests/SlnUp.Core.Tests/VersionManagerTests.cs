@@ -1,6 +1,6 @@
-namespace SlnUp.Tests;
+namespace SlnUp.Core.Tests;
 
-using SlnUp.Core;
+using SlnUp.Json;
 using System.Diagnostics.CodeAnalysis;
 
 public class VersionManagerTests
@@ -74,7 +74,7 @@ public class VersionManagerTests
             throw new ArgumentNullException(nameof(expectedBuildVersion), "We expect a value to be found but an expected build version wasn't provided.");
         }
 
-        VersionManager versionManager = VersionManager.LoadFromEmbeddedResource(typeof(VersionManagerTests).Assembly, "TestVersions.json");
+        VersionManager versionManager = VersionManagerJsonHelper.LoadFromEmbeddedResource(typeof(VersionManagerTests).Assembly, "TestVersions.json");
 
         // Act
         VisualStudioVersion? version = versionManager.FromVersionParameter(input);

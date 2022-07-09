@@ -1,6 +1,7 @@
 namespace VisualStudio.VersionScraper;
 
 using SlnUp.Core;
+using SlnUp.Json;
 using System.CommandLine;
 using System.IO.Abstractions;
 using VisualStudio.VersionScraper.Writers.CSharp;
@@ -32,7 +33,7 @@ internal static class Program
         switch (options.Format)
         {
             case OutputFormat.Json:
-                VisualStudioVersion.ToJsonFile(fileSystem, versions, options.OutputFilePath);
+                VisualStudioVersionJsonHelper.ToJsonFile(fileSystem, versions, options.OutputFilePath);
                 break;
 
             case OutputFormat.CSharp:

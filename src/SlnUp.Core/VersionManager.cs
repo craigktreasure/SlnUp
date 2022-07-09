@@ -1,11 +1,13 @@
-namespace SlnUp;
+namespace SlnUp.Core;
 
-using SlnUp.Core;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-internal partial class VersionManager
+/// <summary>
+/// Manages versions of Visual Studio.
+/// </summary>
+public partial class VersionManager
 {
     private readonly IReadOnlyList<VisualStudioVersion> versions;
 
@@ -23,21 +25,6 @@ internal partial class VersionManager
     /// <param name="versions">The versions.</param>
     public VersionManager(IReadOnlyList<VisualStudioVersion> versions)
         => this.versions = versions;
-
-    /// <summary>
-    /// Loads a <see cref="VersionManager" /> from an embedded file resource.
-    /// </summary>
-    /// <param name="assembly">The assembly.</param>
-    /// <param name="filePath">The file path.</param>
-    /// <returns><see cref="VersionManager" />.</returns>
-    public static VersionManager LoadFromEmbeddedResource(Assembly assembly, string filePath)
-    {
-        string jsonContent = assembly.GetEmbeddedFileResourceContent(filePath);
-
-        IReadOnlyList<VisualStudioVersion> versions = VisualStudioVersion.FromJson(jsonContent);
-
-        return new VersionManager(versions);
-    }
 
     /// <summary>
     /// Tries to parse a Visual Studio version (x.x[.x]) from the specified input.

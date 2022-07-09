@@ -18,6 +18,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="..\SlnUp.Core.Tests\TestVersions.json">
+      <LogicalName>%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="coverlet.collector" />
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
@@ -27,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\SlnUp\SlnUp.csproj" />
+    <ProjectReference Include="..\..\src\SlnUp.Json\SlnUp.Json.csproj" />
     <ProjectReference Include="..\SlnUp.TestLibrary\SlnUp.TestLibrary.csproj" />
   </ItemGroup>
 
