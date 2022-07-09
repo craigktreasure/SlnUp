@@ -1,12 +1,9 @@
 namespace SlnUp.Core.Tests;
 
-using FluentAssertions;
-using Xunit;
-
 public class ScopedActionTests
 {
     [Fact]
-    public void ScopedActionInvoked()
+    public void ScopedAction_Invoked()
     {
         // Arrange
         int actionCalled = 0;
@@ -21,7 +18,7 @@ public class ScopedActionTests
     }
 
     [Fact]
-    public void ScopedActionInvokedFromUsing()
+    public void ScopedAction_InvokedFromUsing()
     {
         // Arrange
         bool actionCalled = false;
@@ -36,7 +33,7 @@ public class ScopedActionTests
     }
 
     [Fact]
-    public void ScopedActionNull()
+    public void ScopedAction_Null()
     {
         // Arrange
         ScopedAction action = new(null!);

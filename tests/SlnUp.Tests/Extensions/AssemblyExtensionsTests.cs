@@ -1,8 +1,5 @@
 namespace SlnUp.Tests.Extensions;
 
-using System;
-using Xunit;
-
 public class AssemblyExtensionsTests
 {
     [Fact]

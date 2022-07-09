@@ -1,6 +1,7 @@
 namespace SlnUp.Tests;
 
-using System;
+using SlnUp.TestLibrary;
+using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.Text;
 
@@ -63,7 +64,6 @@ internal class SolutionFileBuilder
     /// Builds the content of the solution file.
     /// </summary>
     /// <returns><see cref="string"/>.</returns>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider")]
     public string Build()
     {
         StringBuilder builder = new();
@@ -72,29 +72,30 @@ internal class SolutionFileBuilder
 
         if (this.includeFileFormatVersion)
         {
-            builder.AppendLine($"Microsoft Visual Studio Solution File, Format Version {this.fileFormatVersion}");
+            builder.Append("Microsoft Visual Studio Solution File, Format Version ")
+                .AppendLine(this.fileFormatVersion);
         }
 
         if (this.includeSolutionIconVersion)
         {
             if (this.iconMajorVersion >= 16)
             {
-                builder.AppendLine($"# Visual Studio Version {this.iconMajorVersion}");
+                builder.Append("# Visual Studio Version ").Append(this.iconMajorVersion).AppendLine();
             }
             else
             {
-                builder.AppendLine($"# Visual Studio {this.iconMajorVersion}");
+                builder.Append("# Visual Studio ").Append(this.iconMajorVersion).AppendLine();
             }
         }
 
         if (this.includeVisualStudioFullVersion)
         {
-            builder.AppendLine($"VisualStudioVersion = {this.visualStudioFullVersion}");
+            builder.Append("VisualStudioVersion = ").Append(this.visualStudioFullVersion).AppendLine();
         }
 
         if (this.includeVisualStudioMinimumVersion)
         {
-            builder.AppendLine($"MinimumVisualStudioVersion = {this.visualStudioMinimumVersion}");
+            builder.Append("MinimumVisualStudioVersion = ").Append(this.visualStudioMinimumVersion).AppendLine();
         }
 
         if (this.includeBody)
@@ -116,18 +117,23 @@ EndGlobal
     }
 
     /// <summary>
+    /// Builds a solution file and write it to the specified file path in the specified file system.
+    /// </summary>
+    /// <param name="fileSystem">The file system.</param>
+    /// <param name="filePath">The file path.</param>
+    public void BuildToFile(IFileSystem fileSystem, string filePath)
+        => fileSystem.File.WriteAllText(filePath, this.Build());
+
+    /// <summary>
     /// Builds the content of the solution file and puts it into a <see cref="MockFileSystem"/>.
     /// </summary>
     /// <param name="filePath">The file path.</param>
     /// <returns><see cref="MockFileSystem"/>.</returns>
-    public MockFileSystem BuildToFileSystem(out string filePath)
+    public MockFileSystem BuildToMockFileSystem(out string filePath)
     {
-        filePath = "C:\\MyProject.sln";
-
-        MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
-        {
-            [filePath] = new MockFileData(this.Build())
-        });
+        MockFileSystem fileSystem = new();
+        filePath = TemporaryFile.GetRandomFilePathWithExtension(fileSystem, "sln");
+        this.BuildToFile(fileSystem, filePath);
 
         return fileSystem;
     }
@@ -136,9 +142,23 @@ EndGlobal
     /// Builds the content to a <see cref="SolutionFile"/>.
     /// </summary>
     /// <returns><see cref="SolutionFile"/>.</returns>
-    public SolutionFile BuildToSolutionFile()
+    public SolutionFile BuildToMockSolutionFile()
     {
-        MockFileSystem fileSystem = this.BuildToFileSystem(out string filePath);
+        IFileSystem fileSystem = this.BuildToMockFileSystem(out string filePath);
+        SolutionFile solutionFile = new(fileSystem, filePath);
+
+        return solutionFile;
+    }
+
+    /// <summary>
+    /// Builds the content to a <see cref="SolutionFile" />.
+    /// </summary>
+    /// <param name="fileSystem">The file system.</param>
+    /// <param name="filePath">The file path.</param>
+    /// <returns><see cref="SolutionFile" />.</returns>
+    public SolutionFile BuildToSolutionFile(IFileSystem fileSystem, string filePath)
+    {
+        this.BuildToFile(fileSystem, filePath);
         SolutionFile solutionFile = new(fileSystem, filePath);
 
         return solutionFile;

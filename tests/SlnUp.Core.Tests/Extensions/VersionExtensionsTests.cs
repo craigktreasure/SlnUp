@@ -1,8 +1,5 @@
 namespace SlnUp.Core.Tests.Extensions;
 
-using FluentAssertions;
-using Xunit;
-
 public class VersionExtensionsTests
 {
     [Theory]

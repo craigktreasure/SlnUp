@@ -1,8 +1,5 @@
 namespace SlnUp.Tests;
 
-using FluentAssertions;
-using Xunit;
-
 public class SolutionFileHeaderTests
 {
     [Fact]
@@ -26,7 +23,7 @@ public class SolutionFileHeaderTests
     }
 
     [Fact]
-    public void ConstructWithUnsupportedFileFormatVersion()
+    public void Construct_WithUnsupportedFileFormatVersion()
     {
         // Arrange and act
         ArgumentException ex = Assert.Throws<ArgumentException>(() => new SolutionFileHeader("13.00"));

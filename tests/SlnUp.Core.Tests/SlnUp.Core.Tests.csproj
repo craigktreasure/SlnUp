@@ -2,10 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Global usings -->
+    <Using Include="FluentAssertions" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" />
@@ -17,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SlnUp.Core\SlnUp.Core.csproj" />
+    <ProjectReference Include="..\..\src\SlnUp.Core\SlnUp.Core.csproj" />
     <ProjectReference Include="..\SlnUp.TestLibrary\SlnUp.TestLibrary.csproj" />
   </ItemGroup>
 

@@ -1,11 +1,9 @@
 namespace SlnUp.Core.Tests;
 
-using FluentAssertions;
 using SlnUp.TestLibrary;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.Text.Json;
-using Xunit;
 
 public class VisualStudioVersionTests
 {
@@ -66,7 +64,7 @@ public class VisualStudioVersionTests
     }
 
     [Fact]
-    public void ConstructorWithPreview()
+    public void Constructor_WithPreview()
     {
         // Arrange
         const string expectedChannel = "Preview 1";
@@ -102,7 +100,7 @@ public class VisualStudioVersionTests
     }
 
     [Fact]
-    public void FromJsonEmpty()
+    public void FromJson_Empty()
     {
         // Act
         IReadOnlyList<VisualStudioVersion> versions = VisualStudioVersion.FromJson("[]");
@@ -112,7 +110,7 @@ public class VisualStudioVersionTests
     }
 
     [Fact]
-    public void FromJsonEmptyString()
+    public void FromJson_EmptyString()
     {
         // Act
         Assert.Throws<JsonException>(() => VisualStudioVersion.FromJson(string.Empty));
@@ -136,7 +134,7 @@ public class VisualStudioVersionTests
     }
 
     [Fact]
-    public void FromJsonNull()
+    public void FromJson_Null()
     {
         // Act
         Assert.Throws<InvalidDataException>(() => VisualStudioVersion.FromJson("null"));
@@ -167,7 +165,7 @@ public class VisualStudioVersionTests
     }
 
     [Fact]
-    public void ToJsonEmpty()
+    public void ToJson_Empty()
     {
         // Arrange
         const string expectedJson = "[]";
@@ -195,7 +193,7 @@ public class VisualStudioVersionTests
     }
 
     [Fact]
-    public void ToJsonNull()
+    public void ToJson_Null()
     {
         // Arrange
         const string expectedJson = "null";

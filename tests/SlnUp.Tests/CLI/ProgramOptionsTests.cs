@@ -1,12 +1,11 @@
-namespace SlnUp.Tests;
+namespace SlnUp.Tests.CLI;
 
-using FluentAssertions;
+using SlnUp.CLI;
 using SlnUp.TestLibrary;
 using SlnUp.Tests.Utilities;
 using System.CommandLine;
 using System.CommandLine.IO;
 using System.IO.Abstractions.TestingHelpers;
-using Xunit;
 
 public class ProgramOptionsTests
 {
@@ -33,7 +32,7 @@ public class ProgramOptionsTests
     }
 
     [Fact]
-    public void ConfigureNoParameters()
+    public void Configure_NoParameters()
     {
         // Arrange
         string[] args = Array.Empty<string>();
@@ -51,7 +50,7 @@ public class ProgramOptionsTests
     [Theory]
     [InlineData("2022", "--build-version", "17.0.31903.59")]
     [InlineData("--build-version", "17.0.31903.59", "2022")]
-    public void ConfigureWithBuildVersion(params string[] args)
+    public void Configure_WithBuildVersion(params string[] args)
     {
         // Arrange
         const string expectedVersion = "2022";
@@ -71,7 +70,7 @@ public class ProgramOptionsTests
     }
 
     [Fact]
-    public void ConfigureWithInvalidBuildVersion()
+    public void Configure_WithInvalidBuildVersion()
     {
         // Arrange
         string[] args = new[]
@@ -96,7 +95,7 @@ public class ProgramOptionsTests
     [InlineData("--help")]
     [InlineData("-h")]
     [InlineData("-?")]
-    public void ConfigureWithHelp(params string[] args)
+    public void Configure_WithHelp(params string[] args)
     {
         // Act
         ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
@@ -112,7 +111,7 @@ public class ProgramOptionsTests
     [InlineData("2022", "--path", "C:/solution.sln")]
     [InlineData("2022", "-p", "C:/solution.sln")]
     [InlineData("-p", "C:/solution.sln", "2022")]
-    public void ConfigureWithPath(params string[] args)
+    public void Configure_WithPath(params string[] args)
     {
         // Arrange
         const string expectedVersion = "2022";
@@ -132,7 +131,7 @@ public class ProgramOptionsTests
     }
 
     [Fact]
-    public void ConfigureWithVersion()
+    public void Configure_WithVersion()
     {
         // Arrange
         string[] args = new[] { "--version" };
@@ -178,7 +177,7 @@ public class ProgramOptionsTests
     /// app 16.8 --path C:\MyProject.sln
     /// </summary>
     [Fact]
-    public void TryGetSlnUpOptionsWithAbsoluteSolutionPath()
+    public void TryGetSlnUpOptions_WithAbsoluteSolutionPath()
     {
         // Arrange
         string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
@@ -205,7 +204,7 @@ public class ProgramOptionsTests
     /// Build version: > app 0.0 --build-version 0.0.0.0
     /// </summary>
     [Fact]
-    public void TryGetSlnUpOptionsWithBuildVersion()
+    public void TryGetSlnUpOptions_WithBuildVersion()
     {
         // Arrange
         string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
@@ -234,7 +233,7 @@ public class ProgramOptionsTests
     /// Build version with invalid version: > app 0 --build-version 0.0.0
     /// </summary>
     [Fact]
-    public void TryGetSlnUpOptionsWithBuildVersionAndInvalidVersion()
+    public void TryGetSlnUpOptions_WithBuildVersionAndInvalidVersion()
     {
         // Arrange
         string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
@@ -260,7 +259,7 @@ public class ProgramOptionsTests
     /// Invalid build version: > app 0.0 --build-version 0.0.0
     /// </summary>
     [Fact]
-    public void TryGetSlnUpOptionsWithInvalidBuildVersion()
+    public void TryGetSlnUpOptions_WithInvalidBuildVersion()
     {
         // Arrange
         string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
@@ -286,7 +285,7 @@ public class ProgramOptionsTests
     /// Minimal invocation: > app 0.0
     /// </summary>
     [Fact]
-    public void TryGetSlnUpOptionsWithInvalidVersion()
+    public void TryGetSlnUpOptions_WithInvalidVersion()
     {
         // Arrange
         string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
@@ -311,7 +310,7 @@ public class ProgramOptionsTests
     /// Multiple solution files available: > app 16.8
     /// </summary>
     [Fact]
-    public void TryGetSlnUpOptionsWithMultipleSolutions()
+    public void TryGetSlnUpOptions_WithMultipleSolutions()
     {
         // Arrange
         ProgramOptions programOptions = new()
@@ -336,7 +335,7 @@ public class ProgramOptionsTests
     /// app 16.8 --path C:\Missing.sln
     /// </summary>
     [Fact]
-    public void TryGetSlnUpOptionsWithNonExistentSolutionPath()
+    public void TryGetSlnUpOptions_WithNonExistentSolutionPath()
     {
         // Arrange
         ProgramOptions programOptions = new()
@@ -361,7 +360,7 @@ public class ProgramOptionsTests
     /// Multiple solution files available: > app 16.8
     /// </summary>
     [Fact]
-    public void TryGetSlnUpOptionsWithNoSolutions()
+    public void TryGetSlnUpOptions_WithNoSolutions()
     {
         // Arrange
         ProgramOptions programOptions = new()
@@ -382,7 +381,7 @@ public class ProgramOptionsTests
     /// app 16.8 --path .\MyProject.sln
     /// </summary>
     [Fact]
-    public void TryGetSlnUpOptionsWithRelativeSolutionPath()
+    public void TryGetSlnUpOptions_WithRelativeSolutionPath()
     {
         // Arrange
         string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();

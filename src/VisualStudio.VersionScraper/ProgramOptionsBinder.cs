@@ -1,6 +1,5 @@
 namespace VisualStudio.VersionScraper;
 
-using System;
 using System.CommandLine;
 using System.CommandLine.Binding;
 
@@ -14,6 +13,9 @@ internal class ProgramOptionsBinder : BinderBase<ProgramOptions>
         Argument<string?> outputArgument,
         Option<bool> noCacheOption)
     {
+        ArgumentNullException.ThrowIfNull(outputArgument);
+        ArgumentNullException.ThrowIfNull(noCacheOption);
+
         this.outputArgument = outputArgument;
         this.noCacheOption = noCacheOption;
     }

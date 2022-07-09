@@ -7,10 +7,6 @@ using System.Text.RegularExpressions;
 
 internal class SolutionFile
 {
-    private readonly string filePath;
-
-    private readonly IFileSystem fileSystem;
-
     private static readonly Regex fileFormatVersionRegex = new(
         @"^Microsoft Visual Studio Solution File, Format Version (\d+\.\d+)$",
         RegexOptions.Compiled);
@@ -26,6 +22,10 @@ internal class SolutionFile
     private static readonly Regex minimumVisualStudioVersionRegex = new(
         @"^MinimumVisualStudioVersion = (\d+\.\d+\.\d+\.\d+)$",
         RegexOptions.Compiled);
+
+    private readonly string filePath;
+
+    private readonly IFileSystem fileSystem;
 
     private int fileFormatLineNumber = -1;
 
@@ -58,6 +58,12 @@ internal class SolutionFile
     /// </summary>
     /// <returns><see cref="string"/>.</returns>
     public string ReadContent() => this.fileSystem.File.ReadAllText(this.filePath);
+
+    /// <summary>
+    /// Reload.
+    /// </summary>
+    public void Reload()
+        => this.FileHeader = this.LoadFileHeader();
 
     /// <summary>
     /// Updates the file header.
@@ -128,70 +134,6 @@ internal class SolutionFile
         this.FileHeader = fileHeader;
     }
 
-    private SolutionFileHeader LoadFileHeader()
-    {
-        IReadOnlyList<string> lines = this.fileSystem.File.ReadAllLines(this.filePath);
-
-        if (!TryLocateFileFormatLine(lines, out this.fileFormatLineNumber, out string? fileFormatVersion))
-        {
-            throw new InvalidDataException($"The file does not contain a valid file format: '{this.filePath}'.");
-        }
-
-        SolutionFileHeader fileHeader = new(fileFormatVersion);
-
-        int nextLine = this.fileFormatLineNumber + 1;
-        if (lines.Count > nextLine + 1
-            && TryGetLastVisualStudioMajorVersion(lines[nextLine], out int? lastMajorVersion))
-        {
-            fileHeader = fileHeader with
-            {
-                LastVisualStudioMajorVersion = lastMajorVersion,
-            };
-            ++nextLine;
-        }
-
-        if (lines.Count > nextLine + 1
-            && TryGetLastVisualStudioVersion(lines[nextLine], out Version? lastVersion))
-        {
-            fileHeader = fileHeader with
-            {
-                LastVisualStudioVersion = lastVersion,
-            };
-            ++nextLine;
-        }
-
-        if (lines.Count > nextLine + 1
-            && TryGetMinimumVisualStudioVersion(lines[nextLine], out Version? minimumVersion))
-        {
-            fileHeader = fileHeader with
-            {
-                MinimumVisualStudioVersion = minimumVersion,
-            };
-        }
-
-        return fileHeader;
-    }
-
-    private static bool TryLocateFileFormatLine(
-        IReadOnlyList<string> lines,
-        out int fileFormatLineNumber,
-        [NotNullWhen(true)] out string? fileFormatVersion)
-    {
-        fileFormatLineNumber = -1;
-        fileFormatVersion = null;
-
-        for (int i = 0; i < lines.Count; ++i)
-        {
-            if (TryGetFileFormat(lines[i], out fileFormatVersion))
-            {
-                fileFormatLineNumber = i;
-                break;
-            }
-        }
-
-        return fileFormatLineNumber != -1;
-    }
-
     private static bool TryGetFileFormat(string line, [NotNullWhen(true)] out string? fileFormatVersion)
     {
         fileFormatVersion = null;
@@ -241,5 +183,69 @@ internal class SolutionFile
         }
 
         return minimumVersion is not null;
+    }
+
+    private static bool TryLocateFileFormatLine(
+        IReadOnlyList<string> lines,
+        out int fileFormatLineNumber,
+        [NotNullWhen(true)] out string? fileFormatVersion)
+    {
+        fileFormatLineNumber = -1;
+        fileFormatVersion = null;
+
+        for (int i = 0; i < lines.Count; ++i)
+        {
+            if (TryGetFileFormat(lines[i], out fileFormatVersion))
+            {
+                fileFormatLineNumber = i;
+                break;
+            }
+        }
+
+        return fileFormatLineNumber != -1;
+    }
+
+    private SolutionFileHeader LoadFileHeader()
+    {
+        IReadOnlyList<string> lines = this.fileSystem.File.ReadAllLines(this.filePath);
+
+        if (!TryLocateFileFormatLine(lines, out this.fileFormatLineNumber, out string? fileFormatVersion))
+        {
+            throw new InvalidDataException($"The file does not contain a valid file format: '{this.filePath}'.");
+        }
+
+        SolutionFileHeader fileHeader = new(fileFormatVersion);
+
+        int nextLine = this.fileFormatLineNumber + 1;
+        if (lines.Count > nextLine + 1
+            && TryGetLastVisualStudioMajorVersion(lines[nextLine], out int? lastMajorVersion))
+        {
+            fileHeader = fileHeader with
+            {
+                LastVisualStudioMajorVersion = lastMajorVersion,
+            };
+            ++nextLine;
+        }
+
+        if (lines.Count > nextLine + 1
+            && TryGetLastVisualStudioVersion(lines[nextLine], out Version? lastVersion))
+        {
+            fileHeader = fileHeader with
+            {
+                LastVisualStudioVersion = lastVersion,
+            };
+            ++nextLine;
+        }
+
+        if (lines.Count > nextLine + 1
+            && TryGetMinimumVisualStudioVersion(lines[nextLine], out Version? minimumVersion))
+        {
+            fileHeader = fileHeader with
+            {
+                MinimumVisualStudioVersion = minimumVersion,
+            };
+        }
+
+        return fileHeader;
     }
 }
