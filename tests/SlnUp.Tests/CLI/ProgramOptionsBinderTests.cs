@@ -32,15 +32,17 @@ public class ProgramOptionsBinderTests
     }
 
     [Theory]
+    [InlineData(null, null, null)]
     [InlineData("2022", null, null)]
     [InlineData("2022", null, "17.2.0")]
     [InlineData("2022", "C:/path.sln", null)]
     [InlineData("2022", "C:/path.sln", "17.2.0")]
-    public void GetBoundValue(string expectedVersion, string? expectedPath, string? expectedBuildVersion)
+    public void GetBoundValue(string? version, string? expectedPath, string? expectedBuildVersion)
     {
         // Arrange
+        string expectedVersion = version ?? ProgramOptions.DefaultVersionArgument;
         Option<string?> pathOption = new("--path");
-        Argument<string?> versionArgument = new("version");
+        Argument<string?> versionArgument = new("version", getDefaultValue: () => ProgramOptions.DefaultVersionArgument);
         Option<Version?> buildVersionOption = new("--build-version", parseArgument: ArgumentParser.ParseVersion);
         RootCommand command = new()
         {
@@ -49,7 +51,7 @@ public class ProgramOptionsBinderTests
             buildVersionOption,
         };
         ProgramOptionsBinder binder = new(pathOption, versionArgument, buildVersionOption);
-        StringBuilder argsBuilder = new(expectedVersion);
+        StringBuilder argsBuilder = new(version);
 
         if (expectedPath is not null)
         {
