@@ -64,13 +64,13 @@ jobs:
           verbose: true
 
       - name: Upload output artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: __output
           path: __output
 
       - name: Upload package artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: __packages
           path: __packages
