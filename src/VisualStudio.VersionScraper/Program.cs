@@ -26,7 +26,8 @@ internal static class Program
         VisualStudioVersionDocScraper docScraper = new(useCache: options.NoCache is false);
 
         IEnumerable<VisualStudioVersion> versions = docScraper.ScrapeVisualStudioVersions()
-            .Where(v => v.IsPreview is false);
+            .Where(v => v.IsPreview is false)
+            .OrderByDescending(x => x.BuildVersion);
 
         IFileSystem fileSystem = new FileSystem();
 
