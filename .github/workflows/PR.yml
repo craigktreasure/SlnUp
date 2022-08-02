@@ -47,13 +47,13 @@ jobs:
           verbose: true
 
       - name: Upload output artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: __output_${{ matrix.platform }}
           path: __output
 
       - name: Upload packages artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: __packages_${{ matrix.platform }}
           path: __packages
