@@ -55,7 +55,8 @@ internal sealed class CSharpVersionWriter
             {
                 foreach (VisualStudioVersion version in versions)
                 {
-                    writer.WriteLine($"new {nameof(VisualStudioVersion)}({nameof(VisualStudioProduct)}.{version.Product}, Version.Parse(\"{version.Version}\"), Version.Parse(\"{version.BuildVersion}\"), \"{version.Channel}\", {version.IsPreview.ToString().ToLower()}),");
+                    string isPreview = version.IsPreview ? "true" : "false";
+                    writer.WriteLine($"new {nameof(VisualStudioVersion)}({nameof(VisualStudioProduct)}.{version.Product}, Version.Parse(\"{version.Version}\"), Version.Parse(\"{version.BuildVersion}\"), \"{version.Channel}\", {isPreview}),");
                 }
             }
         }
