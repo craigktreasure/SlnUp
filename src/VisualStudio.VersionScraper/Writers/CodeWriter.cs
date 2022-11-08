@@ -5,7 +5,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using Treasure.Utils;
 
-internal class CodeWriter
+internal sealed class CodeWriter
 {
     private readonly int indentSpaces = 4;
 

@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO.Abstractions;
 using Treasure.Utils;
 
-internal class CSharpVersionWriter
+internal sealed class CSharpVersionWriter
 {
     private const string ClassName = "VersionManager";
 

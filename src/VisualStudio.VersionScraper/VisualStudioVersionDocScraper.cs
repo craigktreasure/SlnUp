@@ -5,7 +5,7 @@ using SlnUp.Core;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-internal class VisualStudioVersionDocScraper
+internal sealed class VisualStudioVersionDocScraper
 {
     private const string vs2017VersionsDocUrl = "https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2017/install/visual-studio-build-numbers-and-release-dates";
 
