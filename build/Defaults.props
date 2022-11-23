@@ -10,7 +10,7 @@
     <!-- Sets the C# language version:
       https://docs.microsoft.com/dotnet/csharp/language-reference/configure-language-version#c-language-version-reference
     -->
-    <LangVersion>10.0</LangVersion>
+    <LangVersion>11.0</LangVersion>
 
     <!-- Enable implicit usings:
       https://docs.microsoft.com/dotnet/core/compatibility/sdk/6.0/implicit-namespaces-rc1
@@ -50,7 +50,7 @@
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <AnalysisLevel>6.0</AnalysisLevel>
+    <AnalysisLevel>7.0</AnalysisLevel>
   </PropertyGroup>
 
   <PropertyGroup>

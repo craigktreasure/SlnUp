@@ -5,7 +5,7 @@ using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.Text;
 
-internal class SolutionFileBuilder
+internal sealed class SolutionFileBuilder
 {
     public static readonly Version DefaultVisualStudioFullVersion = Version.Parse("16.0.28701.123");
 

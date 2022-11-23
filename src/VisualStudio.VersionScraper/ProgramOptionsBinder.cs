@@ -3,7 +3,7 @@ namespace VisualStudio.VersionScraper;
 using System.CommandLine;
 using System.CommandLine.Binding;
 
-internal class ProgramOptionsBinder : BinderBase<ProgramOptions>
+internal sealed class ProgramOptionsBinder : BinderBase<ProgramOptions>
 {
     private readonly Option<bool> noCacheOption;
 

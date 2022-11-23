@@ -4,7 +4,7 @@ using System.CommandLine;
 using System.Diagnostics.CodeAnalysis;
 
 [SuppressMessage("Performance", "CA1812:Avoid uninstantiated internal classes", Justification = "Created at runtime.")]
-internal class ProgramOptions
+internal sealed class ProgramOptions
 {
     public OutputFormat Format { get; set; }
 

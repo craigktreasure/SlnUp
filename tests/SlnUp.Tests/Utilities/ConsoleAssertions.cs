@@ -3,7 +3,7 @@ namespace SlnUp.Tests.Utilities;
 using FluentAssertions.Primitives;
 using System.CommandLine;
 
-internal class ConsoleAssertions : ReferenceTypeAssertions<IConsole, ConsoleAssertions>
+internal sealed class ConsoleAssertions : ReferenceTypeAssertions<IConsole, ConsoleAssertions>
 {
     protected override string Identifier => nameof(IConsole);
 
