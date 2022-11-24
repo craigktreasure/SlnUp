@@ -4,7 +4,9 @@ updates:
   directory: "/"
   schedule:
     interval: weekly
-    time: '13:00'
+    day: 'friday'
+    time: '17:00'
+    timezone: 'America/Los_Angeles'
   open-pull-requests-limit: 10
   reviewers:
     - craigktreasure
@@ -15,7 +17,9 @@ updates:
   directory: "/"
   schedule:
     interval: weekly
-    time: '13:00'
+    day: 'friday'
+    time: '17:00'
+    timezone: 'America/Los_Angeles'
   open-pull-requests-limit: 10
   reviewers:
     - craigktreasure
