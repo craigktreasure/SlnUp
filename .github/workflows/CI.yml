@@ -46,7 +46,7 @@ jobs:
         run: |
           dotnet tool restore
           $packageVersion = dotnet nbgv get-version --variable NuGetPackageVersion
-          Write-Host "::set-output name=package_version::$packageVersion"
+          "package_version=$packageVersion" >> $env:GITHUB_OUTPUT
 
       - name: Install dependencies
         run: dotnet restore
