@@ -35,7 +35,7 @@ jobs:
         with:
           dotnet-version: |
             6.x
-            7.x
+            7.0.100
 
       - name: Set version
         id: version
