@@ -38,6 +38,10 @@ jobs:
             7.0.100
             7.x
 
+      - name: Patch global.json if necessary
+        shell: pwsh
+        run: ./scripts/PatchGlobalJson.ps1
+
       - name: Set version
         id: version
         shell: pwsh
