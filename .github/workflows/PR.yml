@@ -27,6 +27,7 @@ jobs:
           dotnet-version: |
             6.x
             7.0.100
+            7.x
 
       - name: Install dependencies
         run: dotnet restore
