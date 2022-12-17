@@ -2,7 +2,7 @@
   "sdk": {
     "version": "7.0.100",
     "allowPrerelease": false,
-    "rollForward": "latestFeature"
+    "rollForward": "disable"
   },
   "msbuild-sdks": {
     "Microsoft.Build.CentralPackageVersions": "2.1.3",
