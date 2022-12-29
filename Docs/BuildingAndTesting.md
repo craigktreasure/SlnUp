@@ -4,15 +4,15 @@
 
 ### Using Visual Studio
 
-* [Visual Studio 2022 17+](https://visualstudio.microsoft.com/downloads/)
-  * Visual Studio 2022 comes with the .NET 6 SDK, you can also install another
-    version from [here](https://dotnet.microsoft.com/download/dotnet/6.0).
+* [Visual Studio 2022 17.4+][download-vs]
+  * You'll also need the [.NET 6 SDK][download-dotnet-6-sdk] and [.NET 7 SDK][download-dotnet-7-sdk].
 
 ### Visual Studio Code
 
-* [Visual Studio Code](https://code.visualstudio.com/Download)
+* [Visual Studio Code][download-vs-code]
   * Install recommended extensions.
-* [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
+* [.NET 6 SDK][download-dotnet-6-sdk]
+* [.NET 7 SDK][download-dotnet-7-sdk]
 
 ## Build the tool
 
@@ -32,7 +32,7 @@ To run all the tests, simply run the following command:
 dotnet test
 ```
 
-## Managing a tool instalation from local build output
+## Managing a tool installation from local build output
 
 ### Install the tool
 
@@ -54,7 +54,7 @@ For stable release versions, run the following command:
 dotnet tool update -g SlnUp --add-source ./__packages/NuGet/Release/
 ```
 
-For pre-release versions, there is currently no way to update to a pre-release version. See [here](https://github.com/dotnet/sdk/issues/2551) for updates on this issue. For the time being, you need to [uninstall](#uninstall-the-tool) the previous version of the tool and then [install](#install-the-tool) the tool again.
+For pre-release versions, you need to specify the `--prerelase` argument.
 
 ### Uninstall the tool
 
@@ -75,3 +75,8 @@ Simply run the following PowerShell script:
 ```powershell
 ./scripts/UpdateVSVersions.ps1
 ```
+
+[download-dotnet-6-sdk]: https://dotnet.microsoft.com/download/dotnet/6.0 "Download .NET 6.0"
+[download-dotnet-7-sdk]: https://dotnet.microsoft.com/download/dotnet/7.0 "Download .NET 7.0"
+[download-vs]: https://visualstudio.microsoft.com/downloads/ "Download Visual Studio"
+[download-vs-code]: https://code.visualstudio.com/Download "Download Visual Studio Code"

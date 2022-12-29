@@ -4,6 +4,3 @@
 
 # CA1707: Identifiers should not contain underscores
 dotnet_diagnostic.CA1707.severity = none
-
-# IDE0022: Use expression body for methods
-dotnet_diagnostic.IDE0022.severity = suggestion
