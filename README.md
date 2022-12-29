@@ -22,8 +22,8 @@ solution file using a Visual Studio version number.
 
 The Visual Studio Version Selector tool, which determines which version of
 Visual Studio to open when you double-click a .sln file, uses the solution
-[file header](https://docs.microsoft.com/visualstudio/extensibility/internals/solution-dot-sln-file?view=vs-2022#file-header)
-to determine which version of Visual Studio to open.
+[file header][vs-sln-file-header] to determine which version of Visual Studio
+to open.
 
 Updating a solution file with correct version information requires you to
 understand the solution file header and the Visual Studio version information.
@@ -89,8 +89,7 @@ slnup 17.0 --build-version 17.0.31903.59
 
 ## How does it work?
 
-Visual Studio solution files have a well known
-[file header](https://docs.microsoft.com/visualstudio/extensibility/internals/solution-dot-sln-file?view=vs-2022#file-header).
+Visual Studio solution files have a well known [file header][vs-sln-file-header].
 The tool knows how to parse and update the solution file header and save the
 file. The tool also knows version information for builds of Visual Studio from
 Visual Studio 2017 to 2022. The version information specified, is used to update
@@ -98,7 +97,7 @@ the file header.
 
 Consider a solution file with the following file header:
 
-```
+```text
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28701.123
@@ -125,7 +124,7 @@ In the case of `2022`, the tool will use the latest known version information
 it knows for that version. So, this would cause the tool to update the solution
 file header to the following:
 
-```
+```text
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -146,3 +145,5 @@ Visual Studio 2022.
     `MinimumVisualStudioVersion = 10.0.40219.1`, then those values will be added
     to the file header.
 - The tool supports Visual Studio 2017, 2019, and 2022.
+
+[vs-sln-file-header]: https://docs.microsoft.com/visualstudio/extensibility/internals/solution-dot-sln-file?view=vs-2022#file-header "File header"

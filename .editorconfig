@@ -51,6 +51,9 @@ dotnet_diagnostic.IDE0008.severity = error
 # IDE0021: Use expression body for constructors
 dotnet_diagnostic.IDE0021.severity = suggestion
 
+# IDE0022: Use expression body for methods
+dotnet_diagnostic.IDE0022.severity = suggestion
+
 # IDE0046: Use conditional expression for return
 dotnet_diagnostic.IDE0046.severity = suggestion
 
