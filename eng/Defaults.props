@@ -1,0 +1,7 @@
+<Project>
+
+  <Import Project="DotNetDefaults.props" />
+  <Import Project="DotNetAnalyzers.props" />
+  <Import Project="Packaging.props" />
+
+</Project>

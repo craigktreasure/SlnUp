@@ -5,7 +5,7 @@
     <CentralBuildOutputPath>$(RepoRootPath)</CentralBuildOutputPath>
   </PropertyGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)\build\Defaults.props" />
+  <Import Project="$(MSBuildThisFileDirectory)\eng\Defaults.props" />
 
   <!-- Import the CentralBuildOutput SDK. -->
   <Sdk Name="Treasure.Build.CentralBuildOutput" />

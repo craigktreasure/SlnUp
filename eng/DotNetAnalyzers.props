@@ -1,0 +1,14 @@
+<Project>
+
+  <PropertyGroup>
+    <!-- Configure .NET source code analysis:
+      https://docs.microsoft.com/dotnet/fundamentals/code-analysis/overview
+    -->
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisLevel>7.0</AnalysisLevel>
+  </PropertyGroup>
+
+</Project>
