@@ -1,4 +1,6 @@
-[*.cs]
+# Project specific settings
+
+[*.{cs,vb}]
 
 # CA1707: Identifiers should not contain underscores
 dotnet_diagnostic.CA1707.severity = none

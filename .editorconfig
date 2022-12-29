@@ -1,6 +1,9 @@
-# Rules in this file were initially inferred by Visual Studio IntelliCode from the codebase based on best match to current usage.
 # EditorConfig is awesome: https://EditorConfig.org
 # You can learn more about editorconfig here: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference
+
+# IMPORTANT
+# This file is intended to be a static template. It shouldn't be modified for project specific settings.
+# Place project specific settings in subfolders whenever possible.
 
 # top-most EditorConfig file
 root = true
@@ -42,9 +45,6 @@ dotnet_diagnostic.CA1014.severity = none
 # CA1031: Do not catch general exception types
 dotnet_diagnostic.CA1031.severity = suggestion
 
-# CA1303: Do not pass literals as localized parameters
-dotnet_diagnostic.CA1303.severity = none
-
 # IDE0008: Use explicit type instead of var
 dotnet_diagnostic.IDE0008.severity = error
 
@@ -64,15 +64,12 @@ dotnet_diagnostic.IDE0059.severity = suggestion
 
 # Naming rules
 
-dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
 dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
 dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
 
-dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.types_should_be_pascal_case.symbols = types
 dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
 
-dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
 dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
 
@@ -110,44 +107,41 @@ dotnet_naming_style.pascal_case.capitalization = pascal_case
 #Style - language keyword and framework type options
 
 #prefer the language keyword for local variables, method parameters, and class members, instead of the type name, for types that have a keyword to represent them
-dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion
+dotnet_style_predefined_type_for_locals_parameters_members = true
 
 #Style - qualification options
 
 #prefer fields to be prefaced with this. in C# or Me. in Visual Basic
-dotnet_style_qualification_for_field = true:warning
+dotnet_style_qualification_for_field = true
 #prefer methods to be prefaced with this. in C# or Me. in Visual Basic
-dotnet_style_qualification_for_method = true:warning
+dotnet_style_qualification_for_method = true
 #prefer properties to be prefaced with this. in C# or Me. in Visual Basic
-dotnet_style_qualification_for_property = true:warning
+dotnet_style_qualification_for_property = true
 
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
-dotnet_style_coalesce_expression = true:suggestion
-dotnet_style_null_propagation = true:suggestion
-dotnet_style_prefer_is_null_check_over_reference_equality_method = true:warning
-dotnet_style_prefer_auto_properties = true:suggestion
-dotnet_style_object_initializer = true:suggestion
-dotnet_style_collection_initializer = true:suggestion
-dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
+dotnet_style_coalesce_expression = true
+dotnet_style_null_propagation = true
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true
+dotnet_style_prefer_auto_properties = true
+dotnet_style_object_initializer = true
+dotnet_style_collection_initializer = true
+dotnet_style_prefer_simplified_boolean_expressions = true
 dotnet_style_prefer_conditional_expression_over_assignment = true
 dotnet_style_prefer_conditional_expression_over_return = true
-dotnet_style_explicit_tuple_names = true:warning
-dotnet_style_prefer_inferred_tuple_names = true:suggestion
-dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
-dotnet_style_prefer_compound_assignment = true:suggestion
-dotnet_style_prefer_simplified_interpolation = true:suggestion
-dotnet_style_namespace_match_folder = true:suggestion
-dotnet_style_readonly_field = true:suggestion
-
-[*.cs]
-
-#Formatting - new line options
+dotnet_style_explicit_tuple_names = true
+dotnet_style_prefer_inferred_tuple_names = true
+dotnet_style_prefer_inferred_anonymous_type_member_names = true
+dotnet_style_prefer_compound_assignment = true
+dotnet_style_prefer_simplified_interpolation = true
+dotnet_style_namespace_match_folder = true
+dotnet_style_readonly_field = true
 
 #Formatting - organize using options
 # https://learn.microsoft.com/dotnet/fundamentals/code-analysis/style-rules/dotnet-formatting-options
 dotnet_sort_system_directives_first = true
 dotnet_separate_import_directive_groups = true
-dotnet_style_namespace_match_folder = true
+
+[*.cs]
 
 #Formatting - spacing options
 
@@ -193,9 +187,6 @@ csharp_style_inlined_variable_declaration = false
 csharp_style_var_for_built_in_types = false
 csharp_style_var_when_type_is_apparent = false
 csharp_style_var_elsewhere = false
-
-# CA2254: Template should be a static expression
-dotnet_diagnostic.CA2254.severity = suggestion
 
 # IDE0160 and IDE0161: Namespace declaration preferences
 csharp_style_namespace_declarations = file_scoped
