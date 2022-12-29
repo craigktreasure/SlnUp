@@ -1,9 +1,4 @@
-namespace SlnUp.Core.Tests;
-
-using SlnUp.TestLibrary;
-using System.IO.Abstractions;
-using System.IO.Abstractions.TestingHelpers;
-using System.Text.Json;
+﻿namespace SlnUp.Core.Tests;
 
 public class VisualStudioVersionTests
 {

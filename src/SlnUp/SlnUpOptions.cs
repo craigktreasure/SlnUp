@@ -1,4 +1,4 @@
-namespace SlnUp;
+﻿namespace SlnUp;
 
 using System;
 using System.Diagnostics.CodeAnalysis;

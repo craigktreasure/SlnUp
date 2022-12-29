@@ -1,9 +1,11 @@
-namespace SlnUp.Json;
+﻿namespace SlnUp.Json;
 
-using SlnUp.Core;
 using System.IO.Abstractions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+
+using SlnUp.Core;
+
 using Treasure.Utils;
 
 /// <summary>

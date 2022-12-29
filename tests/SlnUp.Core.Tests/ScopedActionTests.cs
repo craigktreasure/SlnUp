@@ -1,4 +1,4 @@
-namespace SlnUp.Core.Tests;
+﻿namespace SlnUp.Core.Tests;
 
 public class ScopedActionTests
 {

@@ -1,4 +1,4 @@
-namespace SlnUp.Json.Tests;
+﻿namespace SlnUp.Json.Tests;
 
 using SlnUp.Core;
 

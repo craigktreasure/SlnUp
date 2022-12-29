@@ -6,10 +6,13 @@
 root = true
 
 [*]
-charset = utf-8
+charset = utf-8-bom
 indent_style = space
 insert_final_newline = false
 trim_trailing_whitespace = true
+
+# Add guidelines to editor: https://github.com/pharring/EditorGuidelines#editorconfig-support-vs-2017-or-above
+guidelines = 80, 120
 
 [*.{yml,yaml}]
 indent_size = 2
@@ -22,47 +25,146 @@ insert_final_newline = true
 [*.md]
 insert_final_newline = true
 
-[*.cs]
-
-insert_final_newline = true
-
-#Core editorconfig formatting - indentation
-
-#use soft tabs (spaces) for indentation
-indent_style = space
+[*.{cs,vb}]
 
 indent_size = 4
+tab_width = 4
+insert_final_newline = true
+
+# .NET Analyzer severities
+
+# Default severity for all analyzer diagnostics
+dotnet_analyzer_diagnostic.severity = warning
+
+# CA1014: Mark assemblies with CLSCompliantAttribute
+dotnet_diagnostic.CA1014.severity = none
+
+# CA1031: Do not catch general exception types
+dotnet_diagnostic.CA1031.severity = suggestion
+
+# CA1303: Do not pass literals as localized parameters
+dotnet_diagnostic.CA1303.severity = none
+
+# IDE0008: Use explicit type instead of var
+dotnet_diagnostic.IDE0008.severity = error
+
+# IDE0021: Use expression body for constructors
+dotnet_diagnostic.IDE0021.severity = suggestion
+
+# IDE0046: Use conditional expression for return
+dotnet_diagnostic.IDE0046.severity = suggestion
+
+# IDE0058: Remove unnecessary expression value
+dotnet_diagnostic.IDE0058.severity = suggestion
+
+# IDE0059: Remove unnecessary value assignment
+dotnet_diagnostic.IDE0059.severity = suggestion
+
+#### Naming styles ####
+
+# Naming rules
+
+dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
+dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
+dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
+
+dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
+dotnet_naming_rule.types_should_be_pascal_case.symbols = types
+dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
+
+dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
+dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
+dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
+
+# Symbol specifications
+
+dotnet_naming_symbols.interface.applicable_kinds = interface
+dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.interface.required_modifiers =
+
+dotnet_naming_symbols.types.applicable_kinds = class, struct, interface, enum
+dotnet_naming_symbols.types.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.types.required_modifiers =
+
+dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, method
+dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.non_field_members.required_modifiers =
+
+# Naming styles
+
+dotnet_naming_style.begins_with_i.required_prefix = I
+dotnet_naming_style.begins_with_i.required_suffix =
+dotnet_naming_style.begins_with_i.word_separator =
+dotnet_naming_style.begins_with_i.capitalization = pascal_case
+
+dotnet_naming_style.pascal_case.required_prefix =
+dotnet_naming_style.pascal_case.required_suffix =
+dotnet_naming_style.pascal_case.word_separator =
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+
+dotnet_naming_style.pascal_case.required_prefix =
+dotnet_naming_style.pascal_case.required_suffix =
+dotnet_naming_style.pascal_case.word_separator =
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+
+#Style - language keyword and framework type options
+
+#prefer the language keyword for local variables, method parameters, and class members, instead of the type name, for types that have a keyword to represent them
+dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion
+
+#Style - qualification options
+
+#prefer fields to be prefaced with this. in C# or Me. in Visual Basic
+dotnet_style_qualification_for_field = true:warning
+#prefer methods to be prefaced with this. in C# or Me. in Visual Basic
+dotnet_style_qualification_for_method = true:warning
+#prefer properties to be prefaced with this. in C# or Me. in Visual Basic
+dotnet_style_qualification_for_property = true:warning
+
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:warning
+dotnet_style_prefer_auto_properties = true:suggestion
+dotnet_style_object_initializer = true:suggestion
+dotnet_style_collection_initializer = true:suggestion
+dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
+dotnet_style_prefer_conditional_expression_over_assignment = true
+dotnet_style_prefer_conditional_expression_over_return = true
+dotnet_style_explicit_tuple_names = true:warning
+dotnet_style_prefer_inferred_tuple_names = true:suggestion
+dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
+dotnet_style_prefer_compound_assignment = true:suggestion
+dotnet_style_prefer_simplified_interpolation = true:suggestion
+dotnet_style_namespace_match_folder = true:suggestion
+dotnet_style_readonly_field = true:suggestion
+
+[*.cs]
 
 #Formatting - new line options
 
 #Formatting - organize using options
-
-#do not place System.* using directives before other using directives
-dotnet_sort_system_directives_first = false
+# https://learn.microsoft.com/dotnet/fundamentals/code-analysis/style-rules/dotnet-formatting-options
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = true
+dotnet_style_namespace_match_folder = true
 
 #Formatting - spacing options
 
 #require a space before the colon for bases or interfaces in a type declaration
 csharp_space_after_colon_in_inheritance_clause = true
-
 #require a space after a keyword in a control flow statement such as a for loop
 csharp_space_after_keywords_in_control_flow_statements = true
-
 #require a space before the colon for bases or interfaces in a type declaration
 csharp_space_before_colon_in_inheritance_clause = true
-
 #remove space within empty argument list parentheses
 csharp_space_between_method_call_empty_parameter_list_parentheses = false
-
 #remove space between method call name and opening parenthesis
 csharp_space_between_method_call_name_and_opening_parenthesis = false
-
 #do not place space characters after the opening parenthesis and before the closing parenthesis of a method call
 csharp_space_between_method_call_parameter_list_parentheses = false
-
 #remove space within empty parameter list parentheses for a method declaration
 csharp_space_between_method_declaration_empty_parameter_list_parentheses = false
-
 #place a space character after the opening parenthesis and before the closing parenthesis of a method declaration parameter list.
 csharp_space_between_method_declaration_parameter_list_parentheses = false
 
@@ -74,44 +176,28 @@ csharp_preserve_single_line_blocks = true
 #Style - expression bodied member options
 
 #prefer block bodies for constructors
-csharp_style_expression_bodied_constructors = when_on_single_line:suggestion
+csharp_style_expression_bodied_constructors = when_on_single_line
 
 #prefer expression-bodied members for properties
-csharp_style_expression_bodied_properties = true:suggestion
+csharp_style_expression_bodied_properties = when_on_single_line
 
 #Style - expression level options
 
 #prefer out variables to be declared before the method call
-csharp_style_inlined_variable_declaration = false:suggestion
+csharp_style_inlined_variable_declaration = false
 
 #Style - implicit and explicit types
 
-#prefer explicit type over var when the type is already mentioned on the right-hand side of a declaration
-csharp_style_var_when_type_is_apparent = false:suggestion
 
-#Style - language keyword and framework type options
-
-#prefer the language keyword for local variables, method parameters, and class members, instead of the type name, for types that have a keyword to represent them
-dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion
-
-#Style - qualification options
-
-#prefer fields to be prefaced with this. in C# or Me. in Visual Basic
-dotnet_style_qualification_for_field = true:suggestion
-
-#prefer methods to be prefaced with this. in C# or Me. in Visual Basic
-dotnet_style_qualification_for_method = true:suggestion
-
-#prefer properties to be prefaced with this. in C# or Me. in Visual Basic
-dotnet_style_qualification_for_property = true:suggestion
+# IDE0007 and IDE0008: 'var' preferences
+csharp_style_var_for_built_in_types = false
+csharp_style_var_when_type_is_apparent = false
+csharp_style_var_elsewhere = false
 
 # CA2254: Template should be a static expression
 dotnet_diagnostic.CA2254.severity = suggestion
 
-# IDE0161
-dotnet_diagnostic.IDE0161.severity = warning
-
-# IDE0161: NamespaceDeclarations
+# IDE0160 and IDE0161: Namespace declaration preferences
 csharp_style_namespace_declarations = file_scoped
 
 # IDE0022: Use block body for methods
@@ -121,10 +207,31 @@ csharp_style_expression_bodied_methods = when_on_single_line
 csharp_style_expression_bodied_operators = when_on_single_line
 
 # IDE0090: Use 'new(...)'
-csharp_style_implicit_object_creation_when_type_is_apparent = true:suggestion
+csharp_style_implicit_object_creation_when_type_is_apparent = true
 
-# CA1303: Do not pass literals as localized parameters
-dotnet_diagnostic.CA1303.severity = none
+csharp_indent_labels = one_less_than_current
+csharp_space_around_binary_operators = before_and_after
+csharp_using_directive_placement = inside_namespace
+csharp_prefer_simple_using_statement = true
+csharp_prefer_braces = true
+csharp_style_prefer_method_group_conversion = true
+csharp_style_prefer_top_level_statements = false
+csharp_style_expression_bodied_indexers = true
+csharp_style_expression_bodied_accessors = true
+csharp_style_expression_bodied_lambdas = true
+csharp_style_expression_bodied_local_functions = false
+csharp_style_throw_expression = true
+csharp_style_prefer_null_check_over_type_check = true
+csharp_prefer_simple_default_expression = true
+csharp_style_prefer_local_over_anonymous_function = true
+csharp_style_prefer_index_operator = true
+csharp_style_prefer_range_operator = true
+csharp_style_prefer_tuple_swap = true
+csharp_style_prefer_utf8_string_literals = true
+csharp_style_deconstructed_variable_declaration = true
 
-# CA1014: Mark assemblies with CLSCompliantAttribute
-dotnet_diagnostic.CA1014.severity = none
+# IDE0058: Remove unnecessary expression value
+csharp_style_unused_value_expression_statement_preference = discard_variable
+
+# IDE0059: Remove unnecessary value assignment
+csharp_style_unused_value_assignment_preference = discard_variable

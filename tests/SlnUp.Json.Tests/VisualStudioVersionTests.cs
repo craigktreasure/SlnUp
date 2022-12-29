@@ -1,14 +1,15 @@
-namespace SlnUp.Json.Tests;
+﻿namespace SlnUp.Json.Tests;
 
-using SlnUp.Core;
-using SlnUp.TestLibrary;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.Text.Json;
 
+using SlnUp.Core;
+using SlnUp.TestLibrary.Extensions;
+
 public class VisualStudioVersionJsonHelperTests
 {
-    private const string commonVersionsJson = @"[
+    private const string commonVersionsJson = /*lang=json,strict*/ @"[
   {
     ""Product"": ""visualStudio2019"",
     ""Version"": ""16.11.6"",

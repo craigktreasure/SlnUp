@@ -1,10 +1,11 @@
-namespace SlnUp;
+﻿namespace SlnUp;
 
-using SlnUp.CLI;
-using SlnUp.Core;
 using System.CommandLine;
 using System.Diagnostics.CodeAnalysis;
 using System.IO.Abstractions;
+
+using SlnUp.CLI;
+using SlnUp.Core;
 
 internal static class Program
 {

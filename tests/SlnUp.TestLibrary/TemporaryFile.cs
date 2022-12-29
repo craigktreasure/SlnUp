@@ -1,4 +1,4 @@
-namespace SlnUp.TestLibrary;
+﻿namespace SlnUp.TestLibrary;
 
 using System.IO.Abstractions;
 

@@ -1,11 +1,12 @@
-namespace SlnUp.Tests.CLI;
+﻿namespace SlnUp.Tests.CLI;
 
-using SlnUp.CLI;
-using SlnUp.TestLibrary;
-using SlnUp.Tests.Utilities;
 using System.CommandLine;
 using System.CommandLine.IO;
 using System.IO.Abstractions.TestingHelpers;
+
+using SlnUp.CLI;
+using SlnUp.TestLibrary.Extensions;
+using SlnUp.Tests.Utilities;
 
 public class ProgramOptionsTests
 {

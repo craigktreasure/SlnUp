@@ -1,13 +1,11 @@
-namespace SlnUp.Tests.CLI;
+﻿namespace SlnUp.Tests.CLI;
+
+using System.CommandLine;
+using System.CommandLine.IO;
+using System.Text;
 
 using SlnUp.CLI;
 using SlnUp.Tests.Utilities;
-using System.CommandLine;
-using System.CommandLine.Invocation;
-using System.CommandLine.IO;
-using System.CommandLine.Parsing;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
 
 public class ProgramOptionsBinderTests
 {

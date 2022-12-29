@@ -1,11 +1,12 @@
-namespace SlnUp.CLI;
+﻿namespace SlnUp.CLI;
 
-using SlnUp;
-
-using SlnUp.Core;
 using System.CommandLine;
 using System.Diagnostics.CodeAnalysis;
 using System.IO.Abstractions;
+
+using SlnUp;
+using SlnUp.Core;
+using SlnUp.Core.Extensions;
 
 internal class ProgramOptions
 {

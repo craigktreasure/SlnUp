@@ -1,7 +1,8 @@
-namespace SlnUp.Core.Tests;
+﻿namespace SlnUp.Core.Tests;
+
+using System.Diagnostics.CodeAnalysis;
 
 using SlnUp.Json;
-using System.Diagnostics.CodeAnalysis;
 
 public class VersionManagerTests
 {

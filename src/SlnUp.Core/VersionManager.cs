@@ -1,8 +1,8 @@
-namespace SlnUp.Core;
+﻿namespace SlnUp.Core;
 
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
+
+using SlnUp.Core.Extensions;
 
 /// <summary>
 /// Manages versions of Visual Studio.

@@ -1,6 +1,7 @@
-namespace SlnUp.Core;
+﻿namespace SlnUp.Core.Extensions;
 
 using System;
+
 using Treasure.Utils;
 
 /// <summary>

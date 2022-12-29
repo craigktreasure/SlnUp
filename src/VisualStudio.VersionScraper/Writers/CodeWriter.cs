@@ -1,8 +1,10 @@
-namespace VisualStudio.VersionScraper.Writers;
+﻿namespace VisualStudio.VersionScraper.Writers;
 
-using SlnUp.Core;
 using System;
 using System.Diagnostics.CodeAnalysis;
+
+using SlnUp.Core;
+
 using Treasure.Utils;
 
 internal sealed class CodeWriter
@@ -61,7 +63,7 @@ internal sealed class CodeWriter
     public IDisposable WithIndent()
     {
         this.Indent();
-        return new ScopedAction(() => this.Unindent());
+        return new ScopedAction(this.Unindent);
     }
 
     /// <summary>

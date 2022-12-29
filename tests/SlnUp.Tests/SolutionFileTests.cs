@@ -1,7 +1,8 @@
-namespace SlnUp.Tests;
+﻿namespace SlnUp.Tests;
+
+using System.IO.Abstractions.TestingHelpers;
 
 using SlnUp.TestLibrary;
-using System.IO.Abstractions.TestingHelpers;
 
 public class SolutionFileTests
 {

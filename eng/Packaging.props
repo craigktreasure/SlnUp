@@ -1,0 +1,15 @@
+<Project>
+
+  <PropertyGroup>
+    <!-- Package properties:
+      https://docs.microsoft.com/dotnet/standard/library-guidance/nuget
+      https://docs.microsoft.com/nuget/reference/msbuild-targets#pack-target-inputs
+    -->
+    <Authors>Craig Treasure</Authors>
+    <Owners>craigktreasure</Owners>
+    <Copyright>Copyright © Craig Treasure</Copyright>
+    <PackageProjectUrl>https://github.com/craigktreasure/SlnUp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/craigktreasure/SlnUp.git</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>

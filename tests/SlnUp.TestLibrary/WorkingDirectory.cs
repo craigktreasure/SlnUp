@@ -1,7 +1,8 @@
-namespace SlnUp.TestLibrary;
+﻿namespace SlnUp.TestLibrary;
+
+using System.IO.Abstractions;
 
 using SlnUp.Core;
-using System.IO.Abstractions;
 
 internal static class WorkingDirectory
 {

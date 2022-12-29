@@ -1,0 +1,15 @@
+<Project>
+
+  <!--
+    Enable and configure Central Package Manager (CPM)
+    https://learn.microsoft.com/nuget/consume-packages/central-package-management
+    -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <SystemIOAbstractionsVersion>19.1.5</SystemIOAbstractionsVersion>
+  </PropertyGroup>
+
+</Project>

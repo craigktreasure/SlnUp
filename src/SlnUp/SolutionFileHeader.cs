@@ -1,4 +1,4 @@
-namespace SlnUp;
+﻿namespace SlnUp;
 
 internal record SolutionFileHeader
 {
@@ -33,7 +33,7 @@ internal record SolutionFileHeader
     /// <param name="lastVisualStudioMajorVersion">The last Visual Studio major version.</param>
     /// <param name="lastVisualStudioVersion">The last Visual Studio version.</param>
     /// <param name="minimumVisualStudioVersion">The minimum Visual Studio version.</param>
-    /// <exception cref="System.ArgumentException">Only file format version {SupportedFileFormatVersion} is supported. - fileFormatVersion</exception>
+    /// <exception cref="ArgumentException">Only file format version {SupportedFileFormatVersion} is supported. - fileFormatVersion</exception>
     public SolutionFileHeader(
         string fileFormatVersion,
         int? lastVisualStudioMajorVersion = null,

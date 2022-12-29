@@ -1,9 +1,10 @@
-namespace SlnUp.Tests.CLI;
+﻿namespace SlnUp.Tests.CLI;
 
-using SlnUp.CLI;
 using System;
 using System.CommandLine;
 using System.CommandLine.Parsing;
+
+using SlnUp.CLI;
 
 public class ArgumentParserTests
 {

@@ -1,4 +1,4 @@
-namespace SlnUp.Tests;
+﻿namespace SlnUp.Tests;
 
 public class SolutionFileBuilderTests
 {

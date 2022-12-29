@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
+
   <PropertyGroup>
     <!-- Determine if this is a CI build. -->
     <IsCIBuild>false</IsCIBuild>
@@ -13,7 +13,7 @@
     <LangVersion>11.0</LangVersion>
 
     <!-- Enable implicit usings:
-      https://docs.microsoft.com/dotnet/core/compatibility/sdk/6.0/implicit-namespaces-rc1
+      https://docs.microsoft.com/dotnet/core/project-sdk/overview#implicit-using-directives
     -->
     <ImplicitUsings>enable</ImplicitUsings>
 
@@ -38,30 +38,20 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <!-- Make sure the default for NoWarn is maintained:
+      https://github.com/dotnet/sdk/blob/5f64de40b65f5e1154b3309339563335d8b15d3e/src/Tasks/Microsoft.NET.Build.Tasks/targets/Microsoft.NET.Sdk.CSharp.props#L15
+    -->
+    <NoWarn Condition=" '$(NoWarn)' == '' ">1701;1702</NoWarn>
+
+    <!-- Disable SYSLIB1045: Use GeneratedRegexAttribute to generate the regular expression implementation at compile time.
+      The GeneratedRegexAttribute is only available in .NET 7.
+    -->
+    <NoWarn>$(NoWarn);SYSLIB1045</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <MSBuildTreatWarningsAsErrors>$(IsCIBuild)</MSBuildTreatWarningsAsErrors>
     <TreatWarningsAsErrors>$(IsCIBuild)</TreatWarningsAsErrors>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <!-- Configure .NET source code analysis:
-      https://docs.microsoft.com/dotnet/fundamentals/code-analysis/overview
-    -->
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
-    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <AnalysisLevel>7.0</AnalysisLevel>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <!-- Package properties:
-      https://docs.microsoft.com/dotnet/standard/library-guidance/nuget
-      https://docs.microsoft.com/nuget/reference/msbuild-targets#pack-target-inputs
-    -->
-    <Authors>Craig Treasure</Authors>
-    <Owners>craigktreasure</Owners>
-    <Copyright>Copyright © Craig Treasure</Copyright>
-    <PackageProjectUrl>https://github.com/craigktreasure/SlnUp</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/craigktreasure/SlnUp.git</RepositoryUrl>
-  </PropertyGroup>
 </Project>
