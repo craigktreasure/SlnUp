@@ -1,9 +1,10 @@
-namespace SlnUp;
+﻿namespace SlnUp;
 
-using SlnUp.Core;
 using System.Diagnostics.CodeAnalysis;
 using System.IO.Abstractions;
 using System.Text.RegularExpressions;
+
+using SlnUp.Core.Extensions;
 
 internal class SolutionFile
 {
@@ -116,11 +117,13 @@ internal class SolutionFile
         string fileFormatVersionLine = $"Microsoft Visual Studio Solution File, Format Version {fileHeader.FileFormatVersion}";
         lines[this.fileFormatLineNumber] = fileFormatVersionLine;
 
+#pragma warning disable IDE0072 // Add missing cases
         string lastVisualStudioMajorVersionLine = fileHeader.LastVisualStudioMajorVersion switch
         {
             >= 16 => $"# Visual Studio Version {fileHeader.LastVisualStudioMajorVersion}",
             <= 15 => $"# Visual Studio {fileHeader.LastVisualStudioMajorVersion}",
         };
+#pragma warning restore IDE0072 // Add missing cases
         lines[this.fileFormatLineNumber + 1] = lastVisualStudioMajorVersionLine;
 
         string lastVisualStudioVersionLine = $"VisualStudioVersion = {fileHeader.LastVisualStudioVersion}";

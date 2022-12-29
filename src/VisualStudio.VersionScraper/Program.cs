@@ -1,9 +1,11 @@
-namespace VisualStudio.VersionScraper;
+﻿namespace VisualStudio.VersionScraper;
+
+using System.CommandLine;
+using System.IO.Abstractions;
 
 using SlnUp.Core;
 using SlnUp.Json;
-using System.CommandLine;
-using System.IO.Abstractions;
+
 using VisualStudio.VersionScraper.Writers.CSharp;
 
 internal static class Program

@@ -1,8 +1,10 @@
-namespace VisualStudio.VersionScraper.Writers.CSharp;
+﻿namespace VisualStudio.VersionScraper.Writers.CSharp;
 
-using SlnUp.Core;
 using System.Diagnostics.CodeAnalysis;
 using System.IO.Abstractions;
+
+using SlnUp.Core;
+
 using Treasure.Utils;
 
 internal sealed class CSharpVersionWriter

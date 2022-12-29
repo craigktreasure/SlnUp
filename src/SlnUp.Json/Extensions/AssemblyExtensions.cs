@@ -1,4 +1,4 @@
-namespace SlnUp.Json;
+﻿namespace SlnUp.Json.Extensions;
 
 using System;
 using System.Reflection;
@@ -14,11 +14,9 @@ internal static class AssemblyExtensions
     /// <exception cref="ArgumentException">Resource not found in assembly - filePath</exception>
     public static string GetEmbeddedFileResourceContent(this Assembly assembly, string filePath)
     {
-        using (Stream stream = assembly.GetManifestResourceStream(filePath)
-            ?? throw new ArgumentException("Resource not found in assembly", nameof(filePath)))
-        using (StreamReader streamReader = new(stream))
-        {
-            return streamReader.ReadToEnd();
-        }
+        using Stream stream = assembly.GetManifestResourceStream(filePath)
+            ?? throw new ArgumentException("Resource not found in assembly", nameof(filePath));
+        using StreamReader streamReader = new(stream);
+        return streamReader.ReadToEnd();
     }
 }

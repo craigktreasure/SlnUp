@@ -1,7 +1,9 @@
-namespace SlnUp.TestLibrary;
+﻿namespace SlnUp.TestLibrary;
+
+using System.IO.Abstractions;
 
 using SlnUp.Core;
-using System.IO.Abstractions;
+
 using Treasure.Utils;
 
 /// <summary>

@@ -1,9 +1,10 @@
-namespace SlnUp.Tests;
+﻿namespace SlnUp.Tests;
 
-using SlnUp.TestLibrary;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.Text;
+
+using SlnUp.TestLibrary;
 
 internal sealed class SolutionFileBuilder
 {

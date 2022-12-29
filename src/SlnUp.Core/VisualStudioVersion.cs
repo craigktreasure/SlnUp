@@ -1,7 +1,8 @@
-namespace SlnUp.Core;
+﻿namespace SlnUp.Core;
+
+using System.Text;
 
 using Humanizer;
-using System.Text;
 
 /// <summary>
 /// Represents Visual Studio version details.

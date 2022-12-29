@@ -1,7 +1,6 @@
-namespace SlnUp.Tests.Utilities;
+﻿namespace SlnUp.Tests.Utilities;
 
 using System.CommandLine;
-using System.CommandLine.IO;
 
 internal static class TestConsoleExtensions
 {

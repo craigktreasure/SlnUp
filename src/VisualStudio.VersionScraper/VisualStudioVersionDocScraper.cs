@@ -1,9 +1,12 @@
-namespace VisualStudio.VersionScraper;
+﻿namespace VisualStudio.VersionScraper;
 
-using HtmlAgilityPack;
-using SlnUp.Core;
 using System.Globalization;
 using System.Text.RegularExpressions;
+
+using HtmlAgilityPack;
+
+using SlnUp.Core;
+using SlnUp.Core.Extensions;
 
 internal sealed class VisualStudioVersionDocScraper
 {

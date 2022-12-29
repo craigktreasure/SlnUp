@@ -1,7 +1,9 @@
-namespace SlnUp.Json;
+﻿namespace SlnUp.Json;
+
+using System.Reflection;
 
 using SlnUp.Core;
-using System.Reflection;
+using SlnUp.Json.Extensions;
 
 /// <summary>
 /// A helper when loading a <see cref="VersionManager" /> from json.

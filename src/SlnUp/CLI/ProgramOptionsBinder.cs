@@ -1,4 +1,4 @@
-namespace SlnUp.CLI;
+﻿namespace SlnUp.CLI;
 
 using System.CommandLine;
 using System.CommandLine.Binding;

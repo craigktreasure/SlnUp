@@ -1,4 +1,6 @@
-namespace SlnUp.Core.Tests.Extensions;
+﻿namespace SlnUp.Core.Tests.Extensions;
+
+using SlnUp.Core.Extensions;
 
 public class VersionExtensionsTests
 {

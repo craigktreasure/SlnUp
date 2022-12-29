@@ -1,7 +1,8 @@
-namespace SlnUp.Tests.Utilities;
+﻿namespace SlnUp.Tests.Utilities;
+
+using System.CommandLine;
 
 using FluentAssertions.Primitives;
-using System.CommandLine;
 
 internal sealed class ConsoleAssertions : ReferenceTypeAssertions<IConsole, ConsoleAssertions>
 {

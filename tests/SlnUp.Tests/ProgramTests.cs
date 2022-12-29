@@ -1,4 +1,4 @@
-namespace SlnUp.Tests;
+﻿namespace SlnUp.Tests;
 
 using SlnUp;
 using SlnUp.TestLibrary;
