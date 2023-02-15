@@ -35,7 +35,6 @@ jobs:
         with:
           dotnet-version: |
             6.x
-            7.0.100
             7.0.103
 
       - name: Patch global.json if necessary

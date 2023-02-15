@@ -1,4 +1,4 @@
-if (-not $IsMacOS) {
+if ($true) {
     return
 }
 
