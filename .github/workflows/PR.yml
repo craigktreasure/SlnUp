@@ -35,8 +35,9 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
 
-      - name: DotNet Format
-        run: dotnet format --no-restore --verify-no-changes
+      # Disable until https://github.com/dotnet/format/issues/1800 is fixed.
+      # - name: DotNet Format
+      #   run: dotnet format --no-restore --verify-no-changes
 
       - name: Build
         run: dotnet build --configuration Release --no-restore
