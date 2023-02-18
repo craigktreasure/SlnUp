@@ -26,7 +26,7 @@ jobs:
         with:
           dotnet-version: |
             6.x
-            7.0.103
+            7.x
 
       - name: Patch global.json if necessary
         shell: pwsh
