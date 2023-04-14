@@ -7,7 +7,7 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <AnalysisLevel>7.0</AnalysisLevel>
+    <AnalysisLevel>8.0</AnalysisLevel>
   </PropertyGroup>
 
 </Project>

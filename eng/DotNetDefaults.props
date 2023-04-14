@@ -10,7 +10,7 @@
     <!-- Sets the C# language version:
       https://docs.microsoft.com/dotnet/csharp/language-reference/configure-language-version#c-language-version-reference
     -->
-    <LangVersion>11.0</LangVersion>
+    <LangVersion>latest</LangVersion>
 
     <!-- Enable implicit usings:
       https://docs.microsoft.com/dotnet/core/project-sdk/overview#implicit-using-directives
