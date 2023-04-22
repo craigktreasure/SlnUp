@@ -5,6 +5,6 @@
     "rollForward": "latestFeature"
   },
   "msbuild-sdks": {
-    "Treasure.Build.CentralBuildOutput" : "2.0.0"
+    "Treasure.Build.CentralBuildOutput" : "3.0.0"
   }
 }
