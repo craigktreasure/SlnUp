@@ -172,8 +172,8 @@ public class ProgramOptionsTests
         result.Should().BeTrue();
         options.Should().NotBeNull();
         options!.SolutionFilePath.Should().Be(expectedSolutionFilePath);
-        options.Version.Should().Be(Version.Parse("16.8.6"));
-        options.BuildVersion.Should().Be(Version.Parse("16.8.31019.35"));
+        options.Version.Should().Be(Version.Parse("16.8.7"));
+        options.BuildVersion.Should().Be(Version.Parse("16.8.31025.109"));
     }
 
     /// <summary>
