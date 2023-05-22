@@ -1,5 +1,6 @@
 ﻿namespace VisualStudio.VersionScraper;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -10,7 +11,19 @@ using SlnUp.Core.Extensions;
 
 internal sealed class VisualStudioVersionDocScraper
 {
+    private const string buildNumberColumnName = "Build Number";
+
+    private const string buildVersionColumnName = "Build version";
+
+    private const string channelColumnName = "Channel";
+
+    private const string releaseDateColumnName = "Release Date";
+
+    private const string versionColumnName = "Version";
+
     private const string vs2017VersionsDocUrl = "https://docs.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2017/install/visual-studio-build-numbers-and-release-dates";
+
+    private const string vs2019VersionsDocUrl = "https://learn.microsoft.com/en-us/visualstudio/releases/2019/history";
 
     private const string vsCurrentVersionsDocUrl = "https://docs.microsoft.com/en-us/visualstudio/install/visual-studio-build-numbers-and-release-dates";
 
@@ -34,21 +47,15 @@ internal sealed class VisualStudioVersionDocScraper
     public IEnumerable<VisualStudioVersion> ScrapeVisualStudioVersions()
     {
         IEnumerable<VisualStudioVersion> currentVersions = this.ScrapeVisualStudioVersions(vsCurrentVersionsDocUrl, "VSCurrentVersionCache");
-        IEnumerable<VisualStudioVersion> previousVersions = this.ScrapeVisualStudioVersions(vs2017VersionsDocUrl, "VS2017VersionCache");
-        return currentVersions.Concat(previousVersions);
+        IEnumerable<VisualStudioVersion> versions2019 = this.ScrapeVisualStudioVersions(vs2019VersionsDocUrl, "VS2019VersionCache");
+        IEnumerable<VisualStudioVersion> versions2017 = this.ScrapeVisualStudioVersions(vs2017VersionsDocUrl, "VS2017VersionCache");
+        return currentVersions.Concat(versions2019).Concat(versions2017);
     }
 
-    private static VisualStudioVersion GetVersionDetailFromRow(HtmlNode row)
+    private static VisualStudioVersion GetVersionDetailFromRow(RowData row)
     {
-        HtmlNodeCollection tds = row.SelectNodes("td");
-
-        if (tds.Count != 4)
-        {
-            throw new InvalidDataException($"Unexpected number of columns in table: {tds.Count}.");
-        }
-
-        string versionInput = tds[0].InnerText.Trim();
-        string channel = tds[1].InnerText.Trim();
+        string versionInput = row.Version;
+        string channel = row.Channel ?? string.Empty;
 
         if (vs15PreviewVersionMatcher.TryMatch(versionInput, out Match? match)
             && Version.TryParse(match.Groups["version"].Value, out Version? version))
@@ -67,9 +74,9 @@ internal sealed class VisualStudioVersionDocScraper
             throw new InvalidDataException($"First column did not contain a valid version value: '{versionInput}'.");
         }
 
-        if (!Version.TryParse(tds[3].InnerText.Trim(), out Version? buildVersion))
+        if (!Version.TryParse(row.BuildNumber, out Version? buildVersion))
         {
-            throw new InvalidDataException($"Third column did not contain a valid build version value: '{tds[3].InnerText}'.");
+            throw new InvalidDataException($"Third column did not contain a valid build version value: '{row.BuildNumber}'.");
         }
 
         VisualStudioProduct vsVersion = GetVisualStudioVersion(version);
@@ -88,6 +95,94 @@ internal sealed class VisualStudioVersionDocScraper
         17 => VisualStudioProduct.VisualStudio2022,
         _ => VisualStudioProduct.Unknown
     };
+
+    private static bool TryGetColumnIndices(HtmlNode table, out int versionIndex, out int releaseDateIndex, out int buildNumberIndex, out int? channelIndex)
+    {
+        const int notSet = -1;
+        versionIndex = notSet;
+        releaseDateIndex = notSet;
+        buildNumberIndex = notSet;
+        channelIndex = null;
+
+        HtmlNodeCollection? headings = table.SelectNodes("thead//th");
+
+        string[] columnNames = headings.Select(x => x.InnerText.Trim()).ToArray();
+
+        for (int i = 0; i < columnNames.Length; i++)
+        {
+            string columnName = columnNames[i];
+
+            if (versionIndex is notSet
+                && columnName.Equals(versionColumnName, StringComparison.OrdinalIgnoreCase))
+            {
+                versionIndex = i;
+            }
+            else if (releaseDateIndex is notSet
+                && columnName.Equals(releaseDateColumnName, StringComparison.OrdinalIgnoreCase))
+            {
+                releaseDateIndex = i;
+            }
+            else if (buildNumberIndex is notSet
+                && (columnName.Equals(buildNumberColumnName, StringComparison.OrdinalIgnoreCase)
+                    || columnName.Equals(buildVersionColumnName, StringComparison.OrdinalIgnoreCase)))
+            {
+                buildNumberIndex = i;
+            }
+            else if (!channelIndex.HasValue
+                && columnName.Equals(channelColumnName, StringComparison.OrdinalIgnoreCase))
+            {
+                channelIndex = i;
+            }
+        }
+
+        return versionIndex is not notSet
+            && releaseDateIndex is not notSet
+            && buildNumberIndex is not notSet;
+    }
+
+    private static bool TryGetTableData(
+        HtmlNode table,
+        [NotNullWhen(true)]
+        out IReadOnlyCollection<RowData>? result)
+    {
+        result = null;
+
+        if (table is null)
+        {
+            return false;
+        }
+
+        if (!TryGetColumnIndices(table, out int versionIndex, out int releaseDateIndex, out int buildNumberIndex, out int? channelIndex))
+        {
+            return false;
+        }
+
+        HtmlNodeCollection rows = table.SelectNodes("tbody/tr");
+
+        if (rows is null || rows.Count is 0)
+        {
+            return false;
+        }
+
+        List<RowData> data = new();
+
+        foreach (HtmlNode row in rows)
+        {
+            HtmlNodeCollection tds = row.SelectNodes("td");
+
+            string version = tds[versionIndex].InnerText.Trim();
+            string releaseDate = tds[releaseDateIndex].InnerText.Trim();
+            string buildNumber = tds[buildNumberIndex].InnerText.Trim();
+            string? channel = channelIndex.HasValue
+                ? tds[channelIndex.Value].InnerText.Trim()
+                : null;
+
+            data.Add(new RowData(version, releaseDate, buildNumber, channel));
+        }
+
+        result = data;
+        return true;
+    }
 
     private HtmlDocument LoadVisualStudioVersionDocument(string url, string cacheFolderName)
     {
@@ -114,16 +209,41 @@ internal sealed class VisualStudioVersionDocScraper
     {
         HtmlDocument doc = this.LoadVisualStudioVersionDocument(url, cacheFolderName);
 
-        HtmlNodeCollection rows = doc.DocumentNode.SelectNodes("//table/tbody/tr");
+        HtmlNodeCollection tables = doc.DocumentNode.SelectNodes("//table");
 
-        if (rows is null || rows.Count is 0)
+        if (tables.Count == 0)
         {
-            throw new InvalidDataException("No rows were found.");
+            throw new InvalidDataException("No tables were found.");
         }
 
-        foreach (HtmlNode row in rows)
+        IReadOnlyCollection<RowData>? tableData = null;
+
+        if (tables.Count > 1)
         {
-            yield return GetVersionDetailFromRow(row);
+            // Too many tables were found. We need to see if we can determine which one.
+            foreach (HtmlNode table in tables)
+            {
+                if (TryGetTableData(table, out tableData))
+                {
+                    break;
+                }
+            }
+        }
+        else
+        {
+            TryGetTableData(tables.Single(), out tableData);
+        }
+
+        if (tableData is null)
+        {
+            throw new InvalidDataException("Unable to locate a suitable table or unable to retrieve table data.");
+        }
+
+        foreach (RowData rowData in tableData)
+        {
+            yield return GetVersionDetailFromRow(rowData);
         }
     }
+
+    private sealed record RowData(string Version, string ReleaseDate, string BuildNumber, string? Channel);
 }
