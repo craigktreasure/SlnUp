@@ -11,18 +11,18 @@ public class VisualStudioVersionJsonHelperTests
 {
     private const string commonVersionsJson = /*lang=json,strict*/ @"[
   {
-    ""Product"": ""visualStudio2019"",
-    ""Version"": ""16.11.6"",
     ""BuildVersion"": ""16.11.31829.152"",
     ""Channel"": ""Release"",
-    ""IsPreview"": false
+    ""IsPreview"": false,
+    ""Product"": ""visualStudio2019"",
+    ""Version"": ""16.11.6""
   },
   {
-    ""Product"": ""visualStudio2022"",
-    ""Version"": ""17.0.0"",
     ""BuildVersion"": ""17.0.31903.59"",
     ""Channel"": ""Release"",
-    ""IsPreview"": false
+    ""IsPreview"": false,
+    ""Product"": ""visualStudio2022"",
+    ""Version"": ""17.0.0""
   }
 ]";
 
