@@ -57,7 +57,7 @@ public class VisualStudioVersionTests
             Version.Parse(expectedVersion),
             Version.Parse(expectedBuildVersion),
             expectedChannel,
-            IsPreview: true);
+            isPreview: true);
 
         // Assert
         version.Channel.Should().Be(expectedChannel);
