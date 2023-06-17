@@ -16,7 +16,7 @@
     <PackageVersion Include="HtmlAgilityPack"                                   Version="1.11.46" />
     <PackageVersion Include="System.CommandLine"                                Version="2.0.0-beta4.22272.1" />
     <PackageVersion Include="System.IO.Abstractions"                            Version="$(SystemIOAbstractionsVersion)" />
-    <PackageVersion Include="System.Text.Json"                                  Version="7.0.2" />
+    <PackageVersion Include="System.Text.Json"                                  Version="7.0.3" />
     <PackageVersion Include="Treasure.Utils.Argument"                           Version="1.0.0" />
   </ItemGroup>
 
