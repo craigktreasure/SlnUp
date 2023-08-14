@@ -31,7 +31,6 @@
 
     <!-- Generate XML documentation for not test projects. -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <GenerateDocumentationFile Condition="$(MSBuildProjectName.EndsWith('.Tests'))">false</GenerateDocumentationFile>
 
     <!-- Normalize file paths on CI builds. -->
     <ContinuousIntegrationBuild>$(IsCIBuild)</ContinuousIntegrationBuild>
