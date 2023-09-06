@@ -44,8 +44,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <MSBuildTreatWarningsAsErrors>$(IsCIBuild)</MSBuildTreatWarningsAsErrors>
-    <TreatWarningsAsErrors>$(IsCIBuild)</TreatWarningsAsErrors>
+    <MSBuildTreatWarningsAsErrors>true</MSBuildTreatWarningsAsErrors>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
 </Project>
