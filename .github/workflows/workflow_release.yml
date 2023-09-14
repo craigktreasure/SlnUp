@@ -25,7 +25,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: packages_ubuntu
-          path: __packages
+          path: __artifacts/packages
 
       - name: Push ${{ inputs.package-version }} to NuGet.org
-        run: nuget push __packages/NuGet/Release/SlnUp.*.nupkg -ApiKey ${{ secrets.NUGET_API_KEY }} -Source https://api.nuget.org/v3/index.json
+        run: nuget push __artifacts/packages/release/SlnUp.*.nupkg -ApiKey ${{ secrets.NUGET_API_KEY }} -Source https://api.nuget.org/v3/index.json

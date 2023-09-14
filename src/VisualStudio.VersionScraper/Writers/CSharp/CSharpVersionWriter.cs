@@ -1,6 +1,5 @@
 ﻿namespace VisualStudio.VersionScraper.Writers.CSharp;
 
-using System.Diagnostics.CodeAnalysis;
 using System.IO.Abstractions;
 
 using SlnUp.Core;
@@ -16,6 +15,7 @@ internal sealed class CSharpVersionWriter
     private const string NamespaceName = "SlnUp.Core";
 
     private readonly IFileSystem fileSystem;
+
     public CSharpVersionWriter(IFileSystem fileSystem) => this.fileSystem = Argument.NotNull(fileSystem);
 
     public void WriteClassToFile(IEnumerable<VisualStudioVersion> versions, string filePath)
@@ -41,7 +41,6 @@ internal sealed class CSharpVersionWriter
         }
     }
 
-    [SuppressMessage("Globalization", "CA1304:Specify CultureInfo")]
     private static void WriteGetVersionsMethod(CodeWriter writer, IEnumerable<VisualStudioVersion> versions)
     {
         writer.WriteLines(@"

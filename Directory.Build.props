@@ -4,6 +4,9 @@
     <RepoRootPath>$(MSBuildThisFileDirectory)</RepoRootPath>
     <UseArtifactsOutput>true</UseArtifactsOutput>
     <ArtifactsPath>$(RepoRootPath)/__artifacts</ArtifactsPath>
+
+    <!-- Remove for final .NET 8 release. -->
+    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
   </PropertyGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)\eng\Defaults.props" />

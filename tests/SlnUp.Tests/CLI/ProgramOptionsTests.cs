@@ -18,7 +18,7 @@ public class ProgramOptionsTests
     public void Configure(string version)
     {
         // Arrange
-        string[] args = new[] { version };
+        string[] args = [version];
 
         // Act
         ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
@@ -36,7 +36,7 @@ public class ProgramOptionsTests
     public void Configure_NoParameters()
     {
         // Arrange
-        string[] args = Array.Empty<string>();
+        string[] args = [];
 
         // Act
         ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
@@ -92,12 +92,12 @@ public class ProgramOptionsTests
     public void Configure_WithInvalidBuildVersion()
     {
         // Arrange
-        string[] args = new[]
-        {
+        string[] args =
+        [
             "2022",
             "--build-version",
             "invalid-version"
-        };
+        ];
 
         // Act
         ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
@@ -137,7 +137,7 @@ public class ProgramOptionsTests
     public void Configure_WithVersion()
     {
         // Arrange
-        string[] args = new[] { "--version" };
+        string[] args = ["--version"];
 
         // Act
         ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);

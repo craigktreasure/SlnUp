@@ -14,7 +14,7 @@ public class ProgramTests
     {
         // Arrange
         using ScopedDirectory directory = TemporaryDirectory.CreateRandom();
-        string[] args = new[] { "2022" };
+        string[] args = ["2022"];
         using IDisposable _ = directory.SetAsScopedWorkingDirectory();
 
         // Act
@@ -31,11 +31,12 @@ public class ProgramTests
         using ScopedFile file = TemporaryFile.CreateRandomWithExtension("sln");
         SolutionFileBuilder solutionFileBuilder = new(Version.Parse("16.0.30114.105"));
         SolutionFile solutionFile = solutionFileBuilder.BuildToSolutionFile(file.FileSystem, file.Path);
-        string[] args = new[]
-        {
+        string[] args =
+        [
             "2022",
-            "--path", file.Path,
-        };
+            "--path",
+            file.Path,
+        ];
 
         // Act
         int exitCode = Program.Main(args);
@@ -51,11 +52,12 @@ public class ProgramTests
     {
         // Arrange
         using ScopedFile file = TemporaryFile.CreateRandomWithExtension("sln");
-        string[] args = new[]
-        {
+        string[] args =
+        [
             "2022",
-            "--path", file.Path,
-        };
+            "--path",
+            file.Path,
+        ];
 
         // Act
         int exitCode = Program.Main(args);
@@ -72,7 +74,7 @@ public class ProgramTests
         string solutionFilePath = directory.GetRandomFilePathWithExtension("sln");
         SolutionFileBuilder solutionFileBuilder = new(Version.Parse("16.0.30114.105"));
         SolutionFile solutionFile = solutionFileBuilder.BuildToSolutionFile(directory.FileSystem, solutionFilePath);
-        string[] args = new[] { "2022" };
+        string[] args = ["2022"];
         using IDisposable _ = directory.SetAsScopedWorkingDirectory();
 
         // Act

@@ -9,8 +9,6 @@ using HtmlAgilityPack;
 using SlnUp.Core;
 using SlnUp.Core.Extensions;
 
-using VisualStudio.VersionScraper.Extensions;
-
 internal sealed class VisualStudioVersionDocScraper
 {
     private const string buildNumberColumnName = "Build Number";
@@ -48,10 +46,12 @@ internal sealed class VisualStudioVersionDocScraper
     /// <returns><see cref="IEnumerable{VisualStudioVersion}"/>.</returns>
     public IEnumerable<VisualStudioVersion> ScrapeVisualStudioVersions()
     {
-        HashSet<VisualStudioVersion> versions = new();
-        versions.AddRange(this.ScrapeVisualStudioVersions(vsCurrentVersionsDocUrl, "VSCurrentVersionCache"));
-        versions.AddRange(this.ScrapeVisualStudioVersions(vs2019VersionsDocUrl, "VS2019VersionCache"));
-        versions.AddRange(this.ScrapeVisualStudioVersions(vs2017VersionsDocUrl, "VS2017VersionCache"));
+        HashSet<VisualStudioVersion> versions =
+        [
+            .. this.ScrapeVisualStudioVersions(vsCurrentVersionsDocUrl, "VSCurrentVersionCache"),
+            .. this.ScrapeVisualStudioVersions(vs2019VersionsDocUrl, "VS2019VersionCache"),
+            .. this.ScrapeVisualStudioVersions(vs2017VersionsDocUrl, "VS2017VersionCache"),
+        ];
         return versions;
     }
 
@@ -167,7 +167,7 @@ internal sealed class VisualStudioVersionDocScraper
             return false;
         }
 
-        List<RowData> data = new();
+        List<RowData> data = [];
 
         foreach (HtmlNode row in rows)
         {

@@ -9,6 +9,7 @@ runs:
         dotnet-version: |
             6.x
             7.x
+            8.0.100-rc.1.23455.8
 
     - name: Install .NET tools
       shell: pwsh

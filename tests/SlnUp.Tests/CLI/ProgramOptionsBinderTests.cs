@@ -42,12 +42,12 @@ public class ProgramOptionsBinderTests
         Option<string?> pathOption = new("--path");
         Argument<string?> versionArgument = new("version", getDefaultValue: () => ProgramOptions.DefaultVersionArgument);
         Option<Version?> buildVersionOption = new("--build-version", parseArgument: ArgumentParser.ParseVersion);
-        RootCommand command = new()
-        {
+        RootCommand command =
+        [
             pathOption,
             versionArgument,
             buildVersionOption,
-        };
+        ];
         ProgramOptionsBinder binder = new(pathOption, versionArgument, buildVersionOption);
         StringBuilder argsBuilder = new(version);
 
