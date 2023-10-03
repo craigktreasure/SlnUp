@@ -12,4 +12,15 @@
     <SystemIOAbstractionsVersion>19.2.69</SystemIOAbstractionsVersion>
   </PropertyGroup>
 
+  <!--
+    Global pacakge references
+    https://learn.microsoft.com/nuget/consume-packages/central-package-management#global-package-references
+    -->
+  <ItemGroup>
+    <GlobalPackageReference Include="Treasure.Analyzers.MemberOrder" Version="0.2.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </GlobalPackageReference>
+  </ItemGroup>
+
 </Project>

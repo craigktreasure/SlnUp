@@ -68,6 +68,13 @@ public class VisualStudioVersionJsonHelperTests
     }
 
     [Fact]
+    public void FromJson_Null()
+    {
+        // Act
+        Assert.Throws<InvalidDataException>(() => VisualStudioVersionJsonHelper.FromJson("null"));
+    }
+
+    [Fact]
     public void FromJsonFile()
     {
         // Arrange
@@ -82,13 +89,6 @@ public class VisualStudioVersionJsonHelperTests
 
         // Assert
         versions.Should().BeEquivalentTo(commonVersions);
-    }
-
-    [Fact]
-    public void FromJson_Null()
-    {
-        // Act
-        Assert.Throws<InvalidDataException>(() => VisualStudioVersionJsonHelper.FromJson("null"));
     }
 
     [Fact]
@@ -115,6 +115,19 @@ public class VisualStudioVersionJsonHelperTests
     }
 
     [Fact]
+    public void ToJson_Null()
+    {
+        // Arrange
+        const string expectedJson = "null";
+
+        // Act
+        string json = VisualStudioVersionJsonHelper.ToJson(null!);
+
+        // Assert
+        json.Should().Be(expectedJson);
+    }
+
+    [Fact]
     public void ToJsonFile()
     {
         // Arrange
@@ -127,18 +140,5 @@ public class VisualStudioVersionJsonHelperTests
         // Assert
         fileSystem.FileExists(filePath).Should().BeTrue();
         fileSystem.GetFile(filePath).TextContents.Should().Be(commonVersionsJson);
-    }
-
-    [Fact]
-    public void ToJson_Null()
-    {
-        // Arrange
-        const string expectedJson = "null";
-
-        // Act
-        string json = VisualStudioVersionJsonHelper.ToJson(null!);
-
-        // Assert
-        json.Should().Be(expectedJson);
     }
 }

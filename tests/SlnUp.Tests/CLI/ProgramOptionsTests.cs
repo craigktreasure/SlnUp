@@ -72,6 +72,22 @@ public class ProgramOptionsTests
         });
     }
 
+    [Theory]
+    [InlineData("--help")]
+    [InlineData("-h")]
+    [InlineData("-?")]
+    public void Configure_WithHelp(params string[] args)
+    {
+        // Act
+        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
+
+        // Assert
+        Assert.Equal(0, exitCode);
+        Assert.Null(result);
+        this.testConsole.GetOutput().Should().StartWith("Description:");
+        this.testConsole.Should().NotHaveErrorWritten();
+    }
+
     [Fact]
     public void Configure_WithInvalidBuildVersion()
     {
@@ -92,22 +108,6 @@ public class ProgramOptionsTests
         this.testConsole.Should().HaveOutputWritten();
         this.testConsole.Should().HaveErrorWritten();
         this.testConsole.GetErrorOutput().TrimEnd().Should().Be("Cannot parse argument 'invalid-version' for option 'build-version' as expected type 'System.Version'.");
-    }
-
-    [Theory]
-    [InlineData("--help")]
-    [InlineData("-h")]
-    [InlineData("-?")]
-    public void Configure_WithHelp(params string[] args)
-    {
-        // Act
-        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
-
-        // Assert
-        Assert.Equal(0, exitCode);
-        Assert.Null(result);
-        this.testConsole.GetOutput().Should().StartWith("Description:");
-        this.testConsole.Should().NotHaveErrorWritten();
     }
 
     [Theory]

@@ -5,11 +5,11 @@ using System.CommandLine.Binding;
 
 internal sealed class ProgramOptionsBinder : BinderBase<ProgramOptions>
 {
+    private readonly Option<OutputFormat> formatOption;
+
     private readonly Option<bool> noCacheOption;
 
     private readonly Argument<string?> outputArgument;
-
-    private readonly Option<OutputFormat> formatOption;
 
     public ProgramOptionsBinder(
         Argument<string?> outputArgument,
