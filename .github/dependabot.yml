@@ -12,6 +12,10 @@ updates:
     - craigktreasure
   assignees:
     - craigktreasure
+  groups:
+    xunit:
+      patterns:
+      - "xunit.*"
 
 - package-ecosystem: github-actions
   directory: "/"
