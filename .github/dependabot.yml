@@ -15,7 +15,7 @@ updates:
   groups:
     xunit:
       patterns:
-      - "xunit.*"
+      - "xunit*"
 
 - package-ecosystem: github-actions
   directory: "/"
