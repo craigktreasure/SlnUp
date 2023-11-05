@@ -2,9 +2,9 @@
 
 internal record SolutionFileHeader
 {
-    public const string SupportedFileFormatVersion = "12.00";
-
     public const string DefaultMinimumVisualStudioVersion = "10.0.40219.1";
+
+    public const string SupportedFileFormatVersion = "12.00";
 
     /// <summary>
     /// Gets or sets the file format version.
