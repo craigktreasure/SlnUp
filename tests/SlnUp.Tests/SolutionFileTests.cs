@@ -78,6 +78,26 @@ public class SolutionFileTests
     }
 
     [Fact]
+    public void Construct_WithMinimalHeaderNoBody()
+    {
+        // Arrange
+        MockFileSystem fileSystem = new SolutionFileBuilder()
+            .ConfigureMinimumHeader()
+            .ExcludeBody()
+            .BuildToMockFileSystem(out string filePath);
+
+        // Act
+        SolutionFile solutionFile = new(fileSystem, filePath);
+
+        // Assert
+        SolutionFileHeader fileHeader = solutionFile.FileHeader;
+        fileHeader.FileFormatVersion.Should().Be(SolutionFileHeader.SupportedFileFormatVersion);
+        fileHeader.LastVisualStudioMajorVersion.Should().BeNull();
+        fileHeader.LastVisualStudioVersion.Should().BeNull();
+        fileHeader.MinimumVisualStudioVersion.Should().BeNull();
+    }
+
+    [Fact]
     public void Construct_WithMissingFile()
     {
         // Arrange
