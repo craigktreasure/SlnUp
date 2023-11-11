@@ -76,13 +76,13 @@ public partial class VersionManager
     }
 
     private static VisualStudioProduct GetVersionFromProductYear(int productYear)
-            => productYear switch
-            {
-                2017 => VisualStudioProduct.VisualStudio2017,
-                2019 => VisualStudioProduct.VisualStudio2019,
-                2022 => VisualStudioProduct.VisualStudio2022,
-                _ => VisualStudioProduct.Unknown,
-            };
+        => productYear switch
+        {
+            2017 => VisualStudioProduct.VisualStudio2017,
+            2019 => VisualStudioProduct.VisualStudio2019,
+            2022 => VisualStudioProduct.VisualStudio2022,
+            _ => VisualStudioProduct.Unknown,
+        };
 
     private static bool TryParseVisualStudioProduct(string input, out VisualStudioProduct product)
     {
