@@ -6,7 +6,7 @@
 public enum VisualStudioProduct
 {
     /// <summary>
-    /// The prduct is unknown.
+    /// The product is unknown.
     /// </summary>
     Unknown = 0,
 
