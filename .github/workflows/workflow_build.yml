@@ -1,0 +1,72 @@
+name: Build Workflow
+
+on:
+  workflow_call:
+    inputs:
+      checkFormat:
+        type: boolean
+        default: true
+      platform:
+        type: string
+        default: ubuntu
+    outputs:
+      package_version:
+        description: 'The version of the package that was built.'
+        value: ${{ jobs.build.outputs.package_version }}
+
+env:
+  # Stop wasting time caching packages
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ${{ inputs.platform }}-latest
+
+    outputs:
+      package_version: ${{steps.version.outputs.package_version}}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install tools
+        uses: ./.github/actions/install-tools
+
+      - name: Set version variables
+        id: version
+        uses: ./.github/actions/version-vars
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Format validation
+        if: ${{ inputs.checkFormat }}
+        run: dotnet format --no-restore --verify-no-changes
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test --configuration Release --no-build --verbosity normal /p:CollectCoverage=true
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          name: codecov
+          directory: __test-results
+          fail_ci_if_error: true
+          verbose: true
+
+      - name: Upload output artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: output_${{ inputs.platform }}
+          path: __output
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: packages_${{ inputs.platform }}
+          path: __packages

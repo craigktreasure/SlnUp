@@ -1,0 +1,16 @@
+name: Set version variables
+
+outputs:
+  package_version:
+    description: The package version.
+    value: ${{ steps.version.outputs.package_version }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set version
+      id: version
+      shell: pwsh
+      run: |
+        $packageVersion = dotnet nbgv get-version --variable NuGetPackageVersion
+        "package_version=$packageVersion" >> $env:GITHUB_OUTPUT
