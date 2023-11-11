@@ -117,13 +117,12 @@ internal class SolutionFile
         string fileFormatVersionLine = $"Microsoft Visual Studio Solution File, Format Version {fileHeader.FileFormatVersion}";
         lines[this.fileFormatLineNumber] = fileFormatVersionLine;
 
-#pragma warning disable IDE0072 // Add missing cases
         string lastVisualStudioMajorVersionLine = fileHeader.LastVisualStudioMajorVersion switch
         {
             >= 16 => $"# Visual Studio Version {fileHeader.LastVisualStudioMajorVersion}",
-            <= 15 => $"# Visual Studio {fileHeader.LastVisualStudioMajorVersion}",
+            _ => $"# Visual Studio {fileHeader.LastVisualStudioMajorVersion}",
         };
-#pragma warning restore IDE0072 // Add missing cases
+
         lines[this.fileFormatLineNumber + 1] = lastVisualStudioMajorVersionLine;
 
         string lastVisualStudioVersionLine = $"VisualStudioVersion = {fileHeader.LastVisualStudioVersion}";
