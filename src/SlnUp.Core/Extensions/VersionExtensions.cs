@@ -24,10 +24,10 @@ public static class VersionExtensions
     /// <param name="version">The version.</param>
     /// <returns><c>true</c> if the version declares a 2-part version number, <c>false</c> otherwise.</returns>
     public static bool Is2PartVersion(this Version version)
-        => Argument.NotNull(version).Major >= 0
-        && version.Minor >= 0
-        && version.Build == -1
-        && version.Revision == -1;
+    {
+        Argument.NotNull(version);
+        return version is { Major: >= 0, Minor: >= 0, Build: -1, Revision: -1 };
+    }
 
     /// <summary>
     /// Determines if the version declares a 3-part version number.
@@ -35,10 +35,10 @@ public static class VersionExtensions
     /// <param name="version">The version.</param>
     /// <returns><c>true</c> if the version declares a 3-part version number, <c>false</c> otherwise.</returns>
     public static bool Is3PartVersion(this Version version)
-        => Argument.NotNull(version).Major >= 0
-        && version.Minor >= 0
-        && version.Build >= 0
-        && version.Revision == -1;
+    {
+        Argument.NotNull(version);
+        return version is { Major: >= 0, Minor: >= 0, Build: >= 0, Revision: -1 };
+    }
 
     /// <summary>
     /// Determines if the version declares a 4-part version number.
@@ -46,8 +46,8 @@ public static class VersionExtensions
     /// <param name="version">The version.</param>
     /// <returns><c>true</c> if the version declares a 4-part version number, <c>false</c> otherwise.</returns>
     public static bool Is4PartVersion(this Version version)
-        => Argument.NotNull(version).Major >= 0
-        && version.Minor >= 0
-        && version.Build >= 0
-        && version.Revision >= 0;
+    {
+        Argument.NotNull(version);
+        return version is { Major: >= 0, Minor: >= 0, Build: >= 0, Revision: >= 0 };
+    }
 }
