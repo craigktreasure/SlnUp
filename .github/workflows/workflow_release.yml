@@ -1,0 +1,31 @@
+name: Release Workflow
+
+on:
+  workflow_call:
+    inputs:
+      package-version:
+        type: string
+        required: true
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    environment:
+      name: NuGet.org
+      url: https://www.nuget.org/packages/SlnUp/
+
+    steps:
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1
+        with:
+          nuget-version: latest
+
+      - name: Download packages artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: packages_ubuntu
+          path: __packages
+
+      - name: Push ${{ inputs.package-version }} to NuGet.org
+        run: nuget push __packages/NuGet/Release/SlnUp.*.nupkg -ApiKey ${{ secrets.NUGET_API_KEY }} -Source https://api.nuget.org/v3/index.json

@@ -4,6 +4,7 @@
 
   <ItemGroup>
     <PackageVersion Include="coverlet.collector"                                Version="6.0.0" />
+    <PackageVersion Include="coverlet.msbuild"                                  Version="6.0.0" />
     <PackageVersion Include="Divergic.Logging.Xunit"                            Version="4.2.0" />
     <PackageVersion Include="FluentAssertions"                                  Version="6.12.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk"                            Version="17.8.0" />

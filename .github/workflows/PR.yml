@@ -1,65 +1,16 @@
-name: 'SlnUp-PR'
+name: SlnUp-PR
 
 on: pull_request
 
-env:
-  # Stop wasting time caching packages
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-
 jobs:
-  build:
-    name: 'Build SlnUp'
+  build_pr:
+    name: Build SlnUp
     strategy:
       max-parallel: 3
       fail-fast: false
       matrix:
         platform: [ windows, ubuntu, macos ]
-    runs-on: ${{ matrix.platform }}-latest
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: |
-            6.x
-            7.x
-
-      - name: Patch global.json if necessary
-        shell: pwsh
-        run: ./scripts/PatchGlobalJson.ps1
-
-      - name: Install dependencies
-        run: dotnet restore
-
-      - name: DotNet Format
-        run: dotnet format --no-restore --verify-no-changes
-
-      - name: Build
-        run: dotnet build --configuration Release --no-restore
-
-      - name: Test
-        run: dotnet test --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage"
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          name: codecov-${{ matrix.platform }}
-          directory: __test-results
-          fail_ci_if_error: true
-          verbose: true
-
-      - name: Upload output artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: __output_${{ matrix.platform }}
-          path: __output
-
-      - name: Upload packages artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: __packages_${{ matrix.platform }}
-          path: __packages
+    uses: ./.github/workflows/workflow_build.yml
+    secrets: inherit
+    with:
+      platform: ${{ matrix.platform }}

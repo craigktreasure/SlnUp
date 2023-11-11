@@ -1,0 +1,23 @@
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <!-- Don't publish test projects by default. -->
+    <IsPublishable>false</IsPublishable>
+
+    <!-- Prevent test projects from being packaged by default. -->
+    <IsPackable>false</IsPackable>
+
+    <!-- Mark projects as test by default. -->
+    <IsTestProject>true</IsTestProject>
+
+    <!-- Configure code coverage settings for coverlet. -->
+    <ExcludeByAttribute>GeneratedCodeAttribute,CompilerGeneratedAttribute</ExcludeByAttribute>
+    <CoverletOutputFormat>cobertura</CoverletOutputFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Exclude test projects from code coverate reports. -->
+    <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)/../Directory.Build.props" />
+</Project>

@@ -17,6 +17,7 @@
     https://learn.microsoft.com/nuget/consume-packages/central-package-management#global-package-references
     -->
   <ItemGroup>
+    <GlobalPackageReference Include="Microsoft.Build.CopyOnWrite" Version="1.0.282" />
     <GlobalPackageReference Include="Treasure.Analyzers.MemberOrder" Version="0.3.2" />
   </ItemGroup>
 

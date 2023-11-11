@@ -68,6 +68,92 @@ public class VisualStudioVersionTests
     }
 
     [Fact]
+    public void Equals_NullParameter_ReturnsFalse()
+    {
+        // Arrange
+        VisualStudioVersion version = commonVersions[0];
+        VisualStudioVersion? other = null;
+
+        // Act
+        bool result = version.Equals(other);
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void Equals_SameReference_ReturnsTrue()
+    {
+        // Arrange
+        VisualStudioVersion version = commonVersions[0];
+        VisualStudioVersion? other = commonVersions[0];
+
+        // Act
+        bool result = version.Equals(other);
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void Equals_SameValue_ReturnsTrue()
+    {
+        // Arrange
+        VisualStudioVersion version = new(
+            VisualStudioProduct.VisualStudio2022,
+            Version.Parse("17.0.0"),
+            Version.Parse("17.0.31903.59"),
+            "Release");
+        VisualStudioVersion? other = new(
+            VisualStudioProduct.VisualStudio2022,
+            Version.Parse("17.0.0"),
+            Version.Parse("17.0.31903.59"),
+            "Release");
+
+        // Act
+        bool result = version.Equals(other);
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void Equals_WithObject_NullParameter_ReturnsFalse()
+    {
+        // Arrange
+        VisualStudioVersion version = commonVersions[0];
+        object? other = null;
+
+        // Act
+        bool result = version.Equals(other);
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void Equals_WithObject_SameValue_ReturnsTrue()
+    {
+        // Arrange
+        VisualStudioVersion version = new(
+            VisualStudioProduct.VisualStudio2022,
+            Version.Parse("17.0.0"),
+            Version.Parse("17.0.31903.59"),
+            "Release");
+        object? other = new VisualStudioVersion(
+            VisualStudioProduct.VisualStudio2022,
+            Version.Parse("17.0.0"),
+            Version.Parse("17.0.31903.59"),
+            "Release");
+
+        // Act
+        bool result = version.Equals(other);
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
     public void GetHashCodeMethod()
     {
         // Arrange
