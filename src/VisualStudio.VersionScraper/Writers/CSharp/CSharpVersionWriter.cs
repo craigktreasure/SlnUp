@@ -31,6 +31,7 @@ internal sealed class CSharpVersionWriter
     {
         writer.WriteLine($"namespace {NamespaceName};");
         writer.WriteLine();
+        writer.WriteLine($"[System.CodeDom.Compiler.GeneratedCodeAttribute(\"{ThisAssembly.AssemblyName}\", \"{ThisAssembly.AssemblyVersion}\")]");
         writer.WriteLine($"public partial class {ClassName}");
         using (writer.WithBrackets())
         {
