@@ -97,7 +97,7 @@ internal class SolutionFile
             };
         }
 
-        List<string> lines = this.fileSystem.File.ReadAllLines(this.filePath).ToList();
+        List<string> lines = [.. this.fileSystem.File.ReadAllLines(this.filePath)];
 
         if (this.FileHeader.LastVisualStudioMajorVersion is null)
         {

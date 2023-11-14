@@ -2,11 +2,9 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <RepoRootPath>$(MSBuildThisFileDirectory)</RepoRootPath>
-    <CentralBuildOutputPath>$(RepoRootPath)</CentralBuildOutputPath>
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+    <ArtifactsPath>$(RepoRootPath)__artifacts</ArtifactsPath>
   </PropertyGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)\eng\Defaults.props" />
-
-  <!-- Import the CentralBuildOutput SDK. -->
-  <Sdk Name="Treasure.Build.CentralBuildOutput" />
 </Project>

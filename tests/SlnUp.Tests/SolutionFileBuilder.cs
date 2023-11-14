@@ -38,7 +38,7 @@ internal sealed class SolutionFileBuilder
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SolutionFileBuilder"/> class from a full Visual Studio version
-    /// and optional file format version and mimimum Visual Studio version.
+    /// and optional file format version and minimum Visual Studio version.
     /// </summary>
     /// <param name="visualStudioFullVersion">The full Visual Studio version.</param>
     /// <param name="fileFormatVersion">The file format version.</param>
