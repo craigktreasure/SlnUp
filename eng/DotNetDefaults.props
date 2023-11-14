@@ -51,7 +51,7 @@
   <PropertyGroup>
     <!-- Configure test and code coverage output. -->
     <BaseTestResultsOutputPath>$(ArtifactsPath)/test-results/</BaseTestResultsOutputPath>
-    <BaseProjectTestResultsOutputPath>$(ArtifactsPath)/test-results/$(MSBuildProjectName)/</BaseProjectTestResultsOutputPath>
+    <BaseProjectTestResultsOutputPath>$(BaseTestResultsOutputPath)$(MSBuildProjectName)/</BaseProjectTestResultsOutputPath>
     <VSTestResultsDirectory>$(BaseProjectTestResultsOutputPath)</VSTestResultsDirectory>
     <CoverletOutput>$(BaseProjectTestResultsOutputPath)</CoverletOutput>
   </PropertyGroup>
