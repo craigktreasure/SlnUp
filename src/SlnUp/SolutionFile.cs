@@ -117,11 +117,9 @@ internal class SolutionFile
         string fileFormatVersionLine = $"Microsoft Visual Studio Solution File, Format Version {fileHeader.FileFormatVersion}";
         lines[this.fileFormatLineNumber] = fileFormatVersionLine;
 
-        string lastVisualStudioMajorVersionLine = fileHeader.LastVisualStudioMajorVersion switch
-        {
-            >= 16 => $"# Visual Studio Version {fileHeader.LastVisualStudioMajorVersion}",
-            _ => $"# Visual Studio {fileHeader.LastVisualStudioMajorVersion}",
-        };
+        string lastVisualStudioMajorVersionLine = fileHeader.LastVisualStudioMajorVersion >= 16
+            ? $"# Visual Studio Version {fileHeader.LastVisualStudioMajorVersion}"
+            : $"# Visual Studio {fileHeader.LastVisualStudioMajorVersion}";
 
         lines[this.fileFormatLineNumber + 1] = lastVisualStudioMajorVersionLine;
 
