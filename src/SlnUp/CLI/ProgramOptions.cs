@@ -1,6 +1,7 @@
 ﻿namespace SlnUp.CLI;
 
 using System.CommandLine;
+using System.CommandLine.NamingConventionBinder;
 using System.Diagnostics.CodeAnalysis;
 using System.IO.Abstractions;
 
@@ -14,7 +15,7 @@ internal class ProgramOptions
 
     public Version? BuildVersion { get; set; }
 
-    public string? SolutionPath { get; set; }
+    public string? Path { get; set; }
 
     public string? Version { get; set; }
 
@@ -45,10 +46,10 @@ internal class ProgramOptions
             versionArgument
         };
 
-        rootCommand.SetHandler(options =>
+        rootCommand.Handler = CommandHandler.Create((ProgramOptions options) =>
         {
             return Task.FromResult(invokeAction(options));
-        }, new ProgramOptionsBinder(pathOption, versionArgument, buildVersionOption));
+        });
 
         return rootCommand;
     }
@@ -63,7 +64,7 @@ internal class ProgramOptions
     {
         options = null;
 
-        if (!TryResolveSolutionFilePath(fileSystem, this.SolutionPath, out string? solutionFilePath))
+        if (!TryResolveSolutionFilePath(fileSystem, this.Path, out string? solutionFilePath))
         {
             return false;
         }
