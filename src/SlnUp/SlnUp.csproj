@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.CommandLine" />
+    <PackageReference Include="System.CommandLine.NamingConventionBinder" />
     <PackageReference Include="System.IO.Abstractions" />
   </ItemGroup>
 

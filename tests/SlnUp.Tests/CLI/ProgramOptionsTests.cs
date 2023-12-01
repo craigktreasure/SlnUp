@@ -129,7 +129,7 @@ public class ProgramOptionsTests
         result.Should().BeEquivalentTo(new ProgramOptions
         {
             Version = expectedVersion,
-            SolutionPath = expectedFilePath,
+            Path = expectedFilePath,
         });
     }
 
@@ -187,7 +187,7 @@ public class ProgramOptionsTests
         ProgramOptions programOptions = new()
         {
             Version = "16.8",
-            SolutionPath = expectedSolutionFilePath
+            Path = expectedSolutionFilePath
         };
         MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
         {
@@ -344,7 +344,7 @@ public class ProgramOptionsTests
         ProgramOptions programOptions = new()
         {
             Version = "16.8",
-            SolutionPath = "C:\\Missing.sln".ToCrossPlatformPath(),
+            Path = "C:\\Missing.sln".ToCrossPlatformPath(),
         };
         MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
         {
@@ -391,7 +391,7 @@ public class ProgramOptionsTests
         ProgramOptions programOptions = new()
         {
             Version = "16.8",
-            SolutionPath = ".\\MyProject.sln".ToCrossPlatformPath(),
+            Path = ".\\MyProject.sln".ToCrossPlatformPath(),
         };
         MockFileSystem fileSystem = new(new Dictionary<string, MockFileData>
         {
