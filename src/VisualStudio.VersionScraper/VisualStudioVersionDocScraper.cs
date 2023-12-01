@@ -189,7 +189,9 @@ internal sealed class VisualStudioVersionDocScraper
 
     private HtmlDocument LoadVisualStudioVersionDocument(string url, string cacheFolderName)
     {
+#pragma warning disable IO0006 // Replace Path class with IFileSystem.Path for improved testability
         string cachePath = Path.Join(Path.GetTempPath(), cacheFolderName);
+#pragma warning restore IO0006 // Replace Path class with IFileSystem.Path for improved testability
         HtmlWeb web = new()
         {
             CachePath = cachePath,
