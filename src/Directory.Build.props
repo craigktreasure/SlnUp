@@ -1,4 +1,10 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <!-- Enable source only packages. -->
+    <SourceOnlyPackagesEnabled>true</SourceOnlyPackagesEnabled>
+  </PropertyGroup>
+
   <Import Project="$(MSBuildThisFileDirectory)/../Directory.Build.props" />
 
   <ItemGroup>
