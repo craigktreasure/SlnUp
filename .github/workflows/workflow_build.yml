@@ -60,13 +60,13 @@ jobs:
           verbose: true
 
       - name: Upload output artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: output_${{ inputs.platform }}
           path: __artifacts/bin
 
       - name: Upload package artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: packages_${{ inputs.platform }}
           path: __artifacts/package
