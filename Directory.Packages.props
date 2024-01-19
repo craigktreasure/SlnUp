@@ -37,7 +37,7 @@
     <PackageVersion Include="System.CommandLine"                                Version="2.0.0-beta4.22272.1" />
     <PackageVersion Include="System.CommandLine.NamingConventionBinder"         Version="2.0.0-beta4.22272.1" />
     <PackageVersion Include="System.IO.Abstractions"                            Version="$(SystemIOAbstractionsVersion)" />
-    <PackageVersion Include="System.Text.Json"                                  Version="8.0.0" />
+    <PackageVersion Include="System.Text.Json"                                  Version="8.0.1" />
     <PackageVersion Include="Treasure.Utils.Argument"                           Version="1.1.0" />
   </ItemGroup>
 
@@ -48,7 +48,7 @@
     <PackageVersion Include="FluentAssertions"                                  Version="6.12.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk"                            Version="17.8.0" />
     <PackageVersion Include="System.IO.Abstractions.TestingHelpers"             Version="$(SystemIOAbstractionsVersion)" />
-    <PackageVersion Include="xunit"                                             Version="2.6.5" />
+    <PackageVersion Include="xunit"                                             Version="2.6.6" />
     <PackageVersion Include="xunit.runner.visualstudio"                         Version="2.5.6" />
   </ItemGroup>
 
