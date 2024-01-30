@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <SystemIOAbstractionsVersion>20.0.4</SystemIOAbstractionsVersion>
+    <SystemIOAbstractionsVersion>20.0.15</SystemIOAbstractionsVersion>
   </PropertyGroup>
 
   <!--
@@ -33,7 +33,7 @@
 
   <ItemGroup>
     <PackageVersion Include="Humanizer.Core"                                    Version="2.14.1" />
-    <PackageVersion Include="HtmlAgilityPack"                                   Version="1.11.57" />
+    <PackageVersion Include="HtmlAgilityPack"                                   Version="1.11.58" />
     <PackageVersion Include="System.CommandLine"                                Version="2.0.0-beta4.22272.1" />
     <PackageVersion Include="System.CommandLine.NamingConventionBinder"         Version="2.0.0-beta4.22272.1" />
     <PackageVersion Include="System.IO.Abstractions"                            Version="$(SystemIOAbstractionsVersion)" />
