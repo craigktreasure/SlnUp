@@ -9,8 +9,13 @@ jobs:
       max-parallel: 3
       fail-fast: false
       matrix:
-        platform: [ windows, ubuntu, macos ]
+        platform: [
+          { os: windows, buildAgent: windows-latest },
+          { os: ubuntu, buildAgent: ubuntu-latest },
+          { os: macos, buildAgent: macos-14 }
+        ]
     uses: ./.github/workflows/workflow_build.yml
     secrets: inherit
     with:
-      platform: ${{ matrix.platform }}
+      artifactSuffix: ${{ matrix.platform.os }}
+      buildAgent: ${{ matrix.platform.buildAgent }}
