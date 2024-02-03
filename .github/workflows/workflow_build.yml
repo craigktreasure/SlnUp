@@ -59,6 +59,7 @@ jobs:
         with:
           name: codecov
           directory: __artifacts/test-results
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
           verbose: true
 
