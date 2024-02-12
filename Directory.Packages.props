@@ -17,7 +17,7 @@
     https://learn.microsoft.com/nuget/consume-packages/central-package-management#global-package-references
     -->
   <ItemGroup>
-    <GlobalPackageReference Include="Microsoft.Build.CopyOnWrite" Version="1.0.293" />
+    <GlobalPackageReference Include="Microsoft.Build.CopyOnWrite" Version="1.0.302" />
     <GlobalPackageReference Include="TestableIO.System.IO.Abstractions.Analyzers" Version="2022.0.0" />
     <GlobalPackageReference Include="Treasure.Analyzers.MemberOrder" Version="0.3.2" />
   </ItemGroup>
@@ -46,7 +46,7 @@
     <PackageVersion Include="coverlet.msbuild"                                  Version="6.0.0" />
     <PackageVersion Include="Divergic.Logging.Xunit"                            Version="4.2.0" />
     <PackageVersion Include="FluentAssertions"                                  Version="6.12.0" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk"                            Version="17.8.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk"                            Version="17.9.0" />
     <PackageVersion Include="System.IO.Abstractions.TestingHelpers"             Version="$(SystemIOAbstractionsVersion)" />
     <PackageVersion Include="xunit"                                             Version="2.6.6" />
     <PackageVersion Include="xunit.runner.visualstudio"                         Version="2.5.6" />
