@@ -26,8 +26,8 @@ public class VisualStudioVersionJsonHelperTests
   }
 ]";
 
-    private static readonly IReadOnlyList<VisualStudioVersion> commonVersions = new[]
-    {
+    private static readonly IReadOnlyList<VisualStudioVersion> commonVersions =
+    [
         new VisualStudioVersion(
             VisualStudioProduct.VisualStudio2019,
             Version.Parse("16.11.6"),
@@ -37,8 +37,8 @@ public class VisualStudioVersionJsonHelperTests
             VisualStudioProduct.VisualStudio2022,
             Version.Parse("17.0.0"),
             Version.Parse("17.0.31903.59"),
-            "Release")
-    };
+            "Release"),
+    ];
 
     [Fact]
     public void FromJson()
@@ -108,7 +108,7 @@ public class VisualStudioVersionJsonHelperTests
         const string expectedJson = "[]";
 
         // Act
-        string json = VisualStudioVersionJsonHelper.ToJson(Enumerable.Empty<VisualStudioVersion>());
+        string json = VisualStudioVersionJsonHelper.ToJson([]);
 
         // Assert
         json.Should().Be(expectedJson);
