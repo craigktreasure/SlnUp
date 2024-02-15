@@ -2,8 +2,8 @@
 
 public class VisualStudioVersionTests
 {
-    private static readonly IReadOnlyList<VisualStudioVersion> commonVersions = new[]
-    {
+    private static readonly IReadOnlyList<VisualStudioVersion> commonVersions =
+    [
         new VisualStudioVersion(
             VisualStudioProduct.VisualStudio2019,
             Version.Parse("16.11.6"),
@@ -14,7 +14,7 @@ public class VisualStudioVersionTests
             Version.Parse("17.0.0"),
             Version.Parse("17.0.31903.59"),
             "Release")
-    };
+    ];
 
     [Fact]
     public void Constructor()

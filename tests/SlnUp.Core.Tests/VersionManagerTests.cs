@@ -31,10 +31,10 @@ public class VersionManagerTests
     public void Construct_Versions()
     {
         // Arrange
-        IReadOnlyList<VisualStudioVersion> versions = new[]
-        {
+        IReadOnlyList<VisualStudioVersion> versions =
+        [
             new VisualStudioVersion(VisualStudioProduct.VisualStudio2022, Version.Parse("17.2.5"), Version.Parse("17.2.32616.157"), "Release", false),
-        };
+        ];
 
         // Act
         VersionManager versionManager = new(versions);
