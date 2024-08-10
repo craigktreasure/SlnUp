@@ -16,6 +16,10 @@ updates:
     xunit:
       patterns:
       - "xunit*"
+    gitversioning:
+      patterns:
+      - "Nerdbank.GitVersioning"
+      - "nbgv"
 
 - package-ecosystem: github-actions
   directory: "/"
