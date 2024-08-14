@@ -25,10 +25,10 @@ internal static class Program
             return 1;
         }
 
-        VisualStudioVersionDocScraper docScraper = new(useCache: options.NoCache is false);
+        VisualStudioVersionDocScraper docScraper = new(useCache: !options.NoCache);
 
         IEnumerable<VisualStudioVersion> versions = docScraper.ScrapeVisualStudioVersions()
-            .Where(v => v.IsPreview is false)
+            .Where(v => !v.IsPreview)
             .OrderByDescending(x => x.BuildVersion);
 
         IFileSystem fileSystem = new FileSystem();
