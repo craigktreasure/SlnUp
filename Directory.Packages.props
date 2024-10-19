@@ -17,7 +17,7 @@
     https://learn.microsoft.com/nuget/consume-packages/central-package-management#global-package-references
     -->
   <ItemGroup>
-    <GlobalPackageReference Include="Microsoft.Build.CopyOnWrite" Version="1.0.322" />
+    <GlobalPackageReference Include="Microsoft.Build.CopyOnWrite" Version="1.0.330" />
     <GlobalPackageReference Include="TestableIO.System.IO.Abstractions.Analyzers" Version="2022.0.0" />
     <GlobalPackageReference Include="Treasure.Analyzers.MemberOrder" Version="0.3.2" />
   </ItemGroup>
