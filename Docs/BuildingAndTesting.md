@@ -5,14 +5,14 @@
 ### Using Visual Studio
 
 * [Visual Studio 2022 17.4+][download-vs]
-  * You'll also need the [.NET 6 SDK][download-dotnet-6-sdk] and [.NET 7 SDK][download-dotnet-7-sdk].
+  * You'll also need the [.NET 8 SDK][download-dotnet-8-sdk] and [.NET 9 SDK][download-dotnet-9-sdk].
 
 ### Visual Studio Code
 
 * [Visual Studio Code][download-vs-code]
   * Install recommended extensions.
-* [.NET 6 SDK][download-dotnet-6-sdk]
-* [.NET 7 SDK][download-dotnet-7-sdk]
+* [.NET 8 SDK][download-dotnet-8-sdk]
+* [.NET 9 SDK][download-dotnet-9-sdk]
 
 ## Build the tool
 
@@ -76,7 +76,7 @@ Simply run the following PowerShell script:
 ./scripts/UpdateVSVersions.ps1
 ```
 
-[download-dotnet-6-sdk]: https://dotnet.microsoft.com/download/dotnet/6.0 "Download .NET 6.0"
-[download-dotnet-7-sdk]: https://dotnet.microsoft.com/download/dotnet/7.0 "Download .NET 7.0"
+[download-dotnet-8-sdk]: https://dotnet.microsoft.com/download/dotnet/8.0 "Download .NET 8.0"
+[download-dotnet-9-sdk]: https://dotnet.microsoft.com/download/dotnet/9.0 "Download .NET 9.0"
 [download-vs]: https://visualstudio.microsoft.com/downloads/ "Download Visual Studio"
 [download-vs-code]: https://code.visualstudio.com/Download "Download Visual Studio Code"

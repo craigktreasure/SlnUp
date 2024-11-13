@@ -186,14 +186,14 @@ internal class SolutionFile
     }
 
     private static bool TryLocateFileFormatLine(
-        IReadOnlyList<string> lines,
+        string[] lines,
         out int fileFormatLineNumber,
         [NotNullWhen(true)] out string? fileFormatVersion)
     {
         fileFormatLineNumber = -1;
         fileFormatVersion = null;
 
-        for (int i = 0; i < lines.Count; ++i)
+        for (int i = 0; i < lines.Length; ++i)
         {
             if (TryGetFileFormat(lines[i], out fileFormatVersion))
             {
@@ -207,7 +207,7 @@ internal class SolutionFile
 
     private SolutionFileHeader LoadFileHeader()
     {
-        IReadOnlyList<string> lines = this.fileSystem.File.ReadAllLines(this.filePath);
+        string[] lines = this.fileSystem.File.ReadAllLines(this.filePath);
 
         if (!TryLocateFileFormatLine(lines, out this.fileFormatLineNumber, out string? fileFormatVersion))
         {
@@ -217,7 +217,7 @@ internal class SolutionFile
         SolutionFileHeader fileHeader = new(fileFormatVersion);
 
         int nextLine = this.fileFormatLineNumber + 1;
-        if (lines.Count > nextLine + 1
+        if (lines.Length > nextLine + 1
             && TryGetLastVisualStudioMajorVersion(lines[nextLine], out int? lastMajorVersion))
         {
             fileHeader = fileHeader with
@@ -227,7 +227,7 @@ internal class SolutionFile
             ++nextLine;
         }
 
-        if (lines.Count > nextLine + 1
+        if (lines.Length > nextLine + 1
             && TryGetLastVisualStudioVersion(lines[nextLine], out Version? lastVersion))
         {
             fileHeader = fileHeader with
@@ -237,7 +237,7 @@ internal class SolutionFile
             ++nextLine;
         }
 
-        if (lines.Count > nextLine + 1
+        if (lines.Length > nextLine + 1
             && TryGetMinimumVisualStudioVersion(lines[nextLine], out Version? minimumVersion))
         {
             fileHeader = fileHeader with
