@@ -122,13 +122,13 @@ internal class ProgramOptions
 
         if (input is null)
         {
-            IReadOnlyList<string> solutionFiles = fileSystem.Directory.EnumerateFiles(
+            string[] solutionFiles = fileSystem.Directory.EnumerateFiles(
                 currentDirectory,
                 "*.sln",
                 SearchOption.TopDirectoryOnly)
                 .ToArray();
 
-            if (solutionFiles.Count is 0)
+            if (solutionFiles.Length is 0)
             {
                 using IDisposable _ = ConsoleHelpers.WithError();
 
@@ -137,7 +137,7 @@ internal class ProgramOptions
                 return false;
             }
 
-            if (solutionFiles.Count > 1)
+            if (solutionFiles.Length > 1)
             {
                 using IDisposable _ = ConsoleHelpers.WithError();
 
