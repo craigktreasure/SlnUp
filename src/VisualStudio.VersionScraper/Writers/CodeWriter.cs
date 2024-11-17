@@ -5,8 +5,6 @@ using System.Diagnostics.CodeAnalysis;
 
 using SlnUp.Core;
 
-using Treasure.Utils;
-
 internal sealed class CodeWriter
 {
     private readonly int indentSpaces = 4;
@@ -20,7 +18,11 @@ internal sealed class CodeWriter
     /// </summary>
     /// <param name="writer">The writer.</param>
     public CodeWriter(StreamWriter writer)
-        => this.writer = Argument.NotNull(writer);
+    {
+        ArgumentNullException.ThrowIfNull(writer);
+
+        this.writer = writer;
+    }
 
     /// <summary>
     /// Indents the code.

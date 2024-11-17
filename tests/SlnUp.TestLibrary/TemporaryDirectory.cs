@@ -2,8 +2,6 @@
 
 using System.IO.Abstractions;
 
-using Treasure.Utils;
-
 /// <summary>
 /// Class TemporaryDirectory.
 /// </summary>
@@ -25,7 +23,7 @@ public static class TemporaryDirectory
     /// <returns><see cref="ScopedDirectory"/>.</returns>
     public static ScopedDirectory Create(IFileSystem fileSystem, string directoryName)
     {
-        Argument.NotNull(fileSystem);
+        ArgumentNullException.ThrowIfNull(fileSystem);
 
         string directoryPath = GetPathWithName(fileSystem, directoryName);
 
@@ -68,7 +66,7 @@ public static class TemporaryDirectory
     public static string GetPathWithName(IFileSystem fileSystem, string directoryName)
     {
         ArgumentNullException.ThrowIfNull(fileSystem);
-        Argument.NotNullOrWhiteSpace(directoryName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(directoryName);
 
         return fileSystem.Path.Combine(GetPath(fileSystem), directoryName);
     }

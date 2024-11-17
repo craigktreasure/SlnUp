@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="System.Text.Json" />
-    <PackageReference Include="Treasure.Utils.Argument" />
   </ItemGroup>
 
   <ItemGroup>

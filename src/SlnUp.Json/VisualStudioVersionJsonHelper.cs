@@ -6,8 +6,6 @@ using System.Text.Json.Serialization;
 
 using SlnUp.Core;
 
-using Treasure.Utils;
-
 /// <summary>
 /// A helper when converting <see cref="VisualStudioVersion" /> data to and from json.
 /// </summary>
@@ -40,7 +38,11 @@ public static class VisualStudioVersionJsonHelper
     /// <param name="filePath">The file path.</param>
     /// <returns><see cref="IReadOnlyList{VisualStudioVersion}" />.</returns>
     public static IReadOnlyList<VisualStudioVersion> FromJsonFile(IFileSystem fileSystem, string filePath)
-        => FromJson(Argument.NotNull(fileSystem).File.ReadAllText(filePath));
+    {
+        ArgumentNullException.ThrowIfNull(fileSystem);
+
+        return FromJson(fileSystem.File.ReadAllText(filePath));
+    }
 
     /// <summary>
     /// Serializes to json content.
@@ -56,5 +58,9 @@ public static class VisualStudioVersionJsonHelper
     /// <param name="versions">The versions.</param>
     /// <param name="filePath">The file path.</param>
     public static void ToJsonFile(IFileSystem fileSystem, IEnumerable<VisualStudioVersion> versions, string filePath)
-        => Argument.NotNull(fileSystem).File.WriteAllText(filePath, ToJson(versions));
+    {
+        ArgumentNullException.ThrowIfNull(fileSystem);
+
+        fileSystem.File.WriteAllText(filePath, ToJson(versions));
+    }
 }
