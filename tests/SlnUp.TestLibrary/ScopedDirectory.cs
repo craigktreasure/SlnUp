@@ -4,8 +4,6 @@ using System.IO.Abstractions;
 
 using SlnUp.Core;
 
-using Treasure.Utils;
-
 /// <summary>
 /// Class ScopedDirectory.
 /// Implements the <see cref="IDisposable" />
@@ -43,8 +41,11 @@ public class ScopedDirectory : IDisposable
     /// <param name="path">The directory path.</param>
     public ScopedDirectory(IFileSystem fileSystem, string path)
     {
-        this.FileSystem = Argument.NotNull(fileSystem);
-        this.Path = Argument.NotNullOrWhiteSpace(path);
+        ArgumentNullException.ThrowIfNull(fileSystem);
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+
+        this.FileSystem = fileSystem;
+        this.Path = path;
 
         if (!fileSystem.Directory.Exists(path))
         {

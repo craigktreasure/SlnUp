@@ -4,8 +4,6 @@ using System.IO.Abstractions;
 
 using SlnUp.Core;
 
-using Treasure.Utils;
-
 internal sealed class CSharpVersionWriter
 {
     private const string ClassName = "VersionManager";
@@ -16,7 +14,12 @@ internal sealed class CSharpVersionWriter
 
     private readonly IFileSystem fileSystem;
 
-    public CSharpVersionWriter(IFileSystem fileSystem) => this.fileSystem = Argument.NotNull(fileSystem);
+    public CSharpVersionWriter(IFileSystem fileSystem)
+    {
+        ArgumentNullException.ThrowIfNull(fileSystem);
+
+        this.fileSystem = fileSystem;
+    }
 
     public void WriteClassToFile(IEnumerable<VisualStudioVersion> versions, string filePath)
     {

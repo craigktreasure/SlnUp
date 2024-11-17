@@ -4,8 +4,6 @@ using System.IO.Abstractions;
 
 using SlnUp.Core;
 
-using Treasure.Utils;
-
 /// <summary>
 /// Class ScopedFile.
 /// Implements the <see cref="IDisposable" />
@@ -43,8 +41,11 @@ public class ScopedFile : IDisposable
     /// <param name="filePath">The file path.</param>
     public ScopedFile(IFileSystem fileSystem, string filePath)
     {
-        this.FileSystem = Argument.NotNull(fileSystem);
-        this.Path = Argument.NotNullOrWhiteSpace(filePath);
+        ArgumentNullException.ThrowIfNull(fileSystem);
+        ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
+
+        this.FileSystem = fileSystem;
+        this.Path = filePath;
 
         if (!fileSystem.File.Exists(filePath))
         {
