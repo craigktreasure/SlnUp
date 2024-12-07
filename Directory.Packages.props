@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <SystemIOAbstractionsVersion>21.1.3</SystemIOAbstractionsVersion>
+    <SystemIOAbstractionsVersion>21.1.7</SystemIOAbstractionsVersion>
   </PropertyGroup>
 
   <!--
