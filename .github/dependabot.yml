@@ -21,6 +21,13 @@ updates:
       - "Nerdbank.GitVersioning"
       - "nbgv"
 
+- package-ecosystem: 'dotnet-sdk'
+  directory: "/"
+  schedule:
+    interval: 'weekly'
+    day: 'tuesday'
+    time: '20:00'
+
 - package-ecosystem: github-actions
   directory: "/"
   schedule:

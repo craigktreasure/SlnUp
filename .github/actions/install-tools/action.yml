@@ -3,12 +3,16 @@ name: Install tools
 runs:
   using: "composite"
   steps:
-    - name: Setup .NET
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        global-json-file: global.json
+
+    - name: Setup additional .NET SDK versions
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: |
             8.x
-            9.x
 
     - name: Install .NET tools
       shell: pwsh
