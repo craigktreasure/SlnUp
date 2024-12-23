@@ -10,7 +10,7 @@ jobs:
       fail-fast: false
       matrix:
         platform: [
-          { os: windows, buildAgent: windows-latest },
+          { os: windows, buildAgent: windows-2025 },
           { os: ubuntu, buildAgent: ubuntu-latest },
           { os: macos, buildAgent: macos-14 }
         ]
