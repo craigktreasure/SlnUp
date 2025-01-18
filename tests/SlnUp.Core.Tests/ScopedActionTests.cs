@@ -14,7 +14,7 @@ public class ScopedActionTests
         action.Dispose();
 
         // Assert
-        actionCalled.Should().Be(1);
+        Assert.Equal(1, actionCalled);
     }
 
     [Fact]
@@ -29,7 +29,7 @@ public class ScopedActionTests
         }
 
         // Assert
-        actionCalled.Should().BeTrue();
+        Assert.True(actionCalled);
     }
 
     [Fact]

@@ -16,10 +16,10 @@ public class SolutionFileHeaderTests
             Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion));
 
         // Assert
-        fileHeader.FileFormatVersion.Should().Be(SolutionFileHeader.SupportedFileFormatVersion);
-        fileHeader.LastVisualStudioMajorVersion.Should().Be(version.Major);
-        fileHeader.LastVisualStudioVersion.Should().Be(version);
-        fileHeader.MinimumVisualStudioVersion.Should().Be(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion));
+        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
+        Assert.Equal(version.Major, fileHeader.LastVisualStudioMajorVersion);
+        Assert.Equal(version, fileHeader.LastVisualStudioVersion);
+        Assert.Equal(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion), fileHeader.MinimumVisualStudioVersion);
     }
 
     [Fact]
@@ -29,7 +29,7 @@ public class SolutionFileHeaderTests
         ArgumentException ex = Assert.Throws<ArgumentException>(() => new SolutionFileHeader("13.00"));
 
         // Assert
-        ex.ParamName.Should().Be("fileFormatVersion");
+        Assert.Equal("fileFormatVersion", ex.ParamName);
     }
 
     [Fact]
@@ -48,10 +48,10 @@ public class SolutionFileHeaderTests
         SolutionFileHeader updatedFileHeader = originalFileHeader.DuplicateAndUpdate(updatedVersion);
 
         // Assert
-        updatedFileHeader.Should().NotBeSameAs(originalFileHeader);
-        updatedFileHeader.FileFormatVersion.Should().Be(SolutionFileHeader.SupportedFileFormatVersion);
-        updatedFileHeader.LastVisualStudioMajorVersion.Should().Be(updatedVersion.Major);
-        updatedFileHeader.LastVisualStudioVersion.Should().Be(updatedVersion);
-        updatedFileHeader.MinimumVisualStudioVersion.Should().Be(originalVersion);
+        Assert.NotSame(originalFileHeader, updatedFileHeader);
+        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, updatedFileHeader.FileFormatVersion);
+        Assert.Equal(updatedVersion.Major, updatedFileHeader.LastVisualStudioMajorVersion);
+        Assert.Equal(updatedVersion, updatedFileHeader.LastVisualStudioVersion);
+        Assert.Equal(originalVersion, updatedFileHeader.MinimumVisualStudioVersion);
     }
 }

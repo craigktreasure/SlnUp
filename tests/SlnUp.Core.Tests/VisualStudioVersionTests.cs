@@ -34,11 +34,11 @@ public class VisualStudioVersionTests
             expectedChannel);
 
         // Assert
-        version.Channel.Should().Be(expectedChannel);
-        version.Version.ToString().Should().Be(expectedVersion);
-        version.BuildVersion.ToString().Should().Be(expectedBuildVersion);
-        version.ProductTitle.Should().Be(expectedVersionTitle);
-        version.FullProductTitle.Should().Be(expectedFullVersionTitle);
+        Assert.Equal(expectedChannel, version.Channel);
+        Assert.Equal(expectedVersion, version.Version.ToString());
+        Assert.Equal(expectedBuildVersion, version.BuildVersion.ToString());
+        Assert.Equal(expectedVersionTitle, version.ProductTitle);
+        Assert.Equal(expectedFullVersionTitle, version.FullProductTitle);
     }
 
     [Fact]
@@ -60,11 +60,11 @@ public class VisualStudioVersionTests
             isPreview: true);
 
         // Assert
-        version.Channel.Should().Be(expectedChannel);
-        version.Version.ToString().Should().Be(expectedVersion);
-        version.BuildVersion.ToString().Should().Be(expectedBuildVersion);
-        version.ProductTitle.Should().Be(expectedVersionTitle);
-        version.FullProductTitle.Should().Be(expectedFullVersionTitle);
+        Assert.Equal(expectedChannel, version.Channel);
+        Assert.Equal(expectedVersion, version.Version.ToString());
+        Assert.Equal(expectedBuildVersion, version.BuildVersion.ToString());
+        Assert.Equal(expectedVersionTitle, version.ProductTitle);
+        Assert.Equal(expectedFullVersionTitle, version.FullProductTitle);
     }
 
     [Fact]
@@ -164,6 +164,6 @@ public class VisualStudioVersionTests
         int hashCode = version.GetHashCode();
 
         // Assert
-        hashCode.Should().Be(expectedHashCode);
+        Assert.Equal(expectedHashCode, hashCode);
     }
 }

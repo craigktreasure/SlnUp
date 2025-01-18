@@ -27,7 +27,7 @@ EndGlobal
         string actualContent = fileBuilder.Build();
 
         // Assert
-        actualContent.Should().Be(expectedContent);
+        Assert.Equal(expectedContent, actualContent);
     }
 
     [Fact]
@@ -55,7 +55,7 @@ EndGlobal
         string actualContent = fileBuilder.Build();
 
         // Assert
-        actualContent.Should().Be(expectedContent);
+        Assert.Equal(expectedContent, actualContent);
     }
 
     [Fact]
@@ -81,7 +81,7 @@ EndGlobal
         string actualContent = fileBuilder.Build();
 
         // Assert
-        actualContent.Should().Be(expectedContent);
+        Assert.Equal(expectedContent, actualContent);
     }
 
     [Fact]
@@ -101,7 +101,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
         string actualContent = fileBuilder.Build();
 
         // Assert
-        actualContent.Should().Be(expectedContent);
+        Assert.Equal(expectedContent, actualContent);
     }
 
     [Fact]
@@ -129,7 +129,7 @@ EndGlobal
         string actualContent = fileBuilder.Build();
 
         // Assert
-        actualContent.Should().Be(expectedContent);
+        Assert.Equal(expectedContent, actualContent);
     }
 
     [Fact]
@@ -157,7 +157,7 @@ EndGlobal
         string actualContent = fileBuilder.Build();
 
         // Assert
-        actualContent.Should().Be(expectedContent);
+        Assert.Equal(expectedContent, actualContent);
     }
 
     [Fact]
@@ -185,7 +185,7 @@ EndGlobal
         string actualContent = fileBuilder.Build();
 
         // Assert
-        actualContent.Should().Be(expectedContent);
+        Assert.Equal(expectedContent, actualContent);
     }
 
     [Fact]
@@ -213,6 +213,6 @@ EndGlobal
         string actualContent = fileBuilder.Build();
 
         // Assert
-        actualContent.Should().Be(expectedContent);
+        Assert.Equal(expectedContent, actualContent);
     }
 }

@@ -48,6 +48,6 @@ public class ArgumentParserTests
         // Assert
         ParseError error = Assert.Single(result.Errors);
         Assert.Equal("version", error.SymbolResult?.Symbol.Name);
-        error.Message.Should().StartWith("Cannot parse argument 'not-valid'");
+        Assert.StartsWith("Cannot parse argument 'not-valid'", error.Message, StringComparison.Ordinal);
     }
 }

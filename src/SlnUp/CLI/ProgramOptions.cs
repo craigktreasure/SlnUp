@@ -122,11 +122,10 @@ internal class ProgramOptions
 
         if (input is null)
         {
-            string[] solutionFiles = fileSystem.Directory.EnumerateFiles(
+            string[] solutionFiles = [.. fileSystem.Directory.EnumerateFiles(
                 currentDirectory,
                 "*.sln",
-                SearchOption.TopDirectoryOnly)
-                .ToArray();
+                SearchOption.TopDirectoryOnly)];
 
             if (solutionFiles.Length is 0)
             {

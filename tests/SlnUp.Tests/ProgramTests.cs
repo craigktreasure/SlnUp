@@ -44,7 +44,7 @@ public class ProgramTests
         // Assert
         Assert.Equal(NormalExitCode, exitCode);
         solutionFile.Reload();
-        solutionFile.FileHeader.LastVisualStudioMajorVersion.Should().Be(17);
+        Assert.Equal(17, solutionFile.FileHeader.LastVisualStudioMajorVersion);
     }
 
     [Fact]
@@ -83,6 +83,6 @@ public class ProgramTests
         // Assert
         Assert.Equal(NormalExitCode, exitCode);
         solutionFile.Reload();
-        solutionFile.FileHeader.LastVisualStudioMajorVersion.Should().Be(17);
+        Assert.Equal(17, solutionFile.FileHeader.LastVisualStudioMajorVersion);
     }
 }
