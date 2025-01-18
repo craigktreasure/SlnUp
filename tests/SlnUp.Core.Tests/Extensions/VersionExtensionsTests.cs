@@ -23,7 +23,7 @@ public class VersionExtensionsTests
         bool result = versionA.HasSameMajorMinor(versionB);
 
         // Assert
-        result.Should().Be(expectedResult);
+        Assert.Equal(expectedResult, result);
     }
 
     [Theory]
@@ -39,7 +39,7 @@ public class VersionExtensionsTests
         bool result = version.Is2PartVersion();
 
         // Assert
-        result.Should().Be(expectedResult);
+        Assert.Equal(expectedResult, result);
     }
 
     [Theory]
@@ -55,7 +55,7 @@ public class VersionExtensionsTests
         bool result = version.Is3PartVersion();
 
         // Assert
-        result.Should().Be(expectedResult);
+        Assert.Equal(expectedResult, result);
     }
 
     [Theory]
@@ -71,6 +71,6 @@ public class VersionExtensionsTests
         bool result = version.Is4PartVersion();
 
         // Assert
-        result.Should().Be(expectedResult);
+        Assert.Equal(expectedResult, result);
     }
 }

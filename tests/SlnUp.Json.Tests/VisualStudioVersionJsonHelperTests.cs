@@ -47,7 +47,7 @@ public class VisualStudioVersionJsonHelperTests
         IReadOnlyList<VisualStudioVersion> versions = VisualStudioVersionJsonHelper.FromJson(commonVersionsJson);
 
         // Assert
-        versions.Should().BeEquivalentTo(commonVersions);
+        Assert.Equal(commonVersions, versions);
     }
 
     [Fact]
@@ -57,7 +57,7 @@ public class VisualStudioVersionJsonHelperTests
         IReadOnlyList<VisualStudioVersion> versions = VisualStudioVersionJsonHelper.FromJson("[]");
 
         // Assert
-        versions.Should().BeEmpty();
+        Assert.Empty(versions);
     }
 
     [Fact]
@@ -88,7 +88,7 @@ public class VisualStudioVersionJsonHelperTests
         IReadOnlyList<VisualStudioVersion> versions = VisualStudioVersionJsonHelper.FromJsonFile(fileSystem, filePath);
 
         // Assert
-        versions.Should().BeEquivalentTo(commonVersions);
+        Assert.Equal(commonVersions, versions);
     }
 
     [Fact]
@@ -98,7 +98,7 @@ public class VisualStudioVersionJsonHelperTests
         string json = VisualStudioVersionJsonHelper.ToJson(commonVersions);
 
         // Assert
-        json.Should().Be(commonVersionsJson);
+        Assert.Equal(commonVersionsJson, json);
     }
 
     [Fact]
@@ -111,7 +111,7 @@ public class VisualStudioVersionJsonHelperTests
         string json = VisualStudioVersionJsonHelper.ToJson([]);
 
         // Assert
-        json.Should().Be(expectedJson);
+        Assert.Equal(expectedJson, json);
     }
 
     [Fact]
@@ -124,7 +124,7 @@ public class VisualStudioVersionJsonHelperTests
         string json = VisualStudioVersionJsonHelper.ToJson(null!);
 
         // Assert
-        json.Should().Be(expectedJson);
+        Assert.Equal(expectedJson, json);
     }
 
     [Fact]
@@ -138,7 +138,7 @@ public class VisualStudioVersionJsonHelperTests
         VisualStudioVersionJsonHelper.ToJsonFile(fileSystem, commonVersions, filePath);
 
         // Assert
-        fileSystem.FileExists(filePath).Should().BeTrue();
-        fileSystem.GetFile(filePath).TextContents.Should().Be(commonVersionsJson);
+        Assert.True(fileSystem.FileExists(filePath));
+        Assert.Equal(commonVersionsJson, fileSystem.GetFile(filePath).TextContents);
     }
 }

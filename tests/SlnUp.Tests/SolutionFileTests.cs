@@ -33,10 +33,10 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        fileHeader.FileFormatVersion.Should().Be(SolutionFileHeader.SupportedFileFormatVersion);
-        fileHeader.LastVisualStudioMajorVersion.Should().Be(16);
-        fileHeader.LastVisualStudioVersion.Should().Be(expectedVersion);
-        fileHeader.MinimumVisualStudioVersion.Should().Be(SolutionFileBuilder.DefaultVisualStudioMinimumVersion);
+        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
+        Assert.Equal(16, fileHeader.LastVisualStudioMajorVersion);
+        Assert.Equal(expectedVersion, fileHeader.LastVisualStudioVersion);
+        Assert.Equal(SolutionFileBuilder.DefaultVisualStudioMinimumVersion, fileHeader.MinimumVisualStudioVersion);
     }
 
     [Fact]
@@ -52,10 +52,10 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        fileHeader.FileFormatVersion.Should().Be(SolutionFileHeader.SupportedFileFormatVersion);
-        fileHeader.LastVisualStudioMajorVersion.Should().Be(15);
-        fileHeader.LastVisualStudioVersion.Should().Be(expectedVersion);
-        fileHeader.MinimumVisualStudioVersion.Should().Be(expectedVersion);
+        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
+        Assert.Equal(15, fileHeader.LastVisualStudioMajorVersion);
+        Assert.Equal(expectedVersion, fileHeader.LastVisualStudioVersion);
+        Assert.Equal(expectedVersion, fileHeader.MinimumVisualStudioVersion);
     }
 
     [Fact]
@@ -71,10 +71,10 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        fileHeader.FileFormatVersion.Should().Be(SolutionFileHeader.SupportedFileFormatVersion);
-        fileHeader.LastVisualStudioMajorVersion.Should().BeNull();
-        fileHeader.LastVisualStudioVersion.Should().BeNull();
-        fileHeader.MinimumVisualStudioVersion.Should().BeNull();
+        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
+        Assert.Null(fileHeader.LastVisualStudioMajorVersion);
+        Assert.Null(fileHeader.LastVisualStudioVersion);
+        Assert.Null(fileHeader.MinimumVisualStudioVersion);
     }
 
     [Fact]
@@ -91,10 +91,10 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        fileHeader.FileFormatVersion.Should().Be(SolutionFileHeader.SupportedFileFormatVersion);
-        fileHeader.LastVisualStudioMajorVersion.Should().BeNull();
-        fileHeader.LastVisualStudioVersion.Should().BeNull();
-        fileHeader.MinimumVisualStudioVersion.Should().BeNull();
+        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
+        Assert.Null(fileHeader.LastVisualStudioMajorVersion);
+        Assert.Null(fileHeader.LastVisualStudioVersion);
+        Assert.Null(fileHeader.MinimumVisualStudioVersion);
     }
 
     [Fact]
@@ -108,7 +108,7 @@ public class SolutionFileTests
         FileNotFoundException exception = Assert.Throws<FileNotFoundException>(() => new SolutionFile(fileSystem, filePath));
 
         // Assert
-        exception.FileName.Should().Be(filePath);
+        Assert.Equal(filePath, exception.FileName);
     }
 
     [Fact]
@@ -137,11 +137,11 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        fileHeader.FileFormatVersion.Should().Be(SolutionFileHeader.SupportedFileFormatVersion);
-        fileHeader.LastVisualStudioMajorVersion.Should().Be(expectedVersion.Major);
-        fileHeader.LastVisualStudioVersion.Should().Be(expectedVersion);
-        fileHeader.MinimumVisualStudioVersion.Should().Be(SolutionFileBuilder.DefaultVisualStudioMinimumVersion);
-        solutionFile.ReadContent().Should().Be(expectedContent);
+        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
+        Assert.Equal(expectedVersion.Major, fileHeader.LastVisualStudioMajorVersion);
+        Assert.Equal(expectedVersion, fileHeader.LastVisualStudioVersion);
+        Assert.Equal(SolutionFileBuilder.DefaultVisualStudioMinimumVersion, fileHeader.MinimumVisualStudioVersion);
+        Assert.Equal(expectedContent, solutionFile.ReadContent());
     }
 
     [Fact]
@@ -158,11 +158,11 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        fileHeader.FileFormatVersion.Should().Be(SolutionFileHeader.SupportedFileFormatVersion);
-        fileHeader.LastVisualStudioMajorVersion.Should().Be(expectedVersion.Major);
-        fileHeader.LastVisualStudioVersion.Should().Be(expectedVersion);
-        fileHeader.MinimumVisualStudioVersion.Should().Be(SolutionFileBuilder.DefaultVisualStudioMinimumVersion);
-        solutionFile.ReadContent().Should().Be(expectedContent);
+        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
+        Assert.Equal(expectedVersion.Major, fileHeader.LastVisualStudioMajorVersion);
+        Assert.Equal(expectedVersion, fileHeader.LastVisualStudioVersion);
+        Assert.Equal(SolutionFileBuilder.DefaultVisualStudioMinimumVersion, fileHeader.MinimumVisualStudioVersion);
+        Assert.Equal(expectedContent, solutionFile.ReadContent());
     }
 
     [Fact]
@@ -180,11 +180,11 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        fileHeader.FileFormatVersion.Should().Be(SolutionFileHeader.SupportedFileFormatVersion);
-        fileHeader.LastVisualStudioMajorVersion.Should().Be(expectedVersion.Major);
-        fileHeader.LastVisualStudioVersion.Should().Be(expectedVersion);
-        fileHeader.MinimumVisualStudioVersion.Should().Be(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion));
-        solutionFile.ReadContent().Should().Be(expectedFileContent);
+        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
+        Assert.Equal(expectedVersion.Major, fileHeader.LastVisualStudioMajorVersion);
+        Assert.Equal(expectedVersion, fileHeader.LastVisualStudioVersion);
+        Assert.Equal(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion), fileHeader.MinimumVisualStudioVersion);
+        Assert.Equal(expectedFileContent, solutionFile.ReadContent());
     }
 
     [Fact]
@@ -202,11 +202,11 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        fileHeader.FileFormatVersion.Should().Be(SolutionFileHeader.SupportedFileFormatVersion);
-        fileHeader.LastVisualStudioMajorVersion.Should().Be(expectedVersion.Major);
-        fileHeader.LastVisualStudioVersion.Should().Be(expectedVersion);
-        fileHeader.MinimumVisualStudioVersion.Should().Be(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion));
-        solutionFile.ReadContent().Should().Be(expectedFileContent);
+        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
+        Assert.Equal(expectedVersion.Major, fileHeader.LastVisualStudioMajorVersion);
+        Assert.Equal(expectedVersion, fileHeader.LastVisualStudioVersion);
+        Assert.Equal(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion), fileHeader.MinimumVisualStudioVersion);
+        Assert.Equal(expectedFileContent, solutionFile.ReadContent());
     }
 
     [Fact]
@@ -224,11 +224,11 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        fileHeader.FileFormatVersion.Should().Be(SolutionFileHeader.SupportedFileFormatVersion);
-        fileHeader.LastVisualStudioMajorVersion.Should().Be(expectedVersion.Major);
-        fileHeader.LastVisualStudioVersion.Should().Be(expectedVersion);
-        fileHeader.MinimumVisualStudioVersion.Should().Be(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion));
-        solutionFile.ReadContent().Should().Be(expectedFileContent);
+        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
+        Assert.Equal(expectedVersion.Major, fileHeader.LastVisualStudioMajorVersion);
+        Assert.Equal(expectedVersion, fileHeader.LastVisualStudioVersion);
+        Assert.Equal(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion), fileHeader.MinimumVisualStudioVersion);
+        Assert.Equal(expectedFileContent, solutionFile.ReadContent());
     }
 
     [Fact]
@@ -246,11 +246,11 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        fileHeader.FileFormatVersion.Should().Be(SolutionFileHeader.SupportedFileFormatVersion);
-        fileHeader.LastVisualStudioMajorVersion.Should().Be(expectedVersion.Major);
-        fileHeader.LastVisualStudioVersion.Should().Be(expectedVersion);
-        fileHeader.MinimumVisualStudioVersion.Should().Be(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion));
-        solutionFile.ReadContent().Should().Be(expectedFileContent);
+        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
+        Assert.Equal(expectedVersion.Major, fileHeader.LastVisualStudioMajorVersion);
+        Assert.Equal(expectedVersion, fileHeader.LastVisualStudioVersion);
+        Assert.Equal(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion), fileHeader.MinimumVisualStudioVersion);
+        Assert.Equal(expectedFileContent, solutionFile.ReadContent());
     }
 
     [Fact]

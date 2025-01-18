@@ -26,10 +26,7 @@ public class ProgramOptionsTests
         // Assert
         Assert.Equal(0, exitCode);
         Assert.NotNull(result);
-        result.Should().BeEquivalentTo(new ProgramOptions
-        {
-            Version = version
-        });
+        Assert.Equal(version, result.Version);
     }
 
     [Fact]
@@ -44,10 +41,7 @@ public class ProgramOptionsTests
         // Assert
         Assert.Equal(0, exitCode);
         Assert.NotNull(result);
-        result.Should().BeEquivalentTo(new ProgramOptions
-        {
-            Version = ProgramOptions.DefaultVersionArgument,
-        });
+        Assert.Equal(ProgramOptions.DefaultVersionArgument, result.Version);
     }
 
     [Theory]
@@ -65,11 +59,8 @@ public class ProgramOptionsTests
         // Assert
         Assert.Equal(0, exitCode);
         Assert.NotNull(result);
-        result.Should().BeEquivalentTo(new ProgramOptions
-        {
-            Version = expectedVersion,
-            BuildVersion = Version.Parse(expectedBuildVersion),
-        });
+        Assert.Equal(expectedVersion, result.Version);
+        Assert.Equal(Version.Parse(expectedBuildVersion), result.BuildVersion);
     }
 
     [Theory]
@@ -84,8 +75,8 @@ public class ProgramOptionsTests
         // Assert
         Assert.Equal(0, exitCode);
         Assert.Null(result);
-        this.testConsole.GetOutput().Should().StartWith("Description:");
-        this.testConsole.Should().NotHaveErrorWritten();
+        Assert.StartsWith("Description:", this.testConsole.GetOutput(), StringComparison.Ordinal);
+        Assert.True(this.testConsole.HasNoErrorOutput());
     }
 
     [Fact]
@@ -98,6 +89,7 @@ public class ProgramOptionsTests
             "--build-version",
             "invalid-version"
         ];
+        const string expectedErrorOutput = "Cannot parse argument 'invalid-version' for option 'build-version' as expected type 'System.Version'.";
 
         // Act
         ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
@@ -105,9 +97,9 @@ public class ProgramOptionsTests
         // Assert
         Assert.Equal(1, exitCode);
         Assert.Null(result);
-        this.testConsole.Should().HaveOutputWritten();
-        this.testConsole.Should().HaveErrorWritten();
-        this.testConsole.GetErrorOutput().TrimEnd().Should().Be("Cannot parse argument 'invalid-version' for option 'build-version' as expected type 'System.Version'.");
+        Assert.True(this.testConsole.HasOutput());
+        Assert.True(this.testConsole.HasErrorOutput());
+        Assert.Equal(expectedErrorOutput, this.testConsole.GetErrorOutput().TrimEnd());
     }
 
     [Theory]
@@ -121,16 +113,13 @@ public class ProgramOptionsTests
         string expectedFilePath = "C:/solution.sln".ToCrossPlatformPath();
 
         // Act
-        ProgramOptions? result = this.ConfigureAndInvoke(args.ToCrossPlatformPath().ToArray(), out int exitCode);
+        ProgramOptions? result = this.ConfigureAndInvoke([.. args.ToCrossPlatformPath()], out int exitCode);
 
         // Assert
         Assert.Equal(0, exitCode);
         Assert.NotNull(result);
-        result.Should().BeEquivalentTo(new ProgramOptions
-        {
-            Version = expectedVersion,
-            Path = expectedFilePath,
-        });
+        Assert.Equal(expectedVersion, result.Version);
+        Assert.Equal(expectedFilePath, result.Path);
     }
 
     [Fact]
@@ -145,7 +134,7 @@ public class ProgramOptionsTests
         // Assert
         Assert.Equal(0, exitCode);
         Assert.Null(result);
-        this.testConsole.Should().HaveOutputWritten();
+        Assert.True(this.testConsole.HasOutput());
     }
 
     /// <summary>
@@ -169,11 +158,11 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        result.Should().BeTrue();
-        options.Should().NotBeNull();
-        options!.SolutionFilePath.Should().Be(expectedSolutionFilePath);
-        options.Version.Should().Be(Version.Parse("16.8.7"));
-        options.BuildVersion.Should().Be(Version.Parse("16.8.31025.109"));
+        Assert.True(result);
+        Assert.NotNull(options);
+        Assert.Equal(expectedSolutionFilePath, options.SolutionFilePath);
+        Assert.Equal(Version.Parse("16.8.7"), options.Version);
+        Assert.Equal(Version.Parse("16.8.31025.109"), options.BuildVersion);
     }
 
     /// <summary>
@@ -198,9 +187,9 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        result.Should().BeTrue();
-        options.Should().NotBeNull();
-        options!.SolutionFilePath.Should().Be(expectedSolutionFilePath);
+        Assert.True(result);
+        Assert.NotNull(options);
+        Assert.Equal(expectedSolutionFilePath, options.SolutionFilePath);
     }
 
     /// <summary>
@@ -225,11 +214,11 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        result.Should().BeTrue();
-        options.Should().NotBeNull();
-        options!.SolutionFilePath.Should().Be(expectedSolutionFilePath);
-        options.Version.Should().Be(Version.Parse("0.0"));
-        options.BuildVersion.Should().Be(Version.Parse("0.0.0.0"));
+        Assert.True(result);
+        Assert.NotNull(options);
+        Assert.Equal(expectedSolutionFilePath, options.SolutionFilePath);
+        Assert.Equal(Version.Parse("0.0"), options.Version);
+        Assert.Equal(Version.Parse("0.0.0.0"), options.BuildVersion);
     }
 
     /// <summary>
@@ -254,8 +243,8 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        result.Should().BeFalse();
-        options.Should().BeNull();
+        Assert.False(result);
+        Assert.Null(options);
     }
 
     /// <summary>
@@ -280,8 +269,8 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        result.Should().BeFalse();
-        options.Should().BeNull();
+        Assert.False(result);
+        Assert.Null(options);
     }
 
     /// <summary>
@@ -305,8 +294,8 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        result.Should().BeFalse();
-        options.Should().BeNull();
+        Assert.False(result);
+        Assert.Null(options);
     }
 
     /// <summary>
@@ -330,8 +319,8 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        result.Should().BeFalse();
-        options.Should().BeNull();
+        Assert.False(result);
+        Assert.Null(options);
     }
 
     /// <summary>
@@ -355,8 +344,8 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        result.Should().BeFalse();
-        options.Should().BeNull();
+        Assert.False(result);
+        Assert.Null(options);
     }
 
     /// <summary>
@@ -376,8 +365,8 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        result.Should().BeFalse();
-        options.Should().BeNull();
+        Assert.False(result);
+        Assert.Null(options);
     }
 
     /// <summary>
@@ -402,9 +391,9 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        result.Should().BeTrue();
-        options.Should().NotBeNull();
-        options!.SolutionFilePath.Should().Be(expectedSolutionFilePath);
+        Assert.True(result);
+        Assert.NotNull(options);
+        Assert.Equal(expectedSolutionFilePath, options.SolutionFilePath);
     }
 
     private ProgramOptions? ConfigureAndInvoke(string[] args, out int exitCode)

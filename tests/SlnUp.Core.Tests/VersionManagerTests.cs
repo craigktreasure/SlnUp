@@ -83,12 +83,12 @@ public class VersionManagerTests
         // Assert
         if (!expectFound)
         {
-            version.Should().BeNull();
+            Assert.Null(version);
         }
         else
         {
-            version.Should().NotBeNull();
-            version!.BuildVersion.Should().Be(Version.Parse(expectedBuildVersion!));
+            Assert.NotNull(version);
+            Assert.Equal(Version.Parse(expectedBuildVersion!), version.BuildVersion);
         }
     }
 
@@ -107,6 +107,6 @@ public class VersionManagerTests
         bool result = VersionManager.TryParseVisualStudioVersion(input, out Version? version);
 
         // Assert
-        result.Should().Be(expectedResult);
+        Assert.Equal(expectedResult, result);
     }
 }

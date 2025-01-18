@@ -109,7 +109,7 @@ internal sealed class VisualStudioVersionDocScraper
 
         HtmlNodeCollection? headings = table.SelectNodes("thead//th");
 
-        string[] columnNames = headings.Select(x => x.InnerText.Trim()).ToArray();
+        string[] columnNames = [.. headings.Select(x => x.InnerText.Trim())];
 
         for (int i = 0; i < columnNames.Length; i++)
         {
