@@ -3,5 +3,8 @@
     "version": "10.0.102",
     "allowPrerelease": true,
     "rollForward": "latestPatch"
+  },
+  "test": {
+    "runner": "Microsoft.Testing.Platform"
   }
 }

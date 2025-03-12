@@ -52,8 +52,11 @@
     <!-- Configure test and code coverage output. -->
     <BaseTestResultsOutputPath>$(ArtifactsPath)/test-results/</BaseTestResultsOutputPath>
     <BaseProjectTestResultsOutputPath>$(BaseTestResultsOutputPath)$(MSBuildProjectName)/</BaseProjectTestResultsOutputPath>
-    <VSTestResultsDirectory>$(BaseProjectTestResultsOutputPath)</VSTestResultsDirectory>
-    <CoverletOutput>$(BaseProjectTestResultsOutputPath)</CoverletOutput>
+
+    <!-- Configure Test Platform
+      https://learn.microsoft.com/dotnet/core/testing/microsoft-testing-platform-integration-dotnet-test
+      -->
+    <TestingPlatformCommandLineArguments>$(TestingPlatformCommandLineArguments) --results-directory "$(BaseProjectTestResultsOutputPath)"</TestingPlatformCommandLineArguments>
   </PropertyGroup>
 
 </Project>
