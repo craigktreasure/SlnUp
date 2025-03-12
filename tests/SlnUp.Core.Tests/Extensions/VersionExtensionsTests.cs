@@ -4,16 +4,16 @@ using SlnUp.Core.Extensions;
 
 public class VersionExtensionsTests
 {
-    [Theory]
-    [InlineData("0.0", "0.0", true)]
-    [InlineData("0.0", "0.1", false)]
-    [InlineData("0.0.0", "0.0.0", true)]
-    [InlineData("0.0.0", "0.1.0", false)]
-    [InlineData("0.0.0", "0.0.1", true)]
-    [InlineData("0.0.0.0", "0.0.0.0", true)]
-    [InlineData("0.0.0.0", "0.1.0.0", false)]
-    [InlineData("0.0.0.0", "0.0.0.1", true)]
-    public void HasSameMajorMinor(string versionAInput, string versionBInput, bool expectedResult)
+    [Test]
+    [Arguments("0.0", "0.0", true)]
+    [Arguments("0.0", "0.1", false)]
+    [Arguments("0.0.0", "0.0.0", true)]
+    [Arguments("0.0.0", "0.1.0", false)]
+    [Arguments("0.0.0", "0.0.1", true)]
+    [Arguments("0.0.0.0", "0.0.0.0", true)]
+    [Arguments("0.0.0.0", "0.1.0.0", false)]
+    [Arguments("0.0.0.0", "0.0.0.1", true)]
+    public async Task HasSameMajorMinor(string versionAInput, string versionBInput, bool expectedResult)
     {
         // Arrange
         Version versionA = Version.Parse(versionAInput);
@@ -23,14 +23,14 @@ public class VersionExtensionsTests
         bool result = versionA.HasSameMajorMinor(versionB);
 
         // Assert
-        Assert.Equal(expectedResult, result);
+        await Assert.That(result).IsEqualTo(expectedResult);
     }
 
-    [Theory]
-    [InlineData("0.0", true)]
-    [InlineData("0.0.0", false)]
-    [InlineData("0.0.0.0", false)]
-    public void Is2PartVersion(string versionInput, bool expectedResult)
+    [Test]
+    [Arguments("0.0", true)]
+    [Arguments("0.0.0", false)]
+    [Arguments("0.0.0.0", false)]
+    public async Task Is2PartVersion(string versionInput, bool expectedResult)
     {
         // Arrange
         Version version = Version.Parse(versionInput);
@@ -39,14 +39,14 @@ public class VersionExtensionsTests
         bool result = version.Is2PartVersion();
 
         // Assert
-        Assert.Equal(expectedResult, result);
+        await Assert.That(result).IsEqualTo(expectedResult);
     }
 
-    [Theory]
-    [InlineData("0.0", false)]
-    [InlineData("0.0.0", true)]
-    [InlineData("0.0.0.0", false)]
-    public void Is3PartVersion(string versionInput, bool expectedResult)
+    [Test]
+    [Arguments("0.0", false)]
+    [Arguments("0.0.0", true)]
+    [Arguments("0.0.0.0", false)]
+    public async Task Is3PartVersion(string versionInput, bool expectedResult)
     {
         // Arrange
         Version version = Version.Parse(versionInput);
@@ -55,14 +55,14 @@ public class VersionExtensionsTests
         bool result = version.Is3PartVersion();
 
         // Assert
-        Assert.Equal(expectedResult, result);
+        await Assert.That(result).IsEqualTo(expectedResult);
     }
 
-    [Theory]
-    [InlineData("0.0", false)]
-    [InlineData("0.0.0", false)]
-    [InlineData("0.0.0.0", true)]
-    public void Is4PartVersion(string versionInput, bool expectedResult)
+    [Test]
+    [Arguments("0.0", false)]
+    [Arguments("0.0.0", false)]
+    [Arguments("0.0.0.0", true)]
+    public async Task Is4PartVersion(string versionInput, bool expectedResult)
     {
         // Arrange
         Version version = Version.Parse(versionInput);
@@ -71,6 +71,6 @@ public class VersionExtensionsTests
         bool result = version.Is4PartVersion();
 
         // Assert
-        Assert.Equal(expectedResult, result);
+        await Assert.That(result).IsEqualTo(expectedResult);
     }
 }

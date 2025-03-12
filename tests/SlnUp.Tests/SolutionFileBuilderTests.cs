@@ -2,8 +2,8 @@
 
 public class SolutionFileBuilderTests
 {
-    [Fact]
-    public void Build()
+    [Test]
+    public async Task Build()
     {
         // Arrange
         SolutionFileBuilder fileBuilder = new();
@@ -27,11 +27,11 @@ EndGlobal
         string actualContent = fileBuilder.Build();
 
         // Assert
-        Assert.Equal(expectedContent, actualContent);
+        await Assert.That(actualContent).IsEqualTo(expectedContent);
     }
 
-    [Fact]
-    public void Build_ForVS15()
+    [Test]
+    public async Task Build_ForVS15()
     {
         // Arrange
         SolutionFileBuilder fileBuilder = new(Version.Parse("15.0.28701.123"));
@@ -55,11 +55,11 @@ EndGlobal
         string actualContent = fileBuilder.Build();
 
         // Assert
-        Assert.Equal(expectedContent, actualContent);
+        await Assert.That(actualContent).IsEqualTo(expectedContent);
     }
 
-    [Fact]
-    public void Build_WithMinimumHeader()
+    [Test]
+    public async Task Build_WithMinimumHeader()
     {
         // Arrange
         SolutionFileBuilder fileBuilder = new SolutionFileBuilder()
@@ -81,11 +81,11 @@ EndGlobal
         string actualContent = fileBuilder.Build();
 
         // Assert
-        Assert.Equal(expectedContent, actualContent);
+        await Assert.That(actualContent).IsEqualTo(expectedContent);
     }
 
-    [Fact]
-    public void Build_WithoutBody()
+    [Test]
+    public async Task Build_WithoutBody()
     {
         // Arrange
         SolutionFileBuilder fileBuilder = new SolutionFileBuilder()
@@ -101,11 +101,11 @@ MinimumVisualStudioVersion = 10.0.40219.1
         string actualContent = fileBuilder.Build();
 
         // Assert
-        Assert.Equal(expectedContent, actualContent);
+        await Assert.That(actualContent).IsEqualTo(expectedContent);
     }
 
-    [Fact]
-    public void Build_WithoutFileFormatVersion()
+    [Test]
+    public async Task Build_WithoutFileFormatVersion()
     {
         // Arrange
         SolutionFileBuilder fileBuilder = new SolutionFileBuilder()
@@ -129,11 +129,11 @@ EndGlobal
         string actualContent = fileBuilder.Build();
 
         // Assert
-        Assert.Equal(expectedContent, actualContent);
+        await Assert.That(actualContent).IsEqualTo(expectedContent);
     }
 
-    [Fact]
-    public void Build_WithoutSolutionIconVersion()
+    [Test]
+    public async Task Build_WithoutSolutionIconVersion()
     {
         // Arrange
         SolutionFileBuilder fileBuilder = new SolutionFileBuilder()
@@ -157,11 +157,11 @@ EndGlobal
         string actualContent = fileBuilder.Build();
 
         // Assert
-        Assert.Equal(expectedContent, actualContent);
+        await Assert.That(actualContent).IsEqualTo(expectedContent);
     }
 
-    [Fact]
-    public void Build_WithoutVisualStudioFullVersion()
+    [Test]
+    public async Task Build_WithoutVisualStudioFullVersion()
     {
         // Arrange
         SolutionFileBuilder fileBuilder = new SolutionFileBuilder()
@@ -185,11 +185,11 @@ EndGlobal
         string actualContent = fileBuilder.Build();
 
         // Assert
-        Assert.Equal(expectedContent, actualContent);
+        await Assert.That(actualContent).IsEqualTo(expectedContent);
     }
 
-    [Fact]
-    public void Build_WithoutVisualStudioMinimumVersion()
+    [Test]
+    public async Task Build_WithoutVisualStudioMinimumVersion()
     {
         // Arrange
         SolutionFileBuilder fileBuilder = new SolutionFileBuilder()
@@ -213,6 +213,6 @@ EndGlobal
         string actualContent = fileBuilder.Build();
 
         // Assert
-        Assert.Equal(expectedContent, actualContent);
+        await Assert.That(actualContent).IsEqualTo(expectedContent);
     }
 }

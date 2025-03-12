@@ -9,8 +9,8 @@ public class ProgramTests
 
     private const int NormalExitCode = 0;
 
-    [Fact]
-    public void Main_NoLocalFile()
+    [Test]
+    public async Task Main_NoLocalFile()
     {
         // Arrange
         using ScopedDirectory directory = TemporaryDirectory.CreateRandom();
@@ -21,11 +21,11 @@ public class ProgramTests
         int exitCode = Program.Main(args);
 
         // Assert
-        Assert.Equal(FailedExitCode, exitCode);
+        await Assert.That(exitCode).IsEqualTo(FailedExitCode);
     }
 
-    [Fact]
-    public void Main_WithFilePath()
+    [Test]
+    public async Task Main_WithFilePath()
     {
         // Arrange
         using ScopedFile file = TemporaryFile.CreateRandomWithExtension("sln");
@@ -42,13 +42,13 @@ public class ProgramTests
         int exitCode = Program.Main(args);
 
         // Assert
-        Assert.Equal(NormalExitCode, exitCode);
+        await Assert.That(exitCode).IsEqualTo(NormalExitCode);
         solutionFile.Reload();
-        Assert.Equal(17, solutionFile.FileHeader.LastVisualStudioMajorVersion);
+        await Assert.That(solutionFile.FileHeader.LastVisualStudioMajorVersion).IsEqualTo(17);
     }
 
-    [Fact]
-    public void Main_WithInvalidFile()
+    [Test]
+    public async Task Main_WithInvalidFile()
     {
         // Arrange
         using ScopedFile file = TemporaryFile.CreateRandomWithExtension("sln");
@@ -63,11 +63,11 @@ public class ProgramTests
         int exitCode = Program.Main(args);
 
         // Assert
-        Assert.Equal(FailedExitCode, exitCode);
+        await Assert.That(exitCode).IsEqualTo(FailedExitCode);
     }
 
-    [Fact]
-    public void Main_WithLocalFile()
+    [Test]
+    public async Task Main_WithLocalFile()
     {
         // Arrange
         using ScopedDirectory directory = TemporaryDirectory.CreateRandom();
@@ -81,8 +81,8 @@ public class ProgramTests
         int exitCode = Program.Main(args);
 
         // Assert
-        Assert.Equal(NormalExitCode, exitCode);
+        await Assert.That(exitCode).IsEqualTo(NormalExitCode);
         solutionFile.Reload();
-        Assert.Equal(17, solutionFile.FileHeader.LastVisualStudioMajorVersion);
+        await Assert.That(solutionFile.FileHeader.LastVisualStudioMajorVersion).IsEqualTo(17);
     }
 }

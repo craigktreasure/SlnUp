@@ -6,9 +6,9 @@ using SlnUp.Json;
 
 public class VersionManagerTests
 {
-    [Fact]
+    [Test]
     [SuppressMessage("Globalization", "CA1305:Specify IFormatProvider")]
-    public void Construct()
+    public async Task Construct()
     {
         // Act
         VersionManager versionManager = new();
@@ -22,13 +22,13 @@ public class VersionManagerTests
             }
 
             VisualStudioVersion? version = versionManager.FromVersionParameter(((int)product).ToString());
-            Assert.NotNull(version);
+            await Assert.That(version).IsNotNull();
         }
     }
 
-    [Fact]
+    [Test]
     [SuppressMessage("Globalization", "CA1305:Specify IFormatProvider")]
-    public void Construct_Versions()
+    public async Task Construct_Versions()
     {
         // Arrange
         IReadOnlyList<VisualStudioVersion> versions =
@@ -40,38 +40,38 @@ public class VersionManagerTests
         VersionManager versionManager = new(versions);
 
         // Assert
-        Assert.NotNull(versionManager.FromVersionParameter(((int)VisualStudioProduct.VisualStudio2022).ToString()));
-        Assert.Null(versionManager.FromVersionParameter(((int)VisualStudioProduct.VisualStudio2017).ToString()));
+        await Assert.That(versionManager.FromVersionParameter(((int)VisualStudioProduct.VisualStudio2022).ToString())).IsNotNull();
+        await Assert.That(versionManager.FromVersionParameter(((int)VisualStudioProduct.VisualStudio2017).ToString())).IsNull();
     }
 
-    [Theory]
-    [InlineData(null, false, null)]
-    [InlineData("", false, null)]
-    [InlineData(" ", false, null)]
-    [InlineData("0", false, null)]
-    [InlineData("0.0", false, null)]
-    [InlineData("0.0.0", false, null)]
-    [InlineData("0.0.0.0", false, null)]
-    [InlineData("15.2", true, "15.0.26430.16")]
-    [InlineData("15.2.5", true, "15.0.26430.15")]
-    [InlineData("15.99", false, null)]
-    [InlineData("15.2.99", false, null)]
-    [InlineData("2017", true, "15.9.28307.1778")]
-    [InlineData("16.9", true, "16.9.32106.192")]
-    [InlineData("16.7.21", true, "16.7.31828.227")]
-    [InlineData("16.99", false, null)]
-    [InlineData("16.7.99", false, null)]
-    [InlineData("2019", true, "16.11.32106.194")]
-    [InlineData("17.0", true, "17.0.32112.339")]
-    [InlineData("17.0.0", true, "17.0.31903.59")]
-    [InlineData("17.99", false, null)]
-    [InlineData("17.0.99", false, null)]
-    [InlineData("18.0", true, "18.0.11205.157")]
-    [InlineData("18.0.0", true, "18.0.11205.157")]
-    [InlineData("18.0.1", false, null)]
-    [InlineData("2022", true, "17.0.32112.339")]
-    [InlineData("2026", true, "18.0.11205.157")]
-    public void FromVersionParameter(string? input, bool expectFound, string? expectedBuildVersion)
+    [Test]
+    [Arguments(null, false, null)]
+    [Arguments("", false, null)]
+    [Arguments(" ", false, null)]
+    [Arguments("0", false, null)]
+    [Arguments("0.0", false, null)]
+    [Arguments("0.0.0", false, null)]
+    [Arguments("0.0.0.0", false, null)]
+    [Arguments("15.2", true, "15.0.26430.16")]
+    [Arguments("15.2.5", true, "15.0.26430.15")]
+    [Arguments("15.99", false, null)]
+    [Arguments("15.2.99", false, null)]
+    [Arguments("2017", true, "15.9.28307.1778")]
+    [Arguments("16.9", true, "16.9.32106.192")]
+    [Arguments("16.7.21", true, "16.7.31828.227")]
+    [Arguments("16.99", false, null)]
+    [Arguments("16.7.99", false, null)]
+    [Arguments("2019", true, "16.11.32106.194")]
+    [Arguments("17.0", true, "17.0.32112.339")]
+    [Arguments("17.0.0", true, "17.0.31903.59")]
+    [Arguments("17.99", false, null)]
+    [Arguments("17.0.99", false, null)]
+    [Arguments("18.0", true, "18.0.11205.157")]
+    [Arguments("18.0.0", true, "18.0.11205.157")]
+    [Arguments("18.0.1", false, null)]
+    [Arguments("2022", true, "17.0.32112.339")]
+    [Arguments("2026", true, "18.0.11205.157")]
+    public async Task FromVersionParameter(string? input, bool expectFound, string? expectedBuildVersion)
     {
         // Arrange
         if (expectFound && expectedBuildVersion is null)
@@ -87,31 +87,31 @@ public class VersionManagerTests
         // Assert
         if (!expectFound)
         {
-            Assert.Null(version);
+            await Assert.That(version).IsNull();
         }
         else
         {
-            Assert.NotNull(version);
-            Assert.Equal(Version.Parse(expectedBuildVersion!), version.BuildVersion);
+            await Assert.That(version).IsNotNull();
+            await Assert.That(version!.BuildVersion).IsEqualTo(Version.Parse(expectedBuildVersion!));
         }
     }
 
-    [Theory]
-    [InlineData(null, false)]
-    [InlineData("", false)]
-    [InlineData(" ", false)]
-    [InlineData("0", false)]
-    [InlineData("0.0", true)]
-    [InlineData("0.0.0", true)]
-    [InlineData("0.0.0.0", false)]
-    [InlineData("2022", false)]
-    [InlineData("2026", false)]
-    public void TryParseVisualStudioVersion(string? input, bool expectedResult)
+    [Test]
+    [Arguments(null, false)]
+    [Arguments("", false)]
+    [Arguments(" ", false)]
+    [Arguments("0", false)]
+    [Arguments("0.0", true)]
+    [Arguments("0.0.0", true)]
+    [Arguments("0.0.0.0", false)]
+    [Arguments("2022", false)]
+    [Arguments("2026", false)]
+    public async Task TryParseVisualStudioVersion(string? input, bool expectedResult)
     {
         // Act
         bool result = VersionManager.TryParseVisualStudioVersion(input, out Version? version);
 
         // Assert
-        Assert.Equal(expectedResult, result);
+        await Assert.That(result).IsEqualTo(expectedResult);
     }
 }

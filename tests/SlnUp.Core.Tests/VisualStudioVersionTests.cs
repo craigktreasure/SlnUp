@@ -16,8 +16,8 @@ public class VisualStudioVersionTests
             "Release")
     ];
 
-    [Fact]
-    public void Constructor()
+    [Test]
+    public async Task Constructor()
     {
         // Arrange
         const string expectedChannel = "Release";
@@ -34,15 +34,15 @@ public class VisualStudioVersionTests
             expectedChannel);
 
         // Assert
-        Assert.Equal(expectedChannel, version.Channel);
-        Assert.Equal(expectedVersion, version.Version.ToString());
-        Assert.Equal(expectedBuildVersion, version.BuildVersion.ToString());
-        Assert.Equal(expectedVersionTitle, version.ProductTitle);
-        Assert.Equal(expectedFullVersionTitle, version.FullProductTitle);
+        await Assert.That(version.Channel).IsEqualTo(expectedChannel);
+        await Assert.That(version.Version.ToString()).IsEqualTo(expectedVersion);
+        await Assert.That(version.BuildVersion.ToString()).IsEqualTo(expectedBuildVersion);
+        await Assert.That(version.ProductTitle).IsEqualTo(expectedVersionTitle);
+        await Assert.That(version.FullProductTitle).IsEqualTo(expectedFullVersionTitle);
     }
 
-    [Fact]
-    public void Constructor_WithPreview()
+    [Test]
+    public async Task Constructor_WithPreview()
     {
         // Arrange
         const string expectedChannel = "Preview 1";
@@ -60,15 +60,15 @@ public class VisualStudioVersionTests
             isPreview: true);
 
         // Assert
-        Assert.Equal(expectedChannel, version.Channel);
-        Assert.Equal(expectedVersion, version.Version.ToString());
-        Assert.Equal(expectedBuildVersion, version.BuildVersion.ToString());
-        Assert.Equal(expectedVersionTitle, version.ProductTitle);
-        Assert.Equal(expectedFullVersionTitle, version.FullProductTitle);
+        await Assert.That(version.Channel).IsEqualTo(expectedChannel);
+        await Assert.That(version.Version.ToString()).IsEqualTo(expectedVersion);
+        await Assert.That(version.BuildVersion.ToString()).IsEqualTo(expectedBuildVersion);
+        await Assert.That(version.ProductTitle).IsEqualTo(expectedVersionTitle);
+        await Assert.That(version.FullProductTitle).IsEqualTo(expectedFullVersionTitle);
     }
 
-    [Fact]
-    public void Equals_NullParameter_ReturnsFalse()
+    [Test]
+    public async Task Equals_NullParameter_ReturnsFalse()
     {
         // Arrange
         VisualStudioVersion version = commonVersions[0];
@@ -78,11 +78,11 @@ public class VisualStudioVersionTests
         bool result = version.Equals(other);
 
         // Assert
-        Assert.False(result);
+        await Assert.That(result).IsFalse();
     }
 
-    [Fact]
-    public void Equals_SameReference_ReturnsTrue()
+    [Test]
+    public async Task Equals_SameReference_ReturnsTrue()
     {
         // Arrange
         VisualStudioVersion version = commonVersions[0];
@@ -92,11 +92,11 @@ public class VisualStudioVersionTests
         bool result = version.Equals(other);
 
         // Assert
-        Assert.True(result);
+        await Assert.That(result).IsTrue();
     }
 
-    [Fact]
-    public void Equals_SameValue_ReturnsTrue()
+    [Test]
+    public async Task Equals_SameValue_ReturnsTrue()
     {
         // Arrange
         VisualStudioVersion version = new(
@@ -114,11 +114,11 @@ public class VisualStudioVersionTests
         bool result = version.Equals(other);
 
         // Assert
-        Assert.True(result);
+        await Assert.That(result).IsTrue();
     }
 
-    [Fact]
-    public void Equals_WithObject_NullParameter_ReturnsFalse()
+    [Test]
+    public async Task Equals_WithObject_NullParameter_ReturnsFalse()
     {
         // Arrange
         VisualStudioVersion version = commonVersions[0];
@@ -128,11 +128,11 @@ public class VisualStudioVersionTests
         bool result = version.Equals(other);
 
         // Assert
-        Assert.False(result);
+        await Assert.That(result).IsFalse();
     }
 
-    [Fact]
-    public void Equals_WithObject_SameValue_ReturnsTrue()
+    [Test]
+    public async Task Equals_WithObject_SameValue_ReturnsTrue()
     {
         // Arrange
         VisualStudioVersion version = new(
@@ -150,11 +150,11 @@ public class VisualStudioVersionTests
         bool result = version.Equals(other);
 
         // Assert
-        Assert.True(result);
+        await Assert.That(result).IsTrue();
     }
 
-    [Fact]
-    public void GetHashCodeMethod()
+    [Test]
+    public async Task GetHashCodeMethod()
     {
         // Arrange
         VisualStudioVersion version = commonVersions[0];
@@ -164,6 +164,6 @@ public class VisualStudioVersionTests
         int hashCode = version.GetHashCode();
 
         // Assert
-        Assert.Equal(expectedHashCode, hashCode);
+        await Assert.That(hashCode).IsEqualTo(expectedHashCode);
     }
 }

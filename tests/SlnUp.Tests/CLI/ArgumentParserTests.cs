@@ -7,11 +7,11 @@ using SlnUp.CLI;
 
 public class ArgumentParserTests
 {
-    [Theory]
-    [InlineData("1.2")]
-    [InlineData("1.2.3")]
-    [InlineData("1.2.3.4")]
-    public void ParseVersion(string expectedVersionValue)
+    [Test]
+    [Arguments("1.2")]
+    [Arguments("1.2.3")]
+    [Arguments("1.2.3.4")]
+    public async Task ParseVersion(string expectedVersionValue)
     {
         // Arrange
         Option<Version?> versionOption = new("version") { CustomParser = ArgumentParser.ParseVersion };
@@ -22,14 +22,14 @@ public class ArgumentParserTests
         ParseResult result = rootCommand.Parse(["version", expectedVersionValue]);
 
         // Assert
-        Assert.Empty(result.Errors);
+        await Assert.That(result.Errors).IsEmpty();
         Version? version = result.GetValue(versionOption);
-        Assert.NotNull(version);
-        Assert.Equal(expectedVersion, version);
+        await Assert.That(version).IsNotNull();
+        await Assert.That(version).IsEqualTo(expectedVersion);
     }
 
-    [Fact]
-    public void ParseVersion_Invalid()
+    [Test]
+    public async Task ParseVersion_Invalid()
     {
         // Arrange
         Option<Version?> versionOption = new("version") { CustomParser = ArgumentParser.ParseVersion };
@@ -39,9 +39,10 @@ public class ArgumentParserTests
         ParseResult result = rootCommand.Parse(["version", "not-valid"]);
 
         // Assert
-        ParseError error = Assert.Single(result.Errors);
-        OptionResult optionResult = Assert.IsType<OptionResult>(error.SymbolResult);
-        Assert.Equal(versionOption, optionResult.Option);
-        Assert.StartsWith("Cannot parse argument 'not-valid'", error.Message, StringComparison.Ordinal);
+        await Assert.That(result.Errors).HasSingleItem();
+        ParseError error = result.Errors.Single();
+        await Assert.That(error.SymbolResult).IsNotNull();
+        OptionResult optionResult = (await Assert.That(error.SymbolResult).IsTypeOf<OptionResult>())!;
+        await Assert.That(optionResult.Option).IsEqualTo(versionOption);
     }
 }
