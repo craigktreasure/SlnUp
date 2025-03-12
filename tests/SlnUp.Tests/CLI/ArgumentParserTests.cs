@@ -8,11 +8,11 @@ using SlnUp.CLI;
 
 public class ArgumentParserTests
 {
-    [Theory]
-    [InlineData("1.2")]
-    [InlineData("1.2.3")]
-    [InlineData("1.2.3.4")]
-    public void ParseVersion(string expectedVersionValue)
+    [Test]
+    [Arguments("1.2")]
+    [Arguments("1.2.3")]
+    [Arguments("1.2.3.4")]
+    public async Task ParseVersion(string expectedVersionValue)
     {
         // Arrange
         Option<Version?> versionOption = new("--version", ArgumentParser.ParseVersion);
@@ -26,14 +26,14 @@ public class ArgumentParserTests
         ParseResult result = parser.Parse($"--version {expectedVersionValue}");
 
         // Assert
-        Assert.Empty(result.Errors);
+        await Assert.That(result.Errors).IsEmpty();
         Version? version = result.RootCommandResult.GetValueForOption(versionOption);
-        Assert.NotNull(version);
-        Assert.Equal(expectedVersion, version);
+        await Assert.That(version).IsNotNull();
+        await Assert.That(version).IsEqualTo(expectedVersion);
     }
 
-    [Fact]
-    public void ParseVersion_Invalid()
+    [Test]
+    public async Task ParseVersion_Invalid()
     {
         // Arrange
         Option<Version?> versionOption = new("--version", ArgumentParser.ParseVersion);
@@ -46,8 +46,9 @@ public class ArgumentParserTests
         ParseResult result = parser.Parse("--version not-valid");
 
         // Assert
-        ParseError error = Assert.Single(result.Errors);
-        Assert.Equal("version", error.SymbolResult?.Symbol.Name);
-        Assert.StartsWith("Cannot parse argument 'not-valid'", error.Message, StringComparison.Ordinal);
+        await Assert.That(result.Errors).HasSingleItem();
+        ParseError error = result.Errors.Single();
+        await Assert.That(error.SymbolResult?.Symbol.Name).IsEqualTo("version");
+        await Assert.That(error.Message).StartsWith("Cannot parse argument 'not-valid'", StringComparison.Ordinal);
     }
 }

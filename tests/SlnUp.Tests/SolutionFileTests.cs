@@ -6,7 +6,7 @@ using SlnUp.TestLibrary;
 
 public class SolutionFileTests
 {
-    [Fact]
+    [Test]
     public void Construct_WithEmptyFile()
     {
         // Arrange
@@ -17,11 +17,11 @@ public class SolutionFileTests
         });
 
         // Act and assert
-        Assert.Throws<InvalidDataException>(() => new SolutionFile(fileSystem, filePath));
+        Assert.Throws<InvalidDataException>(() => _ = new SolutionFile(fileSystem, filePath));
     }
 
-    [Fact]
-    public void Construct_WithFullHeader()
+    [Test]
+    public async Task Construct_WithFullHeader()
     {
         // Arrange
         Version expectedVersion = Version.Parse("16.0.30114.105");
@@ -33,14 +33,14 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
-        Assert.Equal(16, fileHeader.LastVisualStudioMajorVersion);
-        Assert.Equal(expectedVersion, fileHeader.LastVisualStudioVersion);
-        Assert.Equal(SolutionFileBuilder.DefaultVisualStudioMinimumVersion, fileHeader.MinimumVisualStudioVersion);
+        await Assert.That(fileHeader.FileFormatVersion).IsEqualTo(SolutionFileHeader.SupportedFileFormatVersion);
+        await Assert.That(fileHeader.LastVisualStudioMajorVersion).IsEqualTo(16);
+        await Assert.That(fileHeader.LastVisualStudioVersion).IsEqualTo(expectedVersion);
+        await Assert.That(fileHeader.MinimumVisualStudioVersion).IsEqualTo(SolutionFileBuilder.DefaultVisualStudioMinimumVersion);
     }
 
-    [Fact]
-    public void Construct_WithFullV15Header()
+    [Test]
+    public async Task Construct_WithFullV15Header()
     {
         // Arrange
         Version expectedVersion = Version.Parse("15.0.26124.0");
@@ -52,14 +52,14 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
-        Assert.Equal(15, fileHeader.LastVisualStudioMajorVersion);
-        Assert.Equal(expectedVersion, fileHeader.LastVisualStudioVersion);
-        Assert.Equal(expectedVersion, fileHeader.MinimumVisualStudioVersion);
+        await Assert.That(fileHeader.FileFormatVersion).IsEqualTo(SolutionFileHeader.SupportedFileFormatVersion);
+        await Assert.That(fileHeader.LastVisualStudioMajorVersion).IsEqualTo(15);
+        await Assert.That(fileHeader.LastVisualStudioVersion).IsEqualTo(expectedVersion);
+        await Assert.That(fileHeader.MinimumVisualStudioVersion).IsEqualTo(expectedVersion);
     }
 
-    [Fact]
-    public void Construct_WithMinimalHeader()
+    [Test]
+    public async Task Construct_WithMinimalHeader()
     {
         // Arrange
         MockFileSystem fileSystem = new SolutionFileBuilder()
@@ -71,14 +71,14 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
-        Assert.Null(fileHeader.LastVisualStudioMajorVersion);
-        Assert.Null(fileHeader.LastVisualStudioVersion);
-        Assert.Null(fileHeader.MinimumVisualStudioVersion);
+        await Assert.That(fileHeader.FileFormatVersion).IsEqualTo(SolutionFileHeader.SupportedFileFormatVersion);
+        await Assert.That(fileHeader.LastVisualStudioMajorVersion).IsNull();
+        await Assert.That(fileHeader.LastVisualStudioVersion).IsNull();
+        await Assert.That(fileHeader.MinimumVisualStudioVersion).IsNull();
     }
 
-    [Fact]
-    public void Construct_WithMinimalHeaderNoBody()
+    [Test]
+    public async Task Construct_WithMinimalHeaderNoBody()
     {
         // Arrange
         MockFileSystem fileSystem = new SolutionFileBuilder()
@@ -91,27 +91,28 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
-        Assert.Null(fileHeader.LastVisualStudioMajorVersion);
-        Assert.Null(fileHeader.LastVisualStudioVersion);
-        Assert.Null(fileHeader.MinimumVisualStudioVersion);
+        await Assert.That(fileHeader.FileFormatVersion).IsEqualTo(SolutionFileHeader.SupportedFileFormatVersion);
+        await Assert.That(fileHeader.LastVisualStudioMajorVersion).IsNull();
+        await Assert.That(fileHeader.LastVisualStudioVersion).IsNull();
+        await Assert.That(fileHeader.MinimumVisualStudioVersion).IsNull();
     }
 
-    [Fact]
-    public void Construct_WithMissingFile()
+    [Test]
+    public async Task Construct_WithMissingFile()
     {
         // Arrange
         MockFileSystem fileSystem = new();
         string filePath = TemporaryFile.GetRandomFilePathWithExtension(fileSystem, "sln");
 
         // Act and assert
-        FileNotFoundException exception = Assert.Throws<FileNotFoundException>(() => new SolutionFile(fileSystem, filePath));
+        FileNotFoundException exception = Assert.Throws<FileNotFoundException>(
+            () => _ = new SolutionFile(fileSystem, filePath));
 
         // Assert
-        Assert.Equal(filePath, exception.FileName);
+        await Assert.That(exception.FileName).IsEqualTo(filePath);
     }
 
-    [Fact]
+    [Test]
     public void Construct_WithMissingFileFormatVersion()
     {
         // Arrange
@@ -120,11 +121,11 @@ public class SolutionFileTests
             .BuildToMockFileSystem(out string filePath);
 
         // Act
-        Assert.Throws<InvalidDataException>(() => new SolutionFile(fileSystem, filePath));
+        Assert.Throws<InvalidDataException>(() => _ = new SolutionFile(fileSystem, filePath));
     }
 
-    [Fact]
-    public void UpdateFileHeader_WithFullHeader()
+    [Test]
+    public async Task UpdateFileHeader_WithFullHeader()
     {
         // Arrange
         SolutionFile solutionFile = new SolutionFileBuilder(Version.Parse("16.0.30114.105"))
@@ -137,15 +138,15 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
-        Assert.Equal(expectedVersion.Major, fileHeader.LastVisualStudioMajorVersion);
-        Assert.Equal(expectedVersion, fileHeader.LastVisualStudioVersion);
-        Assert.Equal(SolutionFileBuilder.DefaultVisualStudioMinimumVersion, fileHeader.MinimumVisualStudioVersion);
-        Assert.Equal(expectedContent, solutionFile.ReadContent());
+        await Assert.That(fileHeader.FileFormatVersion).IsEqualTo(SolutionFileHeader.SupportedFileFormatVersion);
+        await Assert.That(fileHeader.LastVisualStudioMajorVersion).IsEqualTo(expectedVersion.Major);
+        await Assert.That(fileHeader.LastVisualStudioVersion).IsEqualTo(expectedVersion);
+        await Assert.That(fileHeader.MinimumVisualStudioVersion).IsEqualTo(SolutionFileBuilder.DefaultVisualStudioMinimumVersion);
+        await Assert.That(solutionFile.ReadContent()).IsEqualTo(expectedContent);
     }
 
-    [Fact]
-    public void UpdateFileHeader_WithFullV15Header()
+    [Test]
+    public async Task UpdateFileHeader_WithFullV15Header()
     {
         // Arrange
         SolutionFile solutionFile = new SolutionFileBuilder(Version.Parse("15.0.26124.0"))
@@ -158,15 +159,15 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
-        Assert.Equal(expectedVersion.Major, fileHeader.LastVisualStudioMajorVersion);
-        Assert.Equal(expectedVersion, fileHeader.LastVisualStudioVersion);
-        Assert.Equal(SolutionFileBuilder.DefaultVisualStudioMinimumVersion, fileHeader.MinimumVisualStudioVersion);
-        Assert.Equal(expectedContent, solutionFile.ReadContent());
+        await Assert.That(fileHeader.FileFormatVersion).IsEqualTo(SolutionFileHeader.SupportedFileFormatVersion);
+        await Assert.That(fileHeader.LastVisualStudioMajorVersion).IsEqualTo(expectedVersion.Major);
+        await Assert.That(fileHeader.LastVisualStudioVersion).IsEqualTo(expectedVersion);
+        await Assert.That(fileHeader.MinimumVisualStudioVersion).IsEqualTo(SolutionFileBuilder.DefaultVisualStudioMinimumVersion);
+        await Assert.That(solutionFile.ReadContent()).IsEqualTo(expectedContent);
     }
 
-    [Fact]
-    public void UpdateFileHeader_WithMinimalHeader()
+    [Test]
+    public async Task UpdateFileHeader_WithMinimalHeader()
     {
         // Arrange
         Version expectedVersion = Version.Parse("17.0.31903.59");
@@ -180,15 +181,15 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
-        Assert.Equal(expectedVersion.Major, fileHeader.LastVisualStudioMajorVersion);
-        Assert.Equal(expectedVersion, fileHeader.LastVisualStudioVersion);
-        Assert.Equal(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion), fileHeader.MinimumVisualStudioVersion);
-        Assert.Equal(expectedFileContent, solutionFile.ReadContent());
+        await Assert.That(fileHeader.FileFormatVersion).IsEqualTo(SolutionFileHeader.SupportedFileFormatVersion);
+        await Assert.That(fileHeader.LastVisualStudioMajorVersion).IsEqualTo(expectedVersion.Major);
+        await Assert.That(fileHeader.LastVisualStudioVersion).IsEqualTo(expectedVersion);
+        await Assert.That(fileHeader.MinimumVisualStudioVersion).IsEqualTo(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion));
+        await Assert.That(solutionFile.ReadContent()).IsEqualTo(expectedFileContent);
     }
 
-    [Fact]
-    public void UpdateFileHeader_WithMissingMajorVersion()
+    [Test]
+    public async Task UpdateFileHeader_WithMissingMajorVersion()
     {
         // Arrange
         Version expectedVersion = Version.Parse("17.0.31903.59");
@@ -202,15 +203,15 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
-        Assert.Equal(expectedVersion.Major, fileHeader.LastVisualStudioMajorVersion);
-        Assert.Equal(expectedVersion, fileHeader.LastVisualStudioVersion);
-        Assert.Equal(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion), fileHeader.MinimumVisualStudioVersion);
-        Assert.Equal(expectedFileContent, solutionFile.ReadContent());
+        await Assert.That(fileHeader.FileFormatVersion).IsEqualTo(SolutionFileHeader.SupportedFileFormatVersion);
+        await Assert.That(fileHeader.LastVisualStudioMajorVersion).IsEqualTo(expectedVersion.Major);
+        await Assert.That(fileHeader.LastVisualStudioVersion).IsEqualTo(expectedVersion);
+        await Assert.That(fileHeader.MinimumVisualStudioVersion).IsEqualTo(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion));
+        await Assert.That(solutionFile.ReadContent()).IsEqualTo(expectedFileContent);
     }
 
-    [Fact]
-    public void UpdateFileHeader_WithMissingMinimumVersion()
+    [Test]
+    public async Task UpdateFileHeader_WithMissingMinimumVersion()
     {
         // Arrange
         Version expectedVersion = Version.Parse("17.0.31903.59");
@@ -224,15 +225,15 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
-        Assert.Equal(expectedVersion.Major, fileHeader.LastVisualStudioMajorVersion);
-        Assert.Equal(expectedVersion, fileHeader.LastVisualStudioVersion);
-        Assert.Equal(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion), fileHeader.MinimumVisualStudioVersion);
-        Assert.Equal(expectedFileContent, solutionFile.ReadContent());
+        await Assert.That(fileHeader.FileFormatVersion).IsEqualTo(SolutionFileHeader.SupportedFileFormatVersion);
+        await Assert.That(fileHeader.LastVisualStudioMajorVersion).IsEqualTo(expectedVersion.Major);
+        await Assert.That(fileHeader.LastVisualStudioVersion).IsEqualTo(expectedVersion);
+        await Assert.That(fileHeader.MinimumVisualStudioVersion).IsEqualTo(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion));
+        await Assert.That(solutionFile.ReadContent()).IsEqualTo(expectedFileContent);
     }
 
-    [Fact]
-    public void UpdateFileHeader_WithMissingVersion()
+    [Test]
+    public async Task UpdateFileHeader_WithMissingVersion()
     {
         // Arrange
         Version expectedVersion = Version.Parse("17.0.31903.59");
@@ -246,14 +247,14 @@ public class SolutionFileTests
 
         // Assert
         SolutionFileHeader fileHeader = solutionFile.FileHeader;
-        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
-        Assert.Equal(expectedVersion.Major, fileHeader.LastVisualStudioMajorVersion);
-        Assert.Equal(expectedVersion, fileHeader.LastVisualStudioVersion);
-        Assert.Equal(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion), fileHeader.MinimumVisualStudioVersion);
-        Assert.Equal(expectedFileContent, solutionFile.ReadContent());
+        await Assert.That(fileHeader.FileFormatVersion).IsEqualTo(SolutionFileHeader.SupportedFileFormatVersion);
+        await Assert.That(fileHeader.LastVisualStudioMajorVersion).IsEqualTo(expectedVersion.Major);
+        await Assert.That(fileHeader.LastVisualStudioVersion).IsEqualTo(expectedVersion);
+        await Assert.That(fileHeader.MinimumVisualStudioVersion).IsEqualTo(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion));
+        await Assert.That(solutionFile.ReadContent()).IsEqualTo(expectedFileContent);
     }
 
-    [Fact]
+    [Test]
     public void UpdateFileHeader_WithNullLastVisualStudioMajorVersion()
     {
         // Arrange
@@ -269,7 +270,7 @@ public class SolutionFileTests
         Assert.Throws<InvalidDataException>(() => solutionFile.UpdateFileHeader(fileHeader));
     }
 
-    [Fact]
+    [Test]
     public void UpdateFileHeader_WithNullLastVisualStudioVersion()
     {
         // Arrange

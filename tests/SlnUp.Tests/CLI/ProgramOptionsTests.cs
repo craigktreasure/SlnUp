@@ -12,10 +12,10 @@ public class ProgramOptionsTests
 {
     private readonly TestConsole testConsole = new();
 
-    [Theory]
-    [InlineData("2022")]
-    [InlineData("17.0")]
-    public void Configure(string version)
+    [Test]
+    [Arguments("2022")]
+    [Arguments("17.0")]
+    public async Task Configure(string version)
     {
         // Arrange
         string[] args = [version];
@@ -24,13 +24,13 @@ public class ProgramOptionsTests
         ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
-        Assert.Equal(0, exitCode);
-        Assert.NotNull(result);
-        Assert.Equal(version, result.Version);
+        await Assert.That(exitCode).IsEqualTo(0);
+        await Assert.That(result).IsNotNull();
+        await Assert.That(result!.Version).IsEqualTo(version);
     }
 
-    [Fact]
-    public void Configure_NoParameters()
+    [Test]
+    public async Task Configure_NoParameters()
     {
         // Arrange
         string[] args = [];
@@ -39,15 +39,15 @@ public class ProgramOptionsTests
         ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
-        Assert.Equal(0, exitCode);
-        Assert.NotNull(result);
-        Assert.Equal(ProgramOptions.DefaultVersionArgument, result.Version);
+        await Assert.That(exitCode).IsEqualTo(0);
+        await Assert.That(result).IsNotNull();
+        await Assert.That(result!.Version).IsEqualTo(ProgramOptions.DefaultVersionArgument);
     }
 
-    [Theory]
-    [InlineData("2022", "--build-version", "17.0.31903.59")]
-    [InlineData("--build-version", "17.0.31903.59", "2022")]
-    public void Configure_WithBuildVersion(params string[] args)
+    [Test]
+    [Arguments("2022", "--build-version", "17.0.31903.59")]
+    [Arguments("--build-version", "17.0.31903.59", "2022")]
+    public async Task Configure_WithBuildVersion(params string[] args)
     {
         // Arrange
         const string expectedVersion = "2022";
@@ -57,30 +57,30 @@ public class ProgramOptionsTests
         ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
-        Assert.Equal(0, exitCode);
-        Assert.NotNull(result);
-        Assert.Equal(expectedVersion, result.Version);
-        Assert.Equal(Version.Parse(expectedBuildVersion), result.BuildVersion);
+        await Assert.That(exitCode).IsEqualTo(0);
+        await Assert.That(result).IsNotNull();
+        await Assert.That(result!.Version).IsEqualTo(expectedVersion);
+        await Assert.That(result.BuildVersion).IsEqualTo(Version.Parse(expectedBuildVersion));
     }
 
-    [Theory]
-    [InlineData("--help")]
-    [InlineData("-h")]
-    [InlineData("-?")]
-    public void Configure_WithHelp(params string[] args)
+    [Test]
+    [Arguments("--help")]
+    [Arguments("-h")]
+    [Arguments("-?")]
+    public async Task Configure_WithHelp(params string[] args)
     {
         // Act
         ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
-        Assert.Equal(0, exitCode);
-        Assert.Null(result);
-        Assert.StartsWith("Description:", this.testConsole.GetOutput(), StringComparison.Ordinal);
-        Assert.True(this.testConsole.HasNoErrorOutput());
+        await Assert.That(exitCode).IsEqualTo(0);
+        await Assert.That(result).IsNull();
+        await Assert.That(this.testConsole.GetOutput()).StartsWith("Description:", StringComparison.Ordinal);
+        await Assert.That(this.testConsole.HasNoErrorOutput()).IsTrue();
     }
 
-    [Fact]
-    public void Configure_WithInvalidBuildVersion()
+    [Test]
+    public async Task Configure_WithInvalidBuildVersion()
     {
         // Arrange
         string[] args =
@@ -95,18 +95,18 @@ public class ProgramOptionsTests
         ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
-        Assert.Equal(1, exitCode);
-        Assert.Null(result);
-        Assert.True(this.testConsole.HasOutput());
-        Assert.True(this.testConsole.HasErrorOutput());
-        Assert.Equal(expectedErrorOutput, this.testConsole.GetErrorOutput().TrimEnd());
+        await Assert.That(exitCode).IsEqualTo(1);
+        await Assert.That(result).IsNull();
+        await Assert.That(this.testConsole.HasOutput()).IsTrue();
+        await Assert.That(this.testConsole.HasErrorOutput()).IsTrue();
+        await Assert.That(this.testConsole.GetErrorOutput().TrimEnd()).IsEqualTo(expectedErrorOutput);
     }
 
-    [Theory]
-    [InlineData("2022", "--path", "C:/solution.sln")]
-    [InlineData("2022", "-p", "C:/solution.sln")]
-    [InlineData("-p", "C:/solution.sln", "2022")]
-    public void Configure_WithPath(params string[] args)
+    [Test]
+    [Arguments("2022", "--path", "C:/solution.sln")]
+    [Arguments("2022", "-p", "C:/solution.sln")]
+    [Arguments("-p", "C:/solution.sln", "2022")]
+    public async Task Configure_WithPath(params string[] args)
     {
         // Arrange
         const string expectedVersion = "2022";
@@ -116,14 +116,14 @@ public class ProgramOptionsTests
         ProgramOptions? result = this.ConfigureAndInvoke([.. args.ToCrossPlatformPath()], out int exitCode);
 
         // Assert
-        Assert.Equal(0, exitCode);
-        Assert.NotNull(result);
-        Assert.Equal(expectedVersion, result.Version);
-        Assert.Equal(expectedFilePath, result.Path);
+        await Assert.That(exitCode).IsEqualTo(0);
+        await Assert.That(result).IsNotNull();
+        await Assert.That(result!.Version).IsEqualTo(expectedVersion);
+        await Assert.That(result.Path).IsEqualTo(expectedFilePath);
     }
 
-    [Fact]
-    public void Configure_WithVersion()
+    [Test]
+    public async Task Configure_WithVersion()
     {
         // Arrange
         string[] args = ["--version"];
@@ -132,16 +132,16 @@ public class ProgramOptionsTests
         ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
-        Assert.Equal(0, exitCode);
-        Assert.Null(result);
-        Assert.True(this.testConsole.HasOutput());
+        await Assert.That(exitCode).IsEqualTo(0);
+        await Assert.That(result).IsNull();
+        await Assert.That(this.testConsole.HasOutput()).IsTrue();
     }
 
     /// <summary>
     /// Minimal invocation: > app 16.8
     /// </summary>
-    [Fact]
-    public void TryGetSlnUpOptions()
+    [Test]
+    public async Task TryGetSlnUpOptions()
     {
         // Arrange
         string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
@@ -158,18 +158,18 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        Assert.True(result);
-        Assert.NotNull(options);
-        Assert.Equal(expectedSolutionFilePath, options.SolutionFilePath);
-        Assert.Equal(Version.Parse("16.8.7"), options.Version);
-        Assert.Equal(Version.Parse("16.8.31025.109"), options.BuildVersion);
+        await Assert.That(result).IsTrue();
+        await Assert.That(options).IsNotNull();
+        await Assert.That(options!.SolutionFilePath).IsEqualTo(expectedSolutionFilePath);
+        await Assert.That(options.Version).IsEqualTo(Version.Parse("16.8.7"));
+        await Assert.That(options.BuildVersion).IsEqualTo(Version.Parse("16.8.31025.109"));
     }
 
     /// <summary>
     /// app 16.8 --path C:\MyProject.sln
     /// </summary>
-    [Fact]
-    public void TryGetSlnUpOptions_WithAbsoluteSolutionPath()
+    [Test]
+    public async Task TryGetSlnUpOptions_WithAbsoluteSolutionPath()
     {
         // Arrange
         string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
@@ -187,16 +187,16 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        Assert.True(result);
-        Assert.NotNull(options);
-        Assert.Equal(expectedSolutionFilePath, options.SolutionFilePath);
+        await Assert.That(result).IsTrue();
+        await Assert.That(options).IsNotNull();
+        await Assert.That(options!.SolutionFilePath).IsEqualTo(expectedSolutionFilePath);
     }
 
     /// <summary>
     /// Build version: > app 0.0 --build-version 0.0.0.0
     /// </summary>
-    [Fact]
-    public void TryGetSlnUpOptions_WithBuildVersion()
+    [Test]
+    public async Task TryGetSlnUpOptions_WithBuildVersion()
     {
         // Arrange
         string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
@@ -214,18 +214,18 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        Assert.True(result);
-        Assert.NotNull(options);
-        Assert.Equal(expectedSolutionFilePath, options.SolutionFilePath);
-        Assert.Equal(Version.Parse("0.0"), options.Version);
-        Assert.Equal(Version.Parse("0.0.0.0"), options.BuildVersion);
+        await Assert.That(result).IsTrue();
+        await Assert.That(options).IsNotNull();
+        await Assert.That(options!.SolutionFilePath).IsEqualTo(expectedSolutionFilePath);
+        await Assert.That(options.Version).IsEqualTo(Version.Parse("0.0"));
+        await Assert.That(options.BuildVersion).IsEqualTo(Version.Parse("0.0.0.0"));
     }
 
     /// <summary>
     /// Build version with invalid version: > app 0 --build-version 0.0.0
     /// </summary>
-    [Fact]
-    public void TryGetSlnUpOptions_WithBuildVersionAndInvalidVersion()
+    [Test]
+    public async Task TryGetSlnUpOptions_WithBuildVersionAndInvalidVersion()
     {
         // Arrange
         string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
@@ -243,15 +243,15 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        Assert.False(result);
-        Assert.Null(options);
+        await Assert.That(result).IsFalse();
+        await Assert.That(options).IsNull();
     }
 
     /// <summary>
     /// Invalid build version: > app 0.0 --build-version 0.0.0
     /// </summary>
-    [Fact]
-    public void TryGetSlnUpOptions_WithInvalidBuildVersion()
+    [Test]
+    public async Task TryGetSlnUpOptions_WithInvalidBuildVersion()
     {
         // Arrange
         string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
@@ -269,15 +269,15 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        Assert.False(result);
-        Assert.Null(options);
+        await Assert.That(result).IsFalse();
+        await Assert.That(options).IsNull();
     }
 
     /// <summary>
     /// Minimal invocation: > app 0.0
     /// </summary>
-    [Fact]
-    public void TryGetSlnUpOptions_WithInvalidVersion()
+    [Test]
+    public async Task TryGetSlnUpOptions_WithInvalidVersion()
     {
         // Arrange
         string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
@@ -294,15 +294,15 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        Assert.False(result);
-        Assert.Null(options);
+        await Assert.That(result).IsFalse();
+        await Assert.That(options).IsNull();
     }
 
     /// <summary>
     /// Multiple solution files available: > app 16.8
     /// </summary>
-    [Fact]
-    public void TryGetSlnUpOptions_WithMultipleSolutions()
+    [Test]
+    public async Task TryGetSlnUpOptions_WithMultipleSolutions()
     {
         // Arrange
         ProgramOptions programOptions = new()
@@ -319,15 +319,15 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        Assert.False(result);
-        Assert.Null(options);
+        await Assert.That(result).IsFalse();
+        await Assert.That(options).IsNull();
     }
 
     /// <summary>
     /// app 16.8 --path C:\Missing.sln
     /// </summary>
-    [Fact]
-    public void TryGetSlnUpOptions_WithNonExistentSolutionPath()
+    [Test]
+    public async Task TryGetSlnUpOptions_WithNonExistentSolutionPath()
     {
         // Arrange
         ProgramOptions programOptions = new()
@@ -344,15 +344,15 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        Assert.False(result);
-        Assert.Null(options);
+        await Assert.That(result).IsFalse();
+        await Assert.That(options).IsNull();
     }
 
     /// <summary>
     /// Multiple solution files available: > app 16.8
     /// </summary>
-    [Fact]
-    public void TryGetSlnUpOptions_WithNoSolutions()
+    [Test]
+    public async Task TryGetSlnUpOptions_WithNoSolutions()
     {
         // Arrange
         ProgramOptions programOptions = new()
@@ -365,15 +365,15 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        Assert.False(result);
-        Assert.Null(options);
+        await Assert.That(result).IsFalse();
+        await Assert.That(options).IsNull();
     }
 
     /// <summary>
     /// app 16.8 --path .\MyProject.sln
     /// </summary>
-    [Fact]
-    public void TryGetSlnUpOptions_WithRelativeSolutionPath()
+    [Test]
+    public async Task TryGetSlnUpOptions_WithRelativeSolutionPath()
     {
         // Arrange
         string expectedSolutionFilePath = "C:\\MyProject.sln".ToCrossPlatformPath();
@@ -391,9 +391,9 @@ public class ProgramOptionsTests
         bool result = programOptions.TryGetSlnUpOptions(fileSystem, out SlnUpOptions? options);
 
         // Assert
-        Assert.True(result);
-        Assert.NotNull(options);
-        Assert.Equal(expectedSolutionFilePath, options.SolutionFilePath);
+        await Assert.That(result).IsTrue();
+        await Assert.That(options).IsNotNull();
+        await Assert.That(options!.SolutionFilePath).IsEqualTo(expectedSolutionFilePath);
     }
 
     private ProgramOptions? ConfigureAndInvoke(string[] args, out int exitCode)
