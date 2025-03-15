@@ -1,0 +1,35 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="nuget.config" />
+    <File Path="README.md" />
+    <File Path="version.json" />
+  </Folder>
+  <Folder Name="/Solution Items/src/">
+    <File Path="src/.editorconfig" />
+    <File Path="src/Directory.Build.props" />
+    <File Path="src/Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/Solution Items/tests/">
+    <File Path="tests/.editorconfig" />
+    <File Path="tests/Directory.Build.props" />
+    <File Path="tests/Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="tests/SlnUp.Core.Tests/SlnUp.Core.Tests.csproj" />
+    <Project Path="tests/SlnUp.Json.Tests/SlnUp.Json.Tests.csproj" />
+    <Project Path="tests/SlnUp.TestLibrary/SlnUp.TestLibrary.csproj" />
+    <Project Path="tests/SlnUp.Tests/SlnUp.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Tools/">
+    <Project Path="src/VisualStudio.VersionScraper/VisualStudio.VersionScraper.csproj" />
+  </Folder>
+  <Project Path="src/SlnUp.Core/SlnUp.Core.csproj" />
+  <Project Path="src/SlnUp.Json/SlnUp.Json.csproj" />
+  <Project Path="src/SlnUp/SlnUp.csproj" />
+</Solution>
