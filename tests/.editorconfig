@@ -12,3 +12,7 @@ dotnet_diagnostic.CA1515.severity = none
 
 # CA1707: Identifiers should not contain underscores
 dotnet_diagnostic.CA1707.severity = none
+
+# This works around a bug in the analyzer that causes it to mark test methods to be static.
+# CA1822: Mark members as static
+dotnet_diagnostic.CA1822.severity = none
