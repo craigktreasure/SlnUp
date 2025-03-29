@@ -12,9 +12,10 @@
     <!-- Mark projects as test by default. -->
     <IsTestProject>true</IsTestProject>
 
-    <!-- Configure code coverage settings for coverlet. -->
-    <ExcludeByAttribute>GeneratedCodeAttribute,CompilerGeneratedAttribute</ExcludeByAttribute>
-    <CoverletOutputFormat>cobertura</CoverletOutputFormat>
+    <!-- Enable .NET Test Platform:
+      https://learn.microsoft.com/dotnet/core/testing/microsoft-testing-platform-integration-dotnet-test
+    -->
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
   </PropertyGroup>
 
   <ItemGroup>

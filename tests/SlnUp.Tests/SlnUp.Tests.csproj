@@ -11,14 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="coverlet.collector">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="coverlet.msbuild">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
+    <PackageReference Include="Microsoft.Testing.Platform.MSBuild" />
     <PackageReference Include="System.IO.Abstractions.TestingHelpers" />
     <PackageReference Include="TUnit" />
   </ItemGroup>
