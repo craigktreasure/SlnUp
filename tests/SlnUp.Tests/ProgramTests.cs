@@ -3,13 +3,19 @@
 using SlnUp;
 using SlnUp.TestLibrary;
 
+/// <remarks>
+/// This class contains tests that change the working directory, which causes problems when running in parallel in TUnit.
+/// For this reason, we set ParallelGroup() to nameof(ProgramTests) to prevent parallel execution with other test classes
+/// and set NotInParallel to each test to prevent parallel execution within the class.
+/// </remarks>
+[ParallelGroup(nameof(ProgramTests))]
 public class ProgramTests
 {
     private const int FailedExitCode = 1;
 
     private const int NormalExitCode = 0;
 
-    [Test]
+    [Test, NotInParallel]
     public async Task Main_NoLocalFile()
     {
         // Arrange
@@ -24,7 +30,7 @@ public class ProgramTests
         await Assert.That(exitCode).IsEqualTo(FailedExitCode);
     }
 
-    [Test]
+    [Test, NotInParallel]
     public async Task Main_WithFilePath()
     {
         // Arrange
@@ -47,7 +53,7 @@ public class ProgramTests
         await Assert.That(solutionFile.FileHeader.LastVisualStudioMajorVersion).IsEqualTo(17);
     }
 
-    [Test]
+    [Test, NotInParallel]
     public async Task Main_WithInvalidFile()
     {
         // Arrange
@@ -66,7 +72,7 @@ public class ProgramTests
         await Assert.That(exitCode).IsEqualTo(FailedExitCode);
     }
 
-    [Test]
+    [Test, NotInParallel]
     public async Task Main_WithLocalFile()
     {
         // Arrange
