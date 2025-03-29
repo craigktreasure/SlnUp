@@ -2,8 +2,8 @@
 
 public class ScopedActionTests
 {
-    [Fact]
-    public void ScopedAction_Invoked()
+    [Test]
+    public async Task ScopedAction_Invoked()
     {
         // Arrange
         int actionCalled = 0;
@@ -14,11 +14,11 @@ public class ScopedActionTests
         action.Dispose();
 
         // Assert
-        Assert.Equal(1, actionCalled);
+        await Assert.That(actionCalled).IsEqualTo(1);
     }
 
-    [Fact]
-    public void ScopedAction_InvokedFromUsing()
+    [Test]
+    public async Task ScopedAction_InvokedFromUsing()
     {
         // Arrange
         bool actionCalled = false;
@@ -29,10 +29,10 @@ public class ScopedActionTests
         }
 
         // Assert
-        Assert.True(actionCalled);
+        await Assert.That(actionCalled).IsTrue();
     }
 
-    [Fact]
+    [Test]
     public void ScopedAction_Null()
     {
         // Arrange

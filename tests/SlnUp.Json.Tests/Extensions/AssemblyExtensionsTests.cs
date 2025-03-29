@@ -4,8 +4,8 @@ using SlnUp.Json.Extensions;
 
 public class AssemblyExtensionsTests
 {
-    [Fact]
-    public void GetEmbeddedFileResourceContent()
+    [Test]
+    public async Task GetEmbeddedFileResourceContent()
     {
         // Arrange
         string resourceName = "TestVersions.json";
@@ -16,10 +16,10 @@ public class AssemblyExtensionsTests
             resourceName);
 
         // Assert
-        Assert.NotNull(content);
+        await Assert.That(content).IsNotNull();
     }
 
-    [Fact]
+    [Test]
     public void GetEmbeddedFileResourceContent_ResourceNotFound()
     {
         // Arrange, act, and assert
