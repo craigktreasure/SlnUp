@@ -107,7 +107,8 @@ internal sealed class VisualStudioVersionDocScraper
         buildNumberIndex = notSet;
         channelIndex = null;
 
-        HtmlNodeCollection? headings = table.SelectNodes("thead//th");
+        HtmlNodeCollection headings = table.SelectNodes("thead//th")
+            ?? throw new InvalidOperationException("Unable to locate table headings.");
 
         string[] columnNames = [.. headings.Select(x => x.InnerText.Trim())];
 
@@ -160,7 +161,7 @@ internal sealed class VisualStudioVersionDocScraper
             return false;
         }
 
-        HtmlNodeCollection rows = table.SelectNodes("tbody/tr");
+        HtmlNodeCollection? rows = table.SelectNodes("tbody/tr");
 
         if (rows is null || rows.Count is 0)
         {
@@ -171,7 +172,8 @@ internal sealed class VisualStudioVersionDocScraper
 
         foreach (HtmlNode row in rows)
         {
-            HtmlNodeCollection tds = row.SelectNodes("td");
+            HtmlNodeCollection tds = row.SelectNodes("td")
+                ?? throw new InvalidOperationException("Unable to locate table data.");
 
             string version = tds[versionIndex].InnerText.Trim();
             string releaseDate = tds[releaseDateIndex].InnerText.Trim();
@@ -214,7 +216,8 @@ internal sealed class VisualStudioVersionDocScraper
     {
         HtmlDocument doc = this.LoadVisualStudioVersionDocument(url, cacheFolderName);
 
-        HtmlNodeCollection tables = doc.DocumentNode.SelectNodes("//table");
+        HtmlNodeCollection tables = doc.DocumentNode.SelectNodes("//table")
+            ?? throw new InvalidOperationException("Unable to locate any tables.");
 
         if (tables.Count == 0)
         {
