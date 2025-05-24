@@ -43,7 +43,7 @@
   <ItemGroup Label="Test Only Packages" Condition=" '$(TestOnlyPackagesEnabled)' == 'true' ">
     <PackageVersion Include="coverlet.collector"                                Version="6.0.4" />
     <PackageVersion Include="coverlet.msbuild"                                  Version="6.0.4" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk"                            Version="17.13.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk"                            Version="17.14.0" />
     <PackageVersion Include="System.IO.Abstractions.TestingHelpers"             Version="$(SystemIOAbstractionsVersion)" />
     <PackageVersion Include="xunit.analyzers"                                   Version="1.21.0" />
     <PackageVersion Include="xunit.runner.visualstudio"                         Version="3.1.0" />
