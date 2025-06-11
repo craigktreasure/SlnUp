@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Humanizer.Core" />
-    <PackageReference Include="System.IO.Abstractions" />
   </ItemGroup>
 
 </Project>
