@@ -17,6 +17,7 @@ solution file using a Visual Studio version number.
     - [Run the tool](#run-the-tool)
   - [How does it work?](#how-does-it-work)
   - [What is supported?](#what-is-supported)
+  - [Contributing](#contributing)
 
 ## Why?
 
@@ -145,5 +146,9 @@ Visual Studio 2022.
     `MinimumVisualStudioVersion = 10.0.40219.1`, then those values will be added
     to the file header.
 - The tool supports Visual Studio 2017, 2019, and 2022.
+
+## Contributing
+
+For information about the release process, see the [Release Process documentation](./Docs/Release-Process.md).
 
 [vs-sln-file-header]: https://docs.microsoft.com/visualstudio/extensibility/internals/solution-dot-sln-file?view=vs-2022#file-header "File header"
