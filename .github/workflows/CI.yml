@@ -20,12 +20,3 @@ jobs:
     with:
       # don't check format on CI builds due to common breaking changes in the .NET SDK
       checkFormat: false
-
-  release_ci:
-    name: Release SlnUp to NuGet.org
-    needs: build_ci
-    if: ${{ !contains(needs.build_ci.outputs.package_version, '-') }}
-    uses: ./.github/workflows/workflow_release.yml
-    secrets: inherit
-    with:
-      package-version: ${{ needs.build_ci.outputs.package_version }}
