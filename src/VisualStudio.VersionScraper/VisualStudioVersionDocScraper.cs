@@ -31,6 +31,10 @@ internal sealed class VisualStudioVersionDocScraper
         @"(?<version>\d+\.\d+\.?\d*) (?<channel>Preview \d\.?\d*)",
         RegexOptions.Compiled);
 
+    private static readonly Regex vs17MonthVersionMatcher = new(
+        @"(?<version>\d+\.\d+\.\d+) \(\w+ \d+\)",
+        RegexOptions.Compiled);
+
     private readonly bool useCache;
 
     /// <summary>
@@ -71,6 +75,11 @@ internal sealed class VisualStudioVersionDocScraper
 
             // The VS 2017 version and channel can be specified differently for preview versions.
             channel = match.Groups["channel"].Value;
+        }
+        else if (vs17MonthVersionMatcher.TryMatch(versionInput, out match)
+            && Version.TryParse(match.Groups["version"].Value, out version))
+        {
+            // The version is already set.
         }
         else if (!Version.TryParse(versionInput, out version))
         {

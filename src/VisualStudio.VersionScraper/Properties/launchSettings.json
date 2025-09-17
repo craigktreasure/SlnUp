@@ -1,15 +1,19 @@
-{
+﻿{
   "profiles": {
     "VisualStudioVersionScraper": {
       "commandName": "Project"
     },
     "Generate": {
       "commandName": "Project",
-      "commandLineArgs": "../../../../../../src/SlnUp/Versions.json"
+      "commandLineArgs": "$(SolutionDir)src/SlnUp/Versions.json"
+    },
+    "Generate C#": {
+      "commandName": "Project",
+      "commandLineArgs": "$(SolutionDir)src/SlnUp.Core/VersionManager.g.cs --format CSharp"
     },
     "Generate (no-cache)": {
       "commandName": "Project",
-      "commandLineArgs": "../../../../../../src/SlnUp/Versions.json --no-cache"
+      "commandLineArgs": "$(SolutionDir)src/SlnUp/Versions.json --no-cache"
     }
   }
 }
