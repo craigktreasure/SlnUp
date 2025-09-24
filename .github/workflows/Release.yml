@@ -101,6 +101,8 @@ jobs:
     environment:
       name: NuGet.org
       url: https://www.nuget.org
+    permissions:
+      id-token: write # enable GitHub OIDC token issuance for this job
 
     steps:
       - name: Validate inputs
@@ -136,10 +138,17 @@ jobs:
             exit 1
           fi
 
+      # https://learn.microsoft.com/nuget/nuget-org/trusted-publishing
+      - name: NuGet login for trusted publishing
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Push to NuGet.org
         run: |
           echo "🚀 Pushing $PACKAGE_VERSION to NuGet.org..."
-          dotnet nuget push __artifacts/package/release/SlnUp.*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+          dotnet nuget push __artifacts/package/release/SlnUp.*.nupkg --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
           echo "✅ Successfully released $PACKAGE_VERSION to NuGet.org"
 
       - name: Create release summary
