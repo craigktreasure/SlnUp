@@ -1,17 +1,13 @@
 ﻿namespace SlnUp.Tests.CLI;
 
 using System.CommandLine;
-using System.CommandLine.IO;
 using System.IO.Abstractions.TestingHelpers;
 
 using SlnUp.CLI;
 using SlnUp.TestLibrary.Extensions;
-using SlnUp.Tests.Utilities;
 
 public class ProgramOptionsTests
 {
-    private readonly TestConsole testConsole = new();
-
     [Theory]
     [InlineData("2022")]
     [InlineData("17.0")]
@@ -21,7 +17,7 @@ public class ProgramOptionsTests
         string[] args = [version];
 
         // Act
-        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
+        ProgramOptions? result = ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
         Assert.Equal(0, exitCode);
@@ -36,7 +32,7 @@ public class ProgramOptionsTests
         string[] args = [];
 
         // Act
-        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
+        ProgramOptions? result = ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
         Assert.Equal(0, exitCode);
@@ -54,7 +50,7 @@ public class ProgramOptionsTests
         const string expectedBuildVersion = "17.0.31903.59";
 
         // Act
-        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
+        ProgramOptions? result = ConfigureAndInvoke(args, out int exitCode);
 
         // Assert
         Assert.Equal(0, exitCode);
@@ -70,13 +66,13 @@ public class ProgramOptionsTests
     public void Configure_WithHelp(params string[] args)
     {
         // Act
-        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
+        ProgramOptions? result = ConfigureAndInvoke(args, out int exitCode, out string output, out string error);
 
         // Assert
         Assert.Equal(0, exitCode);
         Assert.Null(result);
-        Assert.StartsWith("Description:", this.testConsole.GetOutput(), StringComparison.Ordinal);
-        Assert.True(this.testConsole.HasNoErrorOutput());
+        Assert.StartsWith("Description:", output, StringComparison.Ordinal);
+        Assert.Empty(error);
     }
 
     [Fact]
@@ -89,17 +85,17 @@ public class ProgramOptionsTests
             "--build-version",
             "invalid-version"
         ];
-        const string expectedErrorOutput = "Cannot parse argument 'invalid-version' for option 'build-version' as expected type 'System.Version'.";
+        const string expectedErrorOutput = "Cannot parse argument 'invalid-version' for option '--build-version' as expected type 'System.Version'.";
 
         // Act
-        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
+        ProgramOptions? result = ConfigureAndInvoke(args, out int exitCode, out string output, out string error);
 
         // Assert
         Assert.Equal(1, exitCode);
         Assert.Null(result);
-        Assert.True(this.testConsole.HasOutput());
-        Assert.True(this.testConsole.HasErrorOutput());
-        Assert.Equal(expectedErrorOutput, this.testConsole.GetErrorOutput().TrimEnd());
+        Assert.NotEmpty(output);
+        Assert.NotEmpty(error);
+        Assert.Equal(expectedErrorOutput, error.TrimEnd());
     }
 
     [Theory]
@@ -113,7 +109,7 @@ public class ProgramOptionsTests
         string expectedFilePath = "C:/solution.sln".ToCrossPlatformPath();
 
         // Act
-        ProgramOptions? result = this.ConfigureAndInvoke([.. args.ToCrossPlatformPath()], out int exitCode);
+        ProgramOptions? result = ConfigureAndInvoke([.. args.ToCrossPlatformPath()], out int exitCode);
 
         // Assert
         Assert.Equal(0, exitCode);
@@ -129,12 +125,12 @@ public class ProgramOptionsTests
         string[] args = ["--version"];
 
         // Act
-        ProgramOptions? result = this.ConfigureAndInvoke(args, out int exitCode);
+        ProgramOptions? result = ConfigureAndInvoke(args, out int exitCode, out string output, out _);
 
         // Assert
         Assert.Equal(0, exitCode);
         Assert.Null(result);
-        Assert.True(this.testConsole.HasOutput());
+        Assert.NotEmpty(output);
     }
 
     /// <summary>
@@ -396,15 +392,33 @@ public class ProgramOptionsTests
         Assert.Equal(expectedSolutionFilePath, options.SolutionFilePath);
     }
 
-    private ProgramOptions? ConfigureAndInvoke(string[] args, out int exitCode)
+    private static ProgramOptions? ConfigureAndInvoke(string[] args, out int exitCode)
+        => ConfigureAndInvoke(args, out exitCode, out _, out _);
+
+    private static ProgramOptions? ConfigureAndInvoke(string[] args, out int exitCode, out string output, out string error)
     {
         ProgramOptions? options = null;
 
-        exitCode = ProgramOptions.Configure(opts =>
+        RootCommand rootCommand = ProgramOptions.Configure(opts =>
         {
             options = opts;
             return 0;
-        }).Invoke(args, this.testConsole);
+        });
+
+        ParseResult result = rootCommand.Parse(args);
+
+        using StringWriter outputWriter = new();
+        using StringWriter errorWriter = new();
+
+        InvocationConfiguration invocationConfig = new()
+        {
+            Output = outputWriter,
+            Error = errorWriter
+        };
+
+        exitCode = result.Invoke(invocationConfig);
+        output = outputWriter.ToString();
+        error = errorWriter.ToString();
 
         return options;
     }

@@ -13,7 +13,9 @@ internal static class Program
     {
         Console.Title = ThisAssembly.AssemblyTitle;
 
-        return ProgramOptions.Configure(Run).Invoke(args);
+        RootCommand rootCommand = ProgramOptions.Configure(Run);
+        ParseResult result = rootCommand.Parse(args);
+        return result.Invoke();
     }
 
     private static int Run(ProgramOptions options)
