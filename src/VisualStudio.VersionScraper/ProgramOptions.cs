@@ -14,18 +14,20 @@ internal sealed class ProgramOptions
 
     public static RootCommand Configure(Func<ProgramOptions, int> invokeAction)
     {
-        Argument<string?> outputArgument = new(
-            name: "output",
-            description: "The output file path.");
+        Argument<string?> outputArgument = new("output")
+        {
+            Description = "The output file path."
+        };
 
-        Option<OutputFormat> formatOption = new(
-            name: "--format",
-            description: "The output file format.");
-        formatOption.AddAlias("-f");
+        Option<OutputFormat> formatOption = new("--format", "-f")
+        {
+            Description = "The output file format."
+        };
 
-        Option<bool> noCacheOption = new(
-            name: "--no-cache",
-            description: "Skip the cache when making requests.");
+        Option<bool> noCacheOption = new("--no-cache")
+        {
+            Description = "Skip the cache when making requests."
+        };
 
         RootCommand rootCommand = new("Visual Studio Version Scraper")
         {
@@ -34,10 +36,17 @@ internal sealed class ProgramOptions
             noCacheOption,
         };
 
-        rootCommand.SetHandler(options =>
+        rootCommand.SetAction(parseResult =>
         {
-            return Task.FromResult(invokeAction(options));
-        }, new ProgramOptionsBinder(outputArgument, formatOption, noCacheOption));
+            ProgramOptions options = new()
+            {
+                OutputFilePath = parseResult.GetValue(outputArgument),
+                Format = parseResult.GetValue(formatOption),
+                NoCache = parseResult.GetValue(noCacheOption)
+            };
+
+            return invokeAction(options);
+        });
 
         return rootCommand;
     }

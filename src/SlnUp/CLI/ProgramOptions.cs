@@ -1,7 +1,6 @@
 ﻿namespace SlnUp.CLI;
 
 using System.CommandLine;
-using System.CommandLine.NamingConventionBinder;
 using System.Diagnostics.CodeAnalysis;
 using System.IO.Abstractions;
 
@@ -21,20 +20,19 @@ internal class ProgramOptions
 
     public static RootCommand Configure(Func<ProgramOptions, int> invokeAction)
     {
-        Option<string?> pathOption = new(
-            name: "--path",
-            description: "The path to the solution file.");
-        pathOption.AddAlias("-p");
+        Option<string?> pathOption = new("--path", "-p") { Description = "The path to the solution file." };
 
-        Argument<string?> versionArgument = new(
-            name: "version",
-            getDefaultValue: () => DefaultVersionArgument,
-            description: "The Visual Studio version to update the solution file with. Can be either a product year (ex. 2017, 2019, or 2022) or a 2 or 3-part version number (ex. 16.9 or 17.0.1).");
+        Argument<string?> versionArgument = new("version")
+        {
+            Description = "The Visual Studio version to update the solution file with. Can be either a product year (ex. 2017, 2019, or 2022) or a 2 or 3-part version number (ex. 16.9 or 17.0.1).",
+            DefaultValueFactory = _ => DefaultVersionArgument
+        };
 
-        Option<Version?> buildVersionOption = new(
-            name: "--build-version",
-            description: "Uses version information as specified with this build version number.",
-            parseArgument: ArgumentParser.ParseVersion);
+        Option<Version?> buildVersionOption = new("--build-version")
+        {
+            Description = "Uses version information as specified with this build version number.",
+            CustomParser = ArgumentParser.ParseVersion
+        };
 
         const string version = ThisAssembly.IsPrerelease
             ? ThisAssembly.AssemblyInformationalVersion
@@ -46,9 +44,16 @@ internal class ProgramOptions
             versionArgument
         };
 
-        rootCommand.Handler = CommandHandler.Create((ProgramOptions options) =>
+        rootCommand.SetAction(parseResult =>
         {
-            return Task.FromResult(invokeAction(options));
+            ProgramOptions options = new()
+            {
+                Path = parseResult.GetValue(pathOption),
+                BuildVersion = parseResult.GetValue(buildVersionOption),
+                Version = parseResult.GetValue(versionArgument)
+            };
+
+            return invokeAction(options);
         });
 
         return rootCommand;
