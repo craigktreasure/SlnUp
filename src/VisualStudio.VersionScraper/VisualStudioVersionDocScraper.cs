@@ -98,15 +98,11 @@ internal sealed class VisualStudioVersionDocScraper
         bool isPreview = channel.StartsWith("Preview", StringComparison.OrdinalIgnoreCase);
 
         // Version specific fixups
-        if (vsVersion == VisualStudioProduct.VisualStudio2026)
+        if (vsVersion == VisualStudioProduct.VisualStudio2026
+            && !row.BuildNumber.StartsWith("18.", StringComparison.InvariantCulture)
+            && !Version.TryParse($"18.0.{row.BuildNumber}", out buildVersion))
         {
-            if (!row.BuildNumber.StartsWith("18.", StringComparison.InvariantCulture))
-            {
-                if (!Version.TryParse($"18.0.{row.BuildNumber}", out buildVersion))
-                {
-                    throw new InvalidDataException($"Third column did not contain a valid build version value: '{row.BuildNumber}'.");
-                }
-            }
+            throw new InvalidDataException($"Third column did not contain a valid build version value: '{row.BuildNumber}'.");
         }
 
         return new VisualStudioVersion(vsVersion, version, buildVersion, channel, isPreview);

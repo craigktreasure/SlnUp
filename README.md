@@ -121,7 +121,7 @@ slnup 2022
 ```
 
 In the case of `2022`, the tool will use the latest known version information
-it knows for that version. The tool would then to update the solution file
+it knows for that version. The tool would then update the solution file
 header with the following:
 
 ```text
