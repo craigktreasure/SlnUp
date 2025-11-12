@@ -1,6 +1,6 @@
 # Release Process
 
-This document describes how to release Treasure.Analyzers to NuGet.org using the new manual release workflow.
+This document describes how to release SlnUp to NuGet.org using the new manual release workflow.
 
 ## Overview
 
