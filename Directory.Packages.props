@@ -35,14 +35,14 @@
   <ItemGroup>
     <PackageVersion Include="Humanizer.Core" Version="2.14.1" />
     <PackageVersion Include="HtmlAgilityPack" Version="1.12.4" />
-    <PackageVersion Include="System.CommandLine" Version="2.0.0-rc.1.25451.107" />
+    <PackageVersion Include="System.CommandLine" Version="2.0.0" />
     <PackageVersion Include="System.IO.Abstractions" Version="$(SystemIOAbstractionsVersion)" />
   </ItemGroup>
 
   <ItemGroup Label="Test Only Packages" Condition=" '$(TestOnlyPackagesEnabled)' == 'true' ">
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <PackageVersion Include="coverlet.msbuild" Version="6.0.4" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
     <PackageVersion Include="System.IO.Abstractions.TestingHelpers" Version="$(SystemIOAbstractionsVersion)" />
     <PackageVersion Include="xunit.analyzers" Version="1.25.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
