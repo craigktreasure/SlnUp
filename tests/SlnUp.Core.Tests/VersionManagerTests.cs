@@ -66,7 +66,11 @@ public class VersionManagerTests
     [InlineData("17.0.0", true, "17.0.31903.59")]
     [InlineData("17.99", false, null)]
     [InlineData("17.0.99", false, null)]
+    [InlineData("18.0", true, "18.0.11205.157")]
+    [InlineData("18.0.0", true, "18.0.11205.157")]
+    [InlineData("18.0.1", false, null)]
     [InlineData("2022", true, "17.0.32112.339")]
+    [InlineData("2026", true, "18.0.11205.157")]
     public void FromVersionParameter(string? input, bool expectFound, string? expectedBuildVersion)
     {
         // Arrange
@@ -101,6 +105,7 @@ public class VersionManagerTests
     [InlineData("0.0.0", true)]
     [InlineData("0.0.0.0", false)]
     [InlineData("2022", false)]
+    [InlineData("2026", false)]
     public void TryParseVisualStudioVersion(string? input, bool expectedResult)
     {
         // Act

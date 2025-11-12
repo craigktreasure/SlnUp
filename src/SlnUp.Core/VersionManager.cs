@@ -81,6 +81,7 @@ public partial class VersionManager
             2017 => VisualStudioProduct.VisualStudio2017,
             2019 => VisualStudioProduct.VisualStudio2019,
             2022 => VisualStudioProduct.VisualStudio2022,
+            2026 => VisualStudioProduct.VisualStudio2026,
             _ => VisualStudioProduct.Unknown,
         };
 

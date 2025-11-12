@@ -24,7 +24,7 @@ internal class ProgramOptions
 
         Argument<string?> versionArgument = new("version")
         {
-            Description = "The Visual Studio version to update the solution file with. Can be either a product year (ex. 2017, 2019, or 2022) or a 2 or 3-part version number (ex. 16.9 or 17.0.1).",
+            Description = "The Visual Studio version to update the solution file with. Can be either a product year (ex. 2017, 2019, 2022, or 2026) or a 2 or 3-part version number (ex. 16.9 or 18.0.0).",
             DefaultValueFactory = _ => DefaultVersionArgument
         };
 
