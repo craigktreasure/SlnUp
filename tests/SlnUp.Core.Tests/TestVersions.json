@@ -1,5 +1,12 @@
 [
   {
+    "Product": "visualStudio2026",
+    "Version": "18.0.0",
+    "BuildVersion": "18.0.11205.157",
+    "Channel": "Stable",
+    "IsPreview": false
+  },
+  {
     "Product": "visualStudio2022",
     "Version": "17.0.5",
     "BuildVersion": "17.0.32112.339",

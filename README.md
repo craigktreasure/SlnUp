@@ -17,7 +17,6 @@ solution file using a Visual Studio version number.
     - [Run the tool](#run-the-tool)
   - [How does it work?](#how-does-it-work)
   - [What is supported?](#what-is-supported)
-  - [Contributing](#contributing)
 
 ## Why?
 
@@ -59,18 +58,18 @@ file in the current directory and update it with the latest version.
 slnup
 ```
 
-You can also pass a Visual Studio product year (2017, 2019, or 2022) to update
-to the latest version for the specified product year.
+You can also pass a Visual Studio product year (2017, 2019, 2022, or 2026) to
+update to the latest version for the specified product year.
 
 ```shell
-slnup 2022
+slnup 2026
 ```
 
 You can also specify a specific version of Visual Studio using a two-part
-(ex. 17.0) or three-part (17.1.0) version number:
+(ex. 18.0) or three-part (18.0.0) version number:
 
 ```shell
-slnup 17.0
+slnup 18.0
 ```
 
 A path to a solution file may also be specified using the `-p` or `--path`
@@ -78,14 +77,14 @@ parameters. This will be necessary if there is more than one solution file
 in the current directory.
 
 ```shell
-slnup 2022 --path ./path/to/solution.sln
+slnup 2026 --path ./path/to/solution.sln
 ```
 
 If you want to specify the exact version information to be put into the solution
 file header, you can specify the version information like so:
 
 ```shell
-slnup 17.0 --build-version 17.0.31903.59
+slnup 18.0 --build-version 18.0.11205.157
 ```
 
 ## How does it work?
@@ -122,8 +121,8 @@ slnup 2022
 ```
 
 In the case of `2022`, the tool will use the latest known version information
-it knows for that version. So, this would cause the tool to update the solution
-file header to the following:
+it knows for that version. The tool would then to update the solution file
+header with the following:
 
 ```text
 Microsoft Visual Studio Solution File, Format Version 12.00
@@ -145,10 +144,6 @@ Visual Studio 2022.
     `# Visual Studio Version 17`, `VisualStudioVersion = 17.0.31903.59`, or
     `MinimumVisualStudioVersion = 10.0.40219.1`, then those values will be added
     to the file header.
-- The tool supports Visual Studio 2017, 2019, and 2022.
-
-## Contributing
-
-For information about the release process, see the [Release Process documentation](./Docs/Release-Process.md).
+- The tool supports Visual Studio 2017, 2019, 2022, and 2026.
 
 [vs-sln-file-header]: https://docs.microsoft.com/visualstudio/extensibility/internals/solution-dot-sln-file?view=vs-2022#file-header "File header"

@@ -25,7 +25,9 @@ internal sealed class VisualStudioVersionDocScraper
 
     private const string vs2019VersionsDocUrl = "https://learn.microsoft.com/en-us/visualstudio/releases/2019/history";
 
-    private const string vsCurrentVersionsDocUrl = "https://docs.microsoft.com/en-us/visualstudio/install/visual-studio-build-numbers-and-release-dates";
+    private const string vs2022VersionsDocUrl = "https://learn.microsoft.com/en-us/visualstudio/releases/2022/release-history";
+
+    private const string vs2026VersionsDocUrl = "https://learn.microsoft.com/en-us/visualstudio/releases/2026/release-history";
 
     private static readonly Regex vs15PreviewVersionMatcher = new(
         @"(?<version>\d+\.\d+\.?\d*) (?<channel>Preview \d\.?\d*)",
@@ -52,7 +54,8 @@ internal sealed class VisualStudioVersionDocScraper
     {
         HashSet<VisualStudioVersion> versions =
         [
-            .. this.ScrapeVisualStudioVersions(vsCurrentVersionsDocUrl, "VSCurrentVersionCache"),
+            .. this.ScrapeVisualStudioVersions(vs2026VersionsDocUrl, "VS2026VersionCache"),
+            .. this.ScrapeVisualStudioVersions(vs2022VersionsDocUrl, "VS2022VersionCache"),
             .. this.ScrapeVisualStudioVersions(vs2019VersionsDocUrl, "VS2019VersionCache"),
             .. this.ScrapeVisualStudioVersions(vs2017VersionsDocUrl, "VS2017VersionCache"),
         ];
@@ -94,6 +97,18 @@ internal sealed class VisualStudioVersionDocScraper
         VisualStudioProduct vsVersion = GetVisualStudioVersion(version);
         bool isPreview = channel.StartsWith("Preview", StringComparison.OrdinalIgnoreCase);
 
+        // Version specific fixups
+        if (vsVersion == VisualStudioProduct.VisualStudio2026)
+        {
+            if (!row.BuildNumber.StartsWith("18.", StringComparison.InvariantCulture))
+            {
+                if (!Version.TryParse($"18.0.{row.BuildNumber}", out buildVersion))
+                {
+                    throw new InvalidDataException($"Third column did not contain a valid build version value: '{row.BuildNumber}'.");
+                }
+            }
+        }
+
         return new VisualStudioVersion(vsVersion, version, buildVersion, channel, isPreview);
     }
 
@@ -105,6 +120,7 @@ internal sealed class VisualStudioVersionDocScraper
         15 => VisualStudioProduct.VisualStudio2017,
         16 => VisualStudioProduct.VisualStudio2019,
         17 => VisualStudioProduct.VisualStudio2022,
+        18 => VisualStudioProduct.VisualStudio2026,
         _ => VisualStudioProduct.Unknown
     };
 

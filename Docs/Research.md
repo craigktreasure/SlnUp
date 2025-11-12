@@ -67,6 +67,18 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Note the difference in the major version most recently saved: `# Visual Studio 15`
 vs `# Visual Studio Version 16` for Visual Studio 2019 and above.
 
+### Visual Studio 2026
+
+A `.sln` file converted from 2022 to 2026 looks like the following:
+
+```text
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11205.157 d18.0
+MinimumVisualStudioVersion = 17.8.0.0
+```
+
 ## Common solution sources
 
 * Visual Studio templates

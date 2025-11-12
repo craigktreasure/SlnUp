@@ -24,4 +24,9 @@ public enum VisualStudioProduct
     /// The Visual Studio 2022 product.
     /// </summary>
     VisualStudio2022 = 2022,
+
+    /// <summary>
+    /// The Visual Studio 2026 product.
+    /// </summary>
+    VisualStudio2026 = 2026,
 }
