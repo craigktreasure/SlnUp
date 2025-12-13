@@ -68,13 +68,13 @@ jobs:
           verbose: true
 
       - name: Upload output artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: output_${{ inputs.artifactSuffix }}
           path: __artifacts/bin
 
       - name: Upload package artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: packages_${{ inputs.artifactSuffix }}
           path: __artifacts/package
