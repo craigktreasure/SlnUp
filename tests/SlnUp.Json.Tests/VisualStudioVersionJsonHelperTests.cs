@@ -40,42 +40,42 @@ public class VisualStudioVersionJsonHelperTests
             "Release"),
     ];
 
-    [Fact]
-    public void FromJson()
+    [Test]
+    public async Task FromJson()
     {
         // Act
         IReadOnlyList<VisualStudioVersion> versions = VisualStudioVersionJsonHelper.FromJson(commonVersionsJson);
 
         // Assert
-        Assert.Equal(commonVersions, versions);
+        await Assert.That(versions).IsEquivalentTo(commonVersions);
     }
 
-    [Fact]
-    public void FromJson_Empty()
+    [Test]
+    public async Task FromJson_Empty()
     {
         // Act
         IReadOnlyList<VisualStudioVersion> versions = VisualStudioVersionJsonHelper.FromJson("[]");
 
         // Assert
-        Assert.Empty(versions);
+        await Assert.That(versions).IsEmpty();
     }
 
-    [Fact]
+    [Test]
     public void FromJson_EmptyString()
     {
         // Act
         Assert.Throws<JsonException>(() => VisualStudioVersionJsonHelper.FromJson(string.Empty));
     }
 
-    [Fact]
+    [Test]
     public void FromJson_Null()
     {
         // Act
         Assert.Throws<InvalidDataException>(() => VisualStudioVersionJsonHelper.FromJson("null"));
     }
 
-    [Fact]
-    public void FromJsonFile()
+    [Test]
+    public async Task FromJsonFile()
     {
         // Arrange
         string filePath = "C:/foo.json".ToCrossPlatformPath();
@@ -88,21 +88,21 @@ public class VisualStudioVersionJsonHelperTests
         IReadOnlyList<VisualStudioVersion> versions = VisualStudioVersionJsonHelper.FromJsonFile(fileSystem, filePath);
 
         // Assert
-        Assert.Equal(commonVersions, versions);
+        await Assert.That(versions).IsEquivalentTo(commonVersions);
     }
 
-    [Fact]
-    public void ToJson()
+    [Test]
+    public async Task ToJson()
     {
         // Act
         string json = VisualStudioVersionJsonHelper.ToJson(commonVersions);
 
         // Assert
-        Assert.Equal(commonVersionsJson, json);
+        await Assert.That(json).IsEqualTo(commonVersionsJson);
     }
 
-    [Fact]
-    public void ToJson_Empty()
+    [Test]
+    public async Task ToJson_Empty()
     {
         // Arrange
         const string expectedJson = "[]";
@@ -111,11 +111,11 @@ public class VisualStudioVersionJsonHelperTests
         string json = VisualStudioVersionJsonHelper.ToJson([]);
 
         // Assert
-        Assert.Equal(expectedJson, json);
+        await Assert.That(json).IsEqualTo(expectedJson);
     }
 
-    [Fact]
-    public void ToJson_Null()
+    [Test]
+    public async Task ToJson_Null()
     {
         // Arrange
         const string expectedJson = "null";
@@ -124,11 +124,11 @@ public class VisualStudioVersionJsonHelperTests
         string json = VisualStudioVersionJsonHelper.ToJson(null!);
 
         // Assert
-        Assert.Equal(expectedJson, json);
+        await Assert.That(json).IsEqualTo(expectedJson);
     }
 
-    [Fact]
-    public void ToJsonFile()
+    [Test]
+    public async Task ToJsonFile()
     {
         // Arrange
         MockFileSystem fileSystem = new();
@@ -138,7 +138,7 @@ public class VisualStudioVersionJsonHelperTests
         VisualStudioVersionJsonHelper.ToJsonFile(fileSystem, commonVersions, filePath);
 
         // Assert
-        Assert.True(fileSystem.FileExists(filePath));
-        Assert.Equal(commonVersionsJson, fileSystem.GetFile(filePath).TextContents);
+        await Assert.That(fileSystem.FileExists(filePath)).IsTrue();
+        await Assert.That(fileSystem.GetFile(filePath).TextContents).IsEqualTo(commonVersionsJson);
     }
 }

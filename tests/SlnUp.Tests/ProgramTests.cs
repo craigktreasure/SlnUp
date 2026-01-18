@@ -3,14 +3,20 @@
 using SlnUp;
 using SlnUp.TestLibrary;
 
+/// <remarks>
+/// This class contains tests that change the working directory, which causes problems when running in parallel in TUnit.
+/// For this reason, we set ParallelGroup() to nameof(ProgramTests) to prevent parallel execution with other test classes
+/// and set NotInParallel to each test to prevent parallel execution within the class.
+/// </remarks>
+[ParallelGroup(nameof(ProgramTests))]
 public class ProgramTests
 {
     private const int FailedExitCode = 1;
 
     private const int NormalExitCode = 0;
 
-    [Fact]
-    public void Main_NoLocalFile()
+    [Test, NotInParallel]
+    public async Task Main_NoLocalFile()
     {
         // Arrange
         using ScopedDirectory directory = TemporaryDirectory.CreateRandom();
@@ -21,11 +27,11 @@ public class ProgramTests
         int exitCode = Program.Main(args);
 
         // Assert
-        Assert.Equal(FailedExitCode, exitCode);
+        await Assert.That(exitCode).IsEqualTo(FailedExitCode);
     }
 
-    [Fact]
-    public void Main_WithFilePath()
+    [Test, NotInParallel]
+    public async Task Main_WithFilePath()
     {
         // Arrange
         using ScopedFile file = TemporaryFile.CreateRandomWithExtension("sln");
@@ -42,13 +48,13 @@ public class ProgramTests
         int exitCode = Program.Main(args);
 
         // Assert
-        Assert.Equal(NormalExitCode, exitCode);
+        await Assert.That(exitCode).IsEqualTo(NormalExitCode);
         solutionFile.Reload();
-        Assert.Equal(17, solutionFile.FileHeader.LastVisualStudioMajorVersion);
+        await Assert.That(solutionFile.FileHeader.LastVisualStudioMajorVersion).IsEqualTo(17);
     }
 
-    [Fact]
-    public void Main_WithInvalidFile()
+    [Test, NotInParallel]
+    public async Task Main_WithInvalidFile()
     {
         // Arrange
         using ScopedFile file = TemporaryFile.CreateRandomWithExtension("sln");
@@ -63,11 +69,11 @@ public class ProgramTests
         int exitCode = Program.Main(args);
 
         // Assert
-        Assert.Equal(FailedExitCode, exitCode);
+        await Assert.That(exitCode).IsEqualTo(FailedExitCode);
     }
 
-    [Fact]
-    public void Main_WithLocalFile()
+    [Test, NotInParallel]
+    public async Task Main_WithLocalFile()
     {
         // Arrange
         using ScopedDirectory directory = TemporaryDirectory.CreateRandom();
@@ -81,8 +87,8 @@ public class ProgramTests
         int exitCode = Program.Main(args);
 
         // Assert
-        Assert.Equal(NormalExitCode, exitCode);
+        await Assert.That(exitCode).IsEqualTo(NormalExitCode);
         solutionFile.Reload();
-        Assert.Equal(17, solutionFile.FileHeader.LastVisualStudioMajorVersion);
+        await Assert.That(solutionFile.FileHeader.LastVisualStudioMajorVersion).IsEqualTo(17);
     }
 }

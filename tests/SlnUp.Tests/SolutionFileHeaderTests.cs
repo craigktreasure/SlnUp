@@ -2,8 +2,8 @@
 
 public class SolutionFileHeaderTests
 {
-    [Fact]
-    public void Construct()
+    [Test]
+    public async Task Construct()
     {
         // Arrange
         Version version = Version.Parse("17.0.31903.59");
@@ -16,24 +16,24 @@ public class SolutionFileHeaderTests
             Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion));
 
         // Assert
-        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, fileHeader.FileFormatVersion);
-        Assert.Equal(version.Major, fileHeader.LastVisualStudioMajorVersion);
-        Assert.Equal(version, fileHeader.LastVisualStudioVersion);
-        Assert.Equal(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion), fileHeader.MinimumVisualStudioVersion);
+        await Assert.That(fileHeader.FileFormatVersion).IsEqualTo(SolutionFileHeader.SupportedFileFormatVersion);
+        await Assert.That(fileHeader.LastVisualStudioMajorVersion).IsEqualTo(version.Major);
+        await Assert.That(fileHeader.LastVisualStudioVersion).IsEqualTo(version);
+        await Assert.That(fileHeader.MinimumVisualStudioVersion).IsEqualTo(Version.Parse(SolutionFileHeader.DefaultMinimumVisualStudioVersion));
     }
 
-    [Fact]
-    public void Construct_WithUnsupportedFileFormatVersion()
+    [Test]
+    public async Task Construct_WithUnsupportedFileFormatVersion()
     {
         // Arrange and act
-        ArgumentException ex = Assert.Throws<ArgumentException>(() => new SolutionFileHeader("13.00"));
+        ArgumentException ex = Assert.Throws<ArgumentException>(() => _ = new SolutionFileHeader("13.00"));
 
         // Assert
-        Assert.Equal("fileFormatVersion", ex.ParamName);
+        await Assert.That(ex.ParamName).IsEqualTo("fileFormatVersion");
     }
 
-    [Fact]
-    public void DuplicateAndUpdate()
+    [Test]
+    public async Task DuplicateAndUpdate()
     {
         // Arrange
         Version originalVersion = Version.Parse("17.0.31903.59");
@@ -48,10 +48,10 @@ public class SolutionFileHeaderTests
         SolutionFileHeader updatedFileHeader = originalFileHeader.DuplicateAndUpdate(updatedVersion);
 
         // Assert
-        Assert.NotSame(originalFileHeader, updatedFileHeader);
-        Assert.Equal(SolutionFileHeader.SupportedFileFormatVersion, updatedFileHeader.FileFormatVersion);
-        Assert.Equal(updatedVersion.Major, updatedFileHeader.LastVisualStudioMajorVersion);
-        Assert.Equal(updatedVersion, updatedFileHeader.LastVisualStudioVersion);
-        Assert.Equal(originalVersion, updatedFileHeader.MinimumVisualStudioVersion);
+        await Assert.That(updatedFileHeader).IsNotSameReferenceAs(originalFileHeader);
+        await Assert.That(updatedFileHeader.FileFormatVersion).IsEqualTo(SolutionFileHeader.SupportedFileFormatVersion);
+        await Assert.That(updatedFileHeader.LastVisualStudioMajorVersion).IsEqualTo(updatedVersion.Major);
+        await Assert.That(updatedFileHeader.LastVisualStudioVersion).IsEqualTo(updatedVersion);
+        await Assert.That(updatedFileHeader.MinimumVisualStudioVersion).IsEqualTo(originalVersion);
     }
 }

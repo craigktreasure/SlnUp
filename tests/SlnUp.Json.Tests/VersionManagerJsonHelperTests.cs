@@ -4,8 +4,8 @@ using SlnUp.Core;
 
 public class VersionManagerJsonHelperTests
 {
-    [Fact]
-    public void LoadFromEmbeddedResource()
+    [Test]
+    public async Task LoadFromEmbeddedResource()
     {
         // Arrange
         string resourceName = "TestVersions.json";
@@ -16,10 +16,10 @@ public class VersionManagerJsonHelperTests
             resourceName);
 
         // Assert
-        Assert.NotNull(versionManager);
+        await Assert.That(versionManager).IsNotNull();
     }
 
-    [Fact]
+    [Test]
     public void LoadFromEmbeddedResource_ResourceNotFound()
     {
         // Arrange, act, and assert

@@ -56,13 +56,19 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test --configuration Release --no-build --verbosity normal /p:CollectCoverage=true
+        run: dotnet test --configuration Release --no-build --verbosity normal --coverage --coverage-output-format cobertura
+
+      - name: Install dotnet-coverage tool
+        run: dotnet tool install --global dotnet-coverage
+
+      - name: Merge coverage reports
+        run: dotnet-coverage merge __artifacts/test-results/**/*.cobertura.xml -f cobertura -o __artifacts/test-results/codecov/coverage.cobertura.xml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
           name: codecov
-          directory: __artifacts/test-results
+          directory: __artifacts/test-results/codecov
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
           verbose: true
