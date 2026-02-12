@@ -7,6 +7,8 @@ using SlnUp.Core;
 
 internal sealed class CodeWriter
 {
+    private static readonly string[] indentationCache = CreateIndentationCache(maxLevel: 10, spacesPerLevel: 4);
+
     private readonly int indentSpaces = 4;
 
     private readonly StreamWriter writer;
@@ -106,7 +108,21 @@ internal sealed class CodeWriter
         return this;
     }
 
-    private string GetIndentationWhiteSpace() => new(' ', this.indentSpaces * this.currentIndentationLevel);
+    private static string[] CreateIndentationCache(int maxLevel, int spacesPerLevel)
+    {
+        string[] cache = new string[maxLevel + 1];
+        for (int i = 0; i <= maxLevel; i++)
+        {
+            cache[i] = new string(' ', spacesPerLevel * i);
+        }
+
+        return cache;
+    }
+
+    private string GetIndentationWhiteSpace()
+        => this.currentIndentationLevel < indentationCache.Length
+            ? indentationCache[this.currentIndentationLevel]
+            : new(' ', this.indentSpaces * this.currentIndentationLevel);
 
     private void WriteIndentation() => this.writer.Write(this.GetIndentationWhiteSpace());
 }
