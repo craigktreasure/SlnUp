@@ -4,8 +4,4 @@
     <TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Humanizer.Core" />
-  </ItemGroup>
-
 </Project>

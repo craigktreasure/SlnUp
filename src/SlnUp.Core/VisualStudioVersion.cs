@@ -2,8 +2,6 @@
 
 using System.Text;
 
-using Humanizer;
-
 /// <summary>
 /// Represents Visual Studio version details.
 /// </summary>
@@ -37,7 +35,7 @@ public class VisualStudioVersion : IEquatable<VisualStudioVersion>
     /// <summary>
     /// Gets the Visual Studio product title.
     /// </summary>
-    public string ProductTitle => this.Product.Humanize().Transform(To.TitleCase);
+    public string ProductTitle => GetProductTitle(this.Product);
 
     /// <summary>
     /// Gets the Visual Studio version.
@@ -115,4 +113,14 @@ public class VisualStudioVersion : IEquatable<VisualStudioVersion>
 
         return sb.ToString();
     }
+
+    private static string GetProductTitle(VisualStudioProduct product) => product switch
+    {
+        VisualStudioProduct.Unknown => "Unknown",
+        VisualStudioProduct.VisualStudio2017 => "Visual Studio 2017",
+        VisualStudioProduct.VisualStudio2019 => "Visual Studio 2019",
+        VisualStudioProduct.VisualStudio2022 => "Visual Studio 2022",
+        VisualStudioProduct.VisualStudio2026 => "Visual Studio 2026",
+        _ => "Unknown",
+    };
 }
