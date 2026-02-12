@@ -5,7 +5,7 @@
 /// Implements the <see cref="IDisposable" />
 /// </summary>
 /// <seealso cref="IDisposable" />
-public class ScopedAction : IDisposable
+public sealed class ScopedAction : IDisposable
 {
     private readonly Action action;
 
@@ -23,25 +23,9 @@ public class ScopedAction : IDisposable
     /// </summary>
     public void Dispose()
     {
-        this.Dispose(disposing: true);
-        GC.SuppressFinalize(this);
-    }
-
-    /// <summary>
-    /// Releases unmanaged and - optionally - managed resources.
-    /// </summary>
-    /// <param name="disposing">
-    /// <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
-    /// </param>
-    protected virtual void Dispose(bool disposing)
-    {
         if (!this.disposedValue)
         {
-            if (disposing)
-            {
-                this.action?.Invoke();
-            }
-
+            this.action?.Invoke();
             this.disposedValue = true;
         }
     }
