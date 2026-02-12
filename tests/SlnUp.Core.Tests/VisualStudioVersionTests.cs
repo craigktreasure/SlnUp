@@ -166,4 +166,26 @@ public class VisualStudioVersionTests
         // Assert
         await Assert.That(hashCode).IsEqualTo(expectedHashCode);
     }
+
+    [Test]
+    [Arguments(VisualStudioProduct.Unknown, "Unknown")]
+    [Arguments(VisualStudioProduct.VisualStudio2017, "Visual Studio 2017")]
+    [Arguments(VisualStudioProduct.VisualStudio2019, "Visual Studio 2019")]
+    [Arguments(VisualStudioProduct.VisualStudio2022, "Visual Studio 2022")]
+    [Arguments(VisualStudioProduct.VisualStudio2026, "Visual Studio 2026")]
+    [Arguments((VisualStudioProduct)(-1), "Unknown")]
+    public async Task ProductTitle_ReturnsExpectedValue(VisualStudioProduct product, string expectedTitle)
+    {
+        // Arrange
+        VisualStudioVersion version = new(
+            product,
+            Version.Parse("1.0.0"),
+            Version.Parse("1.0.0.0"));
+
+        // Act
+        string title = version.ProductTitle;
+
+        // Assert
+        await Assert.That(title).IsEqualTo(expectedTitle);
+    }
 }
