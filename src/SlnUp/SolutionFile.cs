@@ -6,24 +6,8 @@ using System.Text.RegularExpressions;
 
 using SlnUp.Core.Extensions;
 
-internal class SolutionFile
+internal partial class SolutionFile
 {
-    private static readonly Regex fileFormatVersionRegex = new(
-        @"^Microsoft Visual Studio Solution File, Format Version (\d+\.\d+)$",
-        RegexOptions.Compiled);
-
-    private static readonly Regex lastVisualStudioMajorVersionRegex = new(
-        @"^# Visual Studio(?: Version)? (\d+)$",
-        RegexOptions.Compiled);
-
-    private static readonly Regex lastVisualStudioVersionRegex = new(
-        @"^VisualStudioVersion = (\d+\.\d+\.\d+\.\d+)$",
-        RegexOptions.Compiled);
-
-    private static readonly Regex minimumVisualStudioVersionRegex = new(
-        @"^MinimumVisualStudioVersion = (\d+\.\d+\.\d+\.\d+)$",
-        RegexOptions.Compiled);
-
     private readonly string filePath;
 
     private readonly IFileSystem fileSystem;
@@ -134,11 +118,23 @@ internal class SolutionFile
         this.FileHeader = fileHeader;
     }
 
+    [GeneratedRegex(@"^Microsoft Visual Studio Solution File, Format Version (\d+\.\d+)$")]
+    private static partial Regex FileFormatVersionRegex();
+
+    [GeneratedRegex(@"^# Visual Studio(?: Version)? (\d+)$")]
+    private static partial Regex LastVisualStudioMajorVersionRegex();
+
+    [GeneratedRegex(@"^VisualStudioVersion = (\d+\.\d+\.\d+\.\d+)$")]
+    private static partial Regex LastVisualStudioVersionRegex();
+
+    [GeneratedRegex(@"^MinimumVisualStudioVersion = (\d+\.\d+\.\d+\.\d+)$")]
+    private static partial Regex MinimumVisualStudioVersionRegex();
+
     private static bool TryGetFileFormat(string line, [NotNullWhen(true)] out string? fileFormatVersion)
     {
         fileFormatVersion = null;
 
-        if (fileFormatVersionRegex.TryMatch(line, out Match? fileFormatVersionMatch))
+        if (FileFormatVersionRegex().TryMatch(line, out Match? fileFormatVersionMatch))
         {
             fileFormatVersion = fileFormatVersionMatch.Groups[1].Value;
         }
@@ -150,7 +146,7 @@ internal class SolutionFile
     {
         lastMajorVersion = null;
 
-        if (lastVisualStudioMajorVersionRegex.TryMatch(line, out Match? majorVersionMatch)
+        if (LastVisualStudioMajorVersionRegex().TryMatch(line, out Match? majorVersionMatch)
             && int.TryParse(majorVersionMatch.Groups[1].Value, out int parsedLastMajorVersion))
         {
             lastMajorVersion = parsedLastMajorVersion;
@@ -163,7 +159,7 @@ internal class SolutionFile
     {
         lastVersion = null;
 
-        if (lastVisualStudioVersionRegex.TryMatch(line, out Match? majorVersionMatch)
+        if (LastVisualStudioVersionRegex().TryMatch(line, out Match? majorVersionMatch)
             && Version.TryParse(majorVersionMatch.Groups[1].Value, out Version? parsedLastVersion))
         {
             lastVersion = parsedLastVersion;
@@ -176,7 +172,7 @@ internal class SolutionFile
     {
         minimumVersion = null;
 
-        if (minimumVisualStudioVersionRegex.TryMatch(line, out Match? minimumVersionMatch)
+        if (MinimumVisualStudioVersionRegex().TryMatch(line, out Match? minimumVersionMatch)
             && Version.TryParse(minimumVersionMatch.Groups[1].Value, out Version? parsedMinimumVersion))
         {
             minimumVersion = parsedMinimumVersion;
