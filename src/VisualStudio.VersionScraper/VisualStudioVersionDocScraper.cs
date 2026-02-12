@@ -9,7 +9,7 @@ using HtmlAgilityPack;
 using SlnUp.Core;
 using SlnUp.Core.Extensions;
 
-internal sealed class VisualStudioVersionDocScraper
+internal sealed partial class VisualStudioVersionDocScraper
 {
     private const string buildNumberColumnName = "Build Number";
 
@@ -28,14 +28,6 @@ internal sealed class VisualStudioVersionDocScraper
     private const string vs2022VersionsDocUrl = "https://learn.microsoft.com/en-us/visualstudio/releases/2022/release-history";
 
     private const string vs2026VersionsDocUrl = "https://learn.microsoft.com/en-us/visualstudio/releases/2026/release-history";
-
-    private static readonly Regex vs15PreviewVersionMatcher = new(
-        @"(?<version>\d+\.\d+\.?\d*) (?<channel>Preview \d\.?\d*)",
-        RegexOptions.Compiled);
-
-    private static readonly Regex vs17MonthVersionMatcher = new(
-        @"(?<version>\d+\.\d+\.\d+) \(\w+ \d+\)",
-        RegexOptions.Compiled);
 
     private readonly bool useCache;
 
@@ -67,7 +59,7 @@ internal sealed class VisualStudioVersionDocScraper
         string versionInput = row.Version;
         string channel = row.Channel ?? string.Empty;
 
-        if (vs15PreviewVersionMatcher.TryMatch(versionInput, out Match? match)
+        if (Vs15PreviewVersionMatcher().TryMatch(versionInput, out Match? match)
             && Version.TryParse(match.Groups["version"].Value, out Version? version))
         {
             if (version.Build == -1)
@@ -79,7 +71,7 @@ internal sealed class VisualStudioVersionDocScraper
             // The VS 2017 version and channel can be specified differently for preview versions.
             channel = match.Groups["channel"].Value;
         }
-        else if (vs17MonthVersionMatcher.TryMatch(versionInput, out match)
+        else if (Vs17MonthVersionMatcher().TryMatch(versionInput, out match)
             && Version.TryParse(match.Groups["version"].Value, out version))
         {
             // The version is already set.
@@ -209,6 +201,12 @@ internal sealed class VisualStudioVersionDocScraper
         result = data;
         return true;
     }
+
+    [GeneratedRegex(@"(?<version>\d+\.\d+\.?\d*) (?<channel>Preview \d\.?\d*)")]
+    private static partial Regex Vs15PreviewVersionMatcher();
+
+    [GeneratedRegex(@"(?<version>\d+\.\d+\.\d+) \(\w+ \d+\)")]
+    private static partial Regex Vs17MonthVersionMatcher();
 
     private HtmlDocument LoadVisualStudioVersionDocument(string url, string cacheFolderName)
     {
