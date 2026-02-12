@@ -245,20 +245,12 @@ internal sealed partial class VisualStudioVersionDocScraper
 
         IReadOnlyCollection<RowData>? tableData = null;
 
-        if (tables.Count > 1)
+        foreach (HtmlNode table in tables)
         {
-            // Too many tables were found. We need to see if we can determine which one.
-            foreach (HtmlNode table in tables)
+            if (TryGetTableData(table, out tableData))
             {
-                if (TryGetTableData(table, out tableData))
-                {
-                    break;
-                }
+                break;
             }
-        }
-        else
-        {
-            TryGetTableData(tables.Single(), out tableData);
         }
 
         if (tableData is null)
