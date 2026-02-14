@@ -28,7 +28,7 @@
     https://learn.microsoft.com/nuget/consume-packages/central-package-management#global-package-references
     -->
   <ItemGroup Label="Source Only Global Packages" Condition=" '$(SourceOnlyPackagesEnabled)' == 'true' ">
-    <GlobalPackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.102" />
+    <GlobalPackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.103" />
     <GlobalPackageReference Include="Nerdbank.GitVersioning" Version="3.9.50" />
   </ItemGroup>
 
