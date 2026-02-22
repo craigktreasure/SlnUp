@@ -1,4 +1,4 @@
-name: SlnUp-CI
+﻿name: SlnUp-CI
 
 on:
   push:
@@ -20,3 +20,4 @@ jobs:
     with:
       # don't check format on CI builds due to common breaking changes in the .NET SDK
       checkFormat: false
+      uploadArtifacts: true

@@ -1,4 +1,4 @@
-name: Build Workflow
+﻿name: Build Workflow
 
 on:
   workflow_call:
@@ -12,6 +12,9 @@ on:
       buildAgent:
         type: string
         default: ubuntu-latest
+      uploadArtifacts:
+        type: boolean
+        default: false
     outputs:
       package_version:
         description: 'The version of the package that was built.'
@@ -74,12 +77,14 @@ jobs:
           verbose: true
 
       - name: Upload output artifact
+        if: ${{ inputs.uploadArtifacts }}
         uses: actions/upload-artifact@v6
         with:
           name: output_${{ inputs.artifactSuffix }}
           path: __artifacts/bin
 
       - name: Upload package artifact
+        if: ${{ inputs.uploadArtifacts }}
         uses: actions/upload-artifact@v6
         with:
           name: packages_${{ inputs.artifactSuffix }}
