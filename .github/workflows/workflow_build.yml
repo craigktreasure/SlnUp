@@ -68,7 +68,7 @@ jobs:
         run: dotnet-coverage merge __artifacts/test-results/**/*.cobertura.xml -f cobertura -o __artifacts/test-results/codecov/coverage.cobertura.xml
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           name: codecov
           directory: __artifacts/test-results/codecov
