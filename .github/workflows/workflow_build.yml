@@ -76,16 +76,10 @@ jobs:
           fail_ci_if_error: true
           verbose: true
 
-      - name: Upload output artifact
-        if: ${{ inputs.uploadArtifacts }}
-        uses: actions/upload-artifact@v7
-        with:
-          name: output_${{ inputs.artifactSuffix }}
-          path: __artifacts/bin
-
       - name: Upload package artifact
         if: ${{ inputs.uploadArtifacts }}
         uses: actions/upload-artifact@v7
         with:
           name: packages_${{ inputs.artifactSuffix }}
           path: __artifacts/package
+          retention-days: 14
