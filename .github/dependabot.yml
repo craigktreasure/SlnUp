@@ -9,16 +9,9 @@ updates:
     timezone: 'America/Los_Angeles'
   open-pull-requests-limit: 10
   groups:
-    xunit:
+    all-nuget:
       patterns:
-      - "xunit*"
-    gitversioning:
-      patterns:
-      - "Nerdbank.GitVersioning"
-      - "nbgv"
-    coverlet:
-      patterns:
-      - "coverlet*"
+      - "*"
 
 - package-ecosystem: 'dotnet-sdk'
   directory: "/"
@@ -36,3 +29,7 @@ updates:
     time: '17:00'
     timezone: 'America/Los_Angeles'
   open-pull-requests-limit: 10
+  groups:
+    all-actions:
+      patterns:
+      - "*"

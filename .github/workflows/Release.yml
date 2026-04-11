@@ -28,7 +28,7 @@ jobs:
     steps:
       - name: Find CI run to release
         id: find_run
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const runId = '${{ inputs.run_id }}';
@@ -61,7 +61,7 @@ jobs:
 
       - name: Validate CI run
         id: get_version
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const runId = '${{ steps.find_run.outputs.run_id }}';
