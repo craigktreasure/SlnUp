@@ -1,5 +1,8 @@
 __*
 
+# Claude Code local settings
+.claude/settings.local.json
+
 # Created by https://www.toptal.com/developers/gitignore/api/macos,windows,visualstudio,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,windows,visualstudio,visualstudiocode
 
