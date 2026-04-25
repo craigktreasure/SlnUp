@@ -18,7 +18,7 @@
     -->
   <ItemGroup>
     <GlobalPackageReference Include="Microsoft.Build.CopyOnWrite" Version="1.0.334" />
-    <GlobalPackageReference Include="ReferenceTrimmer" Version="3.4.7" />
+    <GlobalPackageReference Include="ReferenceTrimmer" Version="3.5.1" />
     <GlobalPackageReference Include="TestableIO.System.IO.Abstractions.Analyzers" Version="2022.0.0" />
     <GlobalPackageReference Include="Treasure.Analyzers.MemberOrder" Version="0.3.96" />
   </ItemGroup>
@@ -28,13 +28,13 @@
     https://learn.microsoft.com/nuget/consume-packages/central-package-management#global-package-references
     -->
   <ItemGroup Label="Source Only Global Packages" Condition=" '$(SourceOnlyPackagesEnabled)' == 'true' ">
-    <GlobalPackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.202" />
+    <GlobalPackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.203" />
     <GlobalPackageReference Include="Nerdbank.GitVersioning" Version="3.9.50" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageVersion Include="HtmlAgilityPack" Version="1.12.4" />
-    <PackageVersion Include="System.CommandLine" Version="2.0.6" />
+    <PackageVersion Include="System.CommandLine" Version="2.0.7" />
     <PackageVersion Include="System.IO.Abstractions" Version="$(SystemIOAbstractionsVersion)" />
   </ItemGroup>
 
@@ -42,7 +42,7 @@
     <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage"         Version="18.6.2" />
     <PackageVersion Include="Microsoft.Testing.Platform.MSBuild"                Version="2.2.1" />
     <PackageVersion Include="System.IO.Abstractions.TestingHelpers"             Version="$(SystemIOAbstractionsVersion)" />
-    <PackageVersion Include="TUnit"                                             Version="1.36.0" />
+    <PackageVersion Include="TUnit"                                             Version="1.39.0" />
   </ItemGroup>
 
 </Project>
