@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <SystemIOAbstractionsVersion>22.1.1</SystemIOAbstractionsVersion>
+    <SystemIOAbstractionsVersion>22.2.0</SystemIOAbstractionsVersion>
   </PropertyGroup>
 
   <!--
@@ -28,21 +28,21 @@
     https://learn.microsoft.com/nuget/consume-packages/central-package-management#global-package-references
     -->
   <ItemGroup Label="Source Only Global Packages" Condition=" '$(SourceOnlyPackagesEnabled)' == 'true' ">
-    <GlobalPackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300" />
+    <GlobalPackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.301" />
     <GlobalPackageReference Include="Nerdbank.GitVersioning" Version="3.10.91" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageVersion Include="HtmlAgilityPack" Version="1.12.4" />
-    <PackageVersion Include="System.CommandLine" Version="2.0.9" />
+    <PackageVersion Include="System.CommandLine" Version="2.0.10" />
     <PackageVersion Include="System.IO.Abstractions" Version="$(SystemIOAbstractionsVersion)" />
   </ItemGroup>
 
   <ItemGroup Label="Test Only Packages" Condition=" '$(TestOnlyPackagesEnabled)' == 'true' ">
     <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage"         Version="18.9.0" />
-    <PackageVersion Include="Microsoft.Testing.Platform.MSBuild"                Version="2.3.1" />
+    <PackageVersion Include="Microsoft.Testing.Platform.MSBuild"                Version="2.3.2" />
     <PackageVersion Include="System.IO.Abstractions.TestingHelpers"             Version="$(SystemIOAbstractionsVersion)" />
-    <PackageVersion Include="TUnit"                                             Version="1.58.0" />
+    <PackageVersion Include="TUnit"                                             Version="1.61.0" />
   </ItemGroup>
 
 </Project>
