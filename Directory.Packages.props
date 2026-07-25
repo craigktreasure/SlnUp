@@ -42,7 +42,7 @@
     <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage"         Version="18.9.0" />
     <PackageVersion Include="Microsoft.Testing.Platform.MSBuild"                Version="2.3.2" />
     <PackageVersion Include="System.IO.Abstractions.TestingHelpers"             Version="$(SystemIOAbstractionsVersion)" />
-    <PackageVersion Include="TUnit"                                             Version="1.61.0" />
+    <PackageVersion Include="TUnit"                                             Version="1.61.38" />
   </ItemGroup>
 
 </Project>
