@@ -61,20 +61,29 @@ jobs:
       - name: Test
         run: dotnet test --configuration Release --no-build --verbosity normal --coverage --coverage-output-format cobertura
 
-      - name: Install dotnet-coverage tool
-        run: dotnet tool install --global dotnet-coverage
+      - name: Generate coverage report and enforce thresholds
+        run: >
+          dotnet tool run reportgenerator
+          "-reports:__artifacts/test-results/**/*.cobertura.xml"
+          "-targetdir:__artifacts/coverage-report"
+          "-reporttypes:MarkdownSummaryGithub;Html"
+          "-classfilters:-System.Text.RegularExpressions.Generated*"
+          "minimumCoverageThresholds:lineCoverage=95"
+          "minimumCoverageThresholds:branchCoverage=95"
 
-      - name: Merge coverage reports
-        run: dotnet-coverage merge __artifacts/test-results/**/*.cobertura.xml -f cobertura -o __artifacts/test-results/codecov/coverage.cobertura.xml
+      - name: Publish coverage summary
+        # Publish even when the threshold check above fails the build.
+        if: ${{ !cancelled() && hashFiles('__artifacts/coverage-report/SummaryGithub.md') != '' }}
+        shell: pwsh
+        run: Get-Content __artifacts/coverage-report/SummaryGithub.md | Add-Content -Path $env:GITHUB_STEP_SUMMARY
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v7
+      - name: Upload coverage report
+        if: ${{ !cancelled() && hashFiles('__artifacts/coverage-report/SummaryGithub.md') != '' }}
+        uses: actions/upload-artifact@v7
         with:
-          name: codecov
-          directory: __artifacts/test-results/codecov
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
-          verbose: true
+          name: coverage-report_${{ inputs.artifactSuffix }}
+          path: __artifacts/coverage-report
+          retention-days: 14
 
       - name: Upload package artifact
         if: ${{ inputs.uploadArtifacts }}
