@@ -15,7 +15,6 @@ jobs:
           { os: macos, buildAgent: macos-14 }
         ]
     uses: ./.github/workflows/workflow_build.yml
-    secrets: inherit
     with:
       artifactSuffix: ${{ matrix.platform.os }}
       buildAgent: ${{ matrix.platform.buildAgent }}

@@ -16,7 +16,6 @@ jobs:
     name: Build SlnUp
     if: "!contains(github.event.head_commit.message, 'ci skip')"
     uses: ./.github/workflows/workflow_build.yml
-    secrets: inherit
     with:
       # don't check format on CI builds due to common breaking changes in the .NET SDK
       checkFormat: false
