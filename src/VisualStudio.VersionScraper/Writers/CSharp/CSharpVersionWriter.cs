@@ -1,4 +1,4 @@
-﻿namespace VisualStudio.VersionScraper.Writers.CSharp;
+namespace VisualStudio.VersionScraper.Writers.CSharp;
 
 using System.IO.Abstractions;
 

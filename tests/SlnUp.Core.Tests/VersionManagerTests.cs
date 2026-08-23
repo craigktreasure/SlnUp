@@ -1,4 +1,4 @@
-﻿namespace SlnUp.Core.Tests;
+namespace SlnUp.Core.Tests;
 
 using System.Diagnostics.CodeAnalysis;
 

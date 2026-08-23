@@ -1,4 +1,4 @@
-﻿namespace VisualStudio.VersionScraper;
+namespace VisualStudio.VersionScraper;
 
 internal enum OutputFormat
 {

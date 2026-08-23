@@ -1,4 +1,4 @@
-﻿namespace SlnUp.Core.Extensions;
+namespace SlnUp.Core.Extensions;
 
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;

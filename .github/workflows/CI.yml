@@ -1,4 +1,4 @@
-﻿name: SlnUp-CI
+name: SlnUp-CI
 
 on:
   push:

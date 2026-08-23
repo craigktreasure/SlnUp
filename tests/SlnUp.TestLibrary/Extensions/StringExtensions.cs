@@ -1,4 +1,4 @@
-﻿namespace SlnUp.TestLibrary.Extensions;
+namespace SlnUp.TestLibrary.Extensions;
 
 using System.IO.Abstractions.TestingHelpers;
 

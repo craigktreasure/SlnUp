@@ -1,4 +1,4 @@
-﻿namespace SlnUp.Core.Extensions;
+namespace SlnUp.Core.Extensions;
 
 using System;
 

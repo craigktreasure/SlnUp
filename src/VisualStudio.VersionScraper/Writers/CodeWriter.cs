@@ -1,4 +1,4 @@
-﻿namespace VisualStudio.VersionScraper.Writers;
+namespace VisualStudio.VersionScraper.Writers;
 
 using System;
 using System.Diagnostics.CodeAnalysis;

@@ -1,4 +1,4 @@
-﻿namespace VisualStudio.VersionScraper;
+namespace VisualStudio.VersionScraper;
 
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
