@@ -1,4 +1,4 @@
-﻿namespace SlnUp.Core;
+namespace SlnUp.Core;
 
 /// <summary>
 /// Represents a Visual Studio product

@@ -1,4 +1,4 @@
-﻿namespace SlnUp.Json;
+namespace SlnUp.Json;
 
 using System.IO.Abstractions;
 using System.Text.Json;

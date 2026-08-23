@@ -1,4 +1,4 @@
-﻿namespace SlnUp.Json;
+namespace SlnUp.Json;
 
 using System.Reflection;
 

@@ -1,4 +1,4 @@
-﻿# Claude Code Skills
+# Claude Code Skills
 
 This directory contains [Claude Code skills](https://docs.anthropic.com/en/docs/claude-code/skills) for the SlnUp project. Each skill is a directory containing a `SKILL.md` file that defines a slash command. Invoke them by typing `/<name>` in a Claude Code session.
 

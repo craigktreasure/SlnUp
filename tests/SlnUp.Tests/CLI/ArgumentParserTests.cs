@@ -1,4 +1,4 @@
-﻿namespace SlnUp.Tests.CLI;
+namespace SlnUp.Tests.CLI;
 
 using System.CommandLine;
 using System.CommandLine.Parsing;

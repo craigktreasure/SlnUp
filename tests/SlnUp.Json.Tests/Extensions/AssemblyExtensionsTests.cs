@@ -1,4 +1,4 @@
-﻿namespace SlnUp.Json.Tests.Extensions;
+namespace SlnUp.Json.Tests.Extensions;
 
 using SlnUp.Json.Extensions;
 
