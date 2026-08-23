@@ -1,0 +1,4 @@
+# Drop the UTF-8 BOM requirement (#475).
+# Purely mechanical: stripped the leading EF BB BF from 46 files and changed
+# charset = utf-8-bom to charset = utf-8 in .editorconfig. No content changed.
+5f20ad6a98b2a3b5f014fc4c22fd69f2ff2c4996
