@@ -29,11 +29,11 @@
     -->
   <ItemGroup Label="Source Only Global Packages" Condition=" '$(SourceOnlyPackagesEnabled)' == 'true' ">
     <GlobalPackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.400" />
-    <GlobalPackageReference Include="Nerdbank.GitVersioning" Version="3.10.91" />
+    <GlobalPackageReference Include="Nerdbank.GitVersioning" Version="3.10.94" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageVersion Include="HtmlAgilityPack" Version="1.12.4" />
+    <PackageVersion Include="HtmlAgilityPack" Version="1.13.0" />
     <PackageVersion Include="System.CommandLine" Version="2.0.11" />
     <PackageVersion Include="System.IO.Abstractions" Version="$(SystemIOAbstractionsVersion)" />
   </ItemGroup>
@@ -42,7 +42,7 @@
     <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage"         Version="18.10.0" />
     <PackageVersion Include="Microsoft.Testing.Platform.MSBuild"                Version="2.3.3" />
     <PackageVersion Include="System.IO.Abstractions.TestingHelpers"             Version="$(SystemIOAbstractionsVersion)" />
-    <PackageVersion Include="TUnit"                                             Version="1.65.38" />
+    <PackageVersion Include="TUnit"                                             Version="1.65.68" />
   </ItemGroup>
 
 </Project>
