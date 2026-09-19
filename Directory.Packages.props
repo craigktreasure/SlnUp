@@ -40,9 +40,9 @@
 
   <ItemGroup Label="Test Only Packages" Condition=" '$(TestOnlyPackagesEnabled)' == 'true' ">
     <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage"         Version="18.11.2" />
-    <PackageVersion Include="Microsoft.Testing.Platform.MSBuild"                Version="2.4.0" />
+    <PackageVersion Include="Microsoft.Testing.Platform.MSBuild"                Version="2.4.1" />
     <PackageVersion Include="System.IO.Abstractions.TestingHelpers"             Version="$(SystemIOAbstractionsVersion)" />
-    <PackageVersion Include="TUnit"                                             Version="1.66.27" />
+    <PackageVersion Include="TUnit"                                             Version="1.68.17" />
   </ItemGroup>
 
 </Project>
