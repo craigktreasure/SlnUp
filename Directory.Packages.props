@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <SystemIOAbstractionsVersion>22.2.0</SystemIOAbstractionsVersion>
+    <SystemIOAbstractionsVersion>22.3.0</SystemIOAbstractionsVersion>
   </PropertyGroup>
 
   <!--
@@ -42,7 +42,7 @@
     <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage"         Version="18.11.2" />
     <PackageVersion Include="Microsoft.Testing.Platform.MSBuild"                Version="2.4.1" />
     <PackageVersion Include="System.IO.Abstractions.TestingHelpers"             Version="$(SystemIOAbstractionsVersion)" />
-    <PackageVersion Include="TUnit"                                             Version="1.69.16" />
+    <PackageVersion Include="TUnit"                                             Version="1.72.16" />
   </ItemGroup>
 
 </Project>
