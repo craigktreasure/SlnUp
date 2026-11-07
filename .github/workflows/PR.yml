@@ -12,7 +12,7 @@ jobs:
         platform: [
           { os: windows, buildAgent: windows-2025 },
           { os: ubuntu, buildAgent: ubuntu-latest },
-          { os: macos, buildAgent: macos-14 }
+          { os: macos, buildAgent: macos-15 }
         ]
     uses: ./.github/workflows/workflow_build.yml
     with:
