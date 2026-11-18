@@ -20,6 +20,9 @@ updates:
     day: 'tuesday'
     time: '22:00'
     timezone: 'America/Los_Angeles'
+  ignore:
+  - dependency-name: "*"
+    update-types: ["version-update:semver-major"]
 
 - package-ecosystem: github-actions
   directory: "/"
